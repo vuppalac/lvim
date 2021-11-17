@@ -124,6 +124,24 @@ end
 M.config = function()
   -- Additional keybindings
   -- =========================================
+  -- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+  lvim.keys.normal_mode["<C-p>"] = ":Telescope find_files<CR>"
+  lvim.keys.normal_mode["<C-f>"] = ":Telescope grep_string<CR>"
+  lvim.keys.normal_mode["<M-f>"] = ":Telescope live_grep<CR>"
+  lvim.keys.normal_mode["<C-_>"] = ":lua require('Comment').toggle()<CR>"
+  lvim.keys.visual_mode["<C-_>"] = ":<ESC><CMD>lua ___comment_gc(vim.fn.visualmode())<CR>"
+  lvim.keys.normal_mode["<C-d>"] = ":Dox<CR>"
+  lvim.keys.normal_mode["<Tab>"] = ":BufferLineCycleNext<CR>"
+  lvim.keys.normal_mode["<S-Tab>"] = ":BufferLineCyclePrev<CR>"
+  lvim.keys.normal_mode["<F1>"] = "<nop>"
+  lvim.keys.normal_mode["<F1>"] = "<cmd>Telescope commands<CR>"
+  lvim.keys.normal_mode["<F4>"] = "<cmd>Telescope resume<cr>"
+  lvim.keys.normal_mode["<F5>"] = "<cmd>lua vim.lsp.buf.references()<CR>"
+  lvim.keys.normal_mode["<F6>"] = "<cmd>lua vim.lsp.buf.definition()<CR>"
+  lvim.keys.normal_mode["<F12>"] = "<cmd>SymbolsOutline<CR>"
+
+  lvim.keys.normal_mode["<A-a>"] = "<C-a>"
+  lvim.keys.normal_mode["<A-x>"] = "<C-x>"
   lvim.keys.insert_mode["<A-a>"] = "<ESC>ggVG<CR>"
   lvim.keys.insert_mode["jk"] = "<ESC>:w<CR>"
   lvim.keys.insert_mode["<C-s>"] = "<cmd>lua vim.lsp.buf.signature_help()<cr>"
@@ -169,9 +187,6 @@ M.config = function()
   end
   if lvim.builtin.fancy_diff.active then
     lvim.builtin.which_key.mappings["gd"] = { "<cmd>DiffviewOpen<cr>", "diffview: diff HEAD" }
-  end
-  if lvim.builtin.cheat.active then
-    lvim.builtin.which_key.mappings["?"] = { "<cmd>Cheat<CR>", "Cheat.sh" }
   end
   lvim.builtin.which_key.mappings["F"] = {
     name = "Find",

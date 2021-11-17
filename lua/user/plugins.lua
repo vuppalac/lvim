@@ -175,18 +175,6 @@ M.config = function()
       end,
     },
     {
-      "iamcco/markdown-preview.nvim",
-      run = "cd app && npm install",
-      ft = "markdown",
-    },
-    {
-      "simrat39/rust-tools.nvim",
-      config = function()
-        require("user.rust_tools").config()
-      end,
-      ft = { "rust", "rs" },
-    },
-    {
       "folke/zen-mode.nvim",
       config = function()
         require("user.zen").config()
@@ -223,7 +211,6 @@ M.config = function()
       end,
       disable = not lvim.builtin.presence.active,
     },
-    { "mfussenegger/nvim-jdtls", ft = "java" },
     {
       "kristijanhusak/orgmode.nvim",
       keys = { "go", "gC" },
@@ -261,23 +248,6 @@ M.config = function()
       disable = not lvim.builtin.lua_dev.active,
     },
     {
-      "jose-elias-alvarez/nvim-lsp-ts-utils",
-      ft = {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx",
-      },
-      opt = true,
-      before = "williamboman/nvim-lsp-installer",
-    },
-    {
-      "lervag/vimtex",
-      ft = "tex",
-    },
-    {
       "akinsho/bufferline.nvim",
       config = function()
         require("user.bufferline").config()
@@ -294,25 +264,6 @@ M.config = function()
       opt = true,
       event = { "BufEnter *_test.*,*_spec.*" },
       disable = not lvim.builtin.test_runner.active,
-    },
-    {
-      "akinsho/flutter-tools.nvim",
-      requires = "nvim-lua/plenary.nvim",
-      config = function()
-        require("user.flutter_tools").config()
-      end,
-      ft = "dart",
-    },
-    {
-      "RishabhRD/nvim-cheat.sh",
-      requires = "RishabhRD/popfix",
-      config = function()
-        vim.g.cheat_default_window_layout = "vertical_split"
-      end,
-      opt = true,
-      cmd = { "Cheat", "CheatWithoutComments", "CheatList", "CheatListWithoutComments" },
-      keys = "<leader>?",
-      disable = not lvim.builtin.cheat.active,
     },
     {
       "AckslD/nvim-neoclip.lua",
@@ -341,28 +292,6 @@ M.config = function()
       end,
       run = ":UpdateRemotePlugins",
       disable = not lvim.builtin.fancy_wild_menu.active,
-    },
-    {
-      "kristijanhusak/vim-dadbod-completion",
-      disable = not lvim.builtin.sql_integration.active,
-    },
-    {
-      "kristijanhusak/vim-dadbod-ui",
-      cmd = {
-        "DBUIToggle",
-        "DBUIAddConnection",
-        "DBUI",
-        "DBUIFindBuffer",
-        "DBUIRenameBuffer",
-      },
-      requires = {
-        {
-          "tpope/vim-dadbod",
-          opt = true,
-        },
-      },
-      opt = true,
-      disable = not lvim.builtin.sql_integration.active,
     },
     {
       "karb94/neoscroll.nvim",
@@ -512,6 +441,49 @@ M.config = function()
       end,
       event = "BufReadPost",
       disable = not lvim.builtin.hlslens.active,
+    },
+    -- end of abz config
+    {
+      'editorconfig/editorconfig-vim',
+    },
+    {
+      'vim-scripts/DoxygenToolkit.vim',
+      cmd = "Dox",
+      setup = function ()
+        vim.g.DoxygenToolkit_commentType = "C++"
+      end
+    },
+    {
+      "f-person/git-blame.nvim",
+      event = "BufRead",
+      config = function()
+        vim.cmd "highlight default link gitblame SpecialComment"
+        vim.g.gitblame_enabled = 0
+      end,
+    },
+    {
+      "p00f/nvim-ts-rainbow",
+      event = "BufWinEnter",
+    },
+    {
+      "tpope/vim-fugitive",
+      cmd = {
+        "G",
+        "Git",
+        "Gdiffsplit",
+        "Gread",
+        "Gwrite",
+        "Ggrep",
+        "GMove",
+        "GDelete",
+        "GBrowse",
+        "GRemove",
+        "GRename",
+        "Glgrep",
+        "Gedit",
+        "Gvdiff",
+      },
+      ft = {"fugitive"}
     },
   }
 end

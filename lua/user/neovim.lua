@@ -25,7 +25,7 @@ M.config = function()
     vim.g["loaded_" .. plugin] = 1
   end
   vim.g.did_load_filetypes = 1
-  vim.opt.relativenumber = true
+  vim.opt.relativenumber = false
   vim.opt.wrap = true
   vim.opt.termguicolors = true
   vim.opt.updatetime = 100
@@ -148,6 +148,9 @@ M.config = function()
     -- vim.cmd [[NvuiToggleFrameless]]
     vim.cmd [[NvuiOpacity 0.99]]
   end
+
+  vim.opt.scrolloff = 3
+  vim.opt.sidescrolloff = 3
 end
 
 return M

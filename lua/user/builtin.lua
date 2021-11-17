@@ -90,10 +90,19 @@ M.config = function()
   -- LSP
   -- =========================================
   lvim.lsp.diagnostics.signs.values = {
-    { name = "LspDiagnosticsSignError", text = " " },
-    { name = "LspDiagnosticsSignWarning", text = "" },
-    { name = "LspDiagnosticsSignHint", text = "" },
-    { name = "LspDiagnosticsSignInformation", text = "" },
+    { name = "LspDiagnosticsSignError", text = "" },
+    { name = "LspDiagnosticsSignWarning", text = "" },
+    { name = "LspDiagnosticsSignHint", text = "" },
+    { name = "LspDiagnosticsSignInformation", text = "" },
+
+    -- { name = "LspDiagnosticsSignError", text = " " },
+    -- { name = "LspDiagnosticsSignWarning", text = "" },
+    -- { name = "LspDiagnosticsSignHint", text = "" },
+    -- { name = "LspDiagnosticsSignInformation", text = "" },
+    -- { name = "LspDiagnosticsSignError", text = "📛" },
+    -- { name = "LspDiagnosticsSignWarning", text = "👎" },
+    -- { name = "LspDiagnosticsSignHint", text = [[👩]] },
+    -- { name = "LspDiagnosticsSignInformation", text = [[💁]] },
   }
 
   -- Lualine
@@ -104,25 +113,41 @@ M.config = function()
   -- NvimTree
   -- =========================================
   lvim.builtin.nvimtree.setup.auto_open = 0
-  lvim.builtin.nvimtree.setup.diagnostics = {
-    enable = true,
-    icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    },
-  }
+  -- lvim.builtin.nvimtree.setup.diagnostics = {
+  --   enable = true,
+  --   icons = {
+  --     hint = "",
+  --     info = "",
+  --     warning = "",
+  --     error = "",
+  --   },
+  -- }
   -- lvim.builtin.nvimtree.hide_dotfiles = 0
 
   -- Project
   -- =========================================
-  lvim.builtin.project.active = true
+  lvim.builtin.project.active = false
+  lvim.builtin.project.patterns = { "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" }
 
   -- Treesitter
   -- =========================================
   lvim.builtin.treesitter.context_commentstring.enable = true
-  lvim.builtin.treesitter.ensure_installed = "maintained"
+  lvim.builtin.treesitter.ensure_installed = {
+      "bash",
+      "c",
+      "cpp",
+      "javascript",
+      "json",
+      "lua",
+      "python",
+      "typescript",
+      "css",
+      "rust",
+      "java",
+      "yaml",
+      "toml",
+      "go",
+  }
   lvim.builtin.treesitter.highlight.disable = { "org" }
   lvim.builtin.treesitter.highlight.aditional_vim_regex_highlighting = { "org" }
   lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -175,7 +200,7 @@ M.config = function()
 
   -- Telescope
   -- =========================================
-  -- lvim.builtin.telescope.defaults.path_display = { "smart", "absolute", "truncate" }
+  lvim.builtin.telescope.defaults.path_display = { "smart", "absolute", "truncate" }
   lvim.builtin.telescope.defaults.path_display = { shorten = 10 }
   lvim.builtin.telescope.defaults.winblend = 6
   lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
@@ -210,6 +235,7 @@ M.config = function()
   lvim.builtin.telescope.defaults.layout_config = require("user.telescope").layout_config()
   lvim.builtin.telescope.defaults.mappings = {
     i = {
+      ["<esc>"] = require("telescope.actions").close,
       ["<C-c>"] = require("telescope.actions").close,
       ["<C-y>"] = require("telescope.actions").which_key,
     },
@@ -236,6 +262,8 @@ M.config = function()
   lvim.builtin.terminal.execs = {
     { "lazygit", "gg", "LazyGit" },
   }
+  lvim.builtin.terminal.open_mapping = [[<c-\>]]
+  lvim.builtin.terminal.direction = 'tab'
 
   -- WhichKey
   -- =========================================
@@ -250,6 +278,18 @@ M.config = function()
     }
     wk.register(keys, { mode = "n" })
   end
+
+  lvim.builtin.which_key.mappings['t'] = {
+    name = "+Toggle",
+    i = { "<cmd> IndentBlanklineToggle<CR>", "Indent Style"},
+    l = { "<cmd> set nu!<CR>", "Line Numbers"},
+    w = { "<cmd> set wrap!<CR>", "Wrap Text"},
+  }
+
+  lvim.builtin.which_key.mappings['m'] = {
+    name = "+Misc",
+    t = { "<cmd> %s/\\s\\+$//e<CR>", "Trim Trailing Whitespace"},
+  }
 
   -- ETC
   -- =========================================

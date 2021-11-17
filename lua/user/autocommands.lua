@@ -38,16 +38,6 @@ augroup BigFileDisable
 augroup END
   ]]
 
-  if lvim.builtin.sql_integration.active then
-    -- Add vim-dadbod-completion in sql files
-    vim.cmd [[
-    augroup DadbodSql
-      au!
-      autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }
-    augroup END
-    ]]
-  end
-
   if lvim.builtin.hlslens.active then
     vim.cmd [[
 function! Hls_coloring()

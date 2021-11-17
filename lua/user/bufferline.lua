@@ -1,12 +1,18 @@
 local M = {}
 M.config = function()
+  local icons = require("user.icons")
+
   local fn = vim.fn
 
   local function is_ft(b, ft)
     return vim.bo[b].filetype == ft
   end
 
-  local symbols = { error = " ", warning = " ", info = " " }
+  local symbols = {
+    error = icons.lsp.Error,
+    warning = icons.lsp.warning,
+    info = icons.lsp.Information
+  }
 
   local function diagnostics_indicator(_, _, diagnostics)
     local result = {}

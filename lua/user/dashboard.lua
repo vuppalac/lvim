@@ -6,12 +6,19 @@ M.config = function()
     return
   end
 
+  local function pick_color()
+    local colors = {"String", "Identifier", "Keyword", "Number"}
+    return colors[math.random(#colors)]
+  end
+
+  local color = pick_color()
+
   local header = {
     type = "text",
     val = require("user.banners").dashboard(),
     opts = {
       position = "center",
-      hl = "Comment",
+      hl = color,
     },
   }
 
@@ -19,26 +26,32 @@ M.config = function()
   local plugins = handle:read "*a"
   handle:close()
 
-  local thingy = io.popen 'echo "$(date +%a) $(date +%d) $(date +%b)" | tr -d "\n"'
-  local date = thingy:read "*a"
-  thingy:close()
+  -- local thingy = io.popen 'echo "$(date +%a) $(date +%d) $(date +%b)" | tr -d "\n"'
+  -- local date = thingy:read "*a"
+  -- thingy:close()
+  local datetime = os.date(" %d-%m-%Y  %H:%M:%S")
   plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
 
   local plugin_count = {
     type = "text",
-    val = "└─   " .. plugins .. " plugins in total ─┘",
+    -- val = "└─   " .. plugins .. " plugins in total ─┘",
+    val = "└─   " .. plugins .. " plugins in total ─┘",
     opts = {
       position = "center",
-      hl = "String",
+      -- hl = "String",
+      hl = color,
     },
   }
 
   local heading = {
     type = "text",
-    val = "┌─   Today is " .. date .. " ─┐",
+    -- val = "┌─   Today is " .. date .. " ─┐",
+    -- val = "   " .. plugins .. " plugins loaded ➖ " .. datetime,
+    val = "  " .. plugins .. " plugins loaded ➖ " .. datetime,
     opts = {
       position = "center",
-      hl = "String",
+      -- hl = "String",
+      hl = color,
     },
   }
 
@@ -85,11 +98,11 @@ M.config = function()
   local buttons = {
     type = "group",
     val = {
-      button("f", "   Explore", ":Telescope find_files<CR>"),
-      button("e", "   New file", ":ene <BAR> startinsert <CR>"),
-      button("s", "   Ripgrep", ":Telescope live_grep<CR>"),
+      button("f", "   Find File", ":Telescope find_files<CR>"),
+      button("e", "   New File", ":ene <BAR> startinsert <CR>"),
       button("r", "   Recents", ":Telescope oldfiles<CR>"),
-      button("b", "   Buffers", ":Telescope buffers<CR>"),
+      button("s", "   Find Word", ":Telescope live_grep<CR>"),
+      button("m", "   Marks", ":Telescope marks<CR>"),
       button("o", "   Options", ":e ~/.config/lvim/config.lua<CR>"),
     },
     opts = {
@@ -110,11 +123,11 @@ M.config = function()
       { type = "padding", val = 1 },
       section.header,
       { type = "padding", val = 2 },
-      section.heading,
-      section.plugin_count,
-      { type = "padding", val = 1 },
       -- section.top_bar,
       section.buttons,
+      { type = "padding", val = 1 },
+      section.heading,
+      -- section.plugin_count,
       -- section.bot_bar,
       -- { type = "padding", val = 1 },
       section.footer,

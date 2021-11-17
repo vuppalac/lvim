@@ -57,16 +57,7 @@ M.config = function()
     },
   }
   local linters = require "lvim.lsp.null-ls.linters"
-  linters.setup {
-    {
-      exe = "vale",
-      filetypes = { "markdown" },
-    },
-    {
-      exe = "markdownlint",
-      filetypes = { "markdown" },
-    },
-  }
+  linters.setup {}
 end
 
 return M
