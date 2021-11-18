@@ -1,4 +1,10 @@
 local M = {}
+local kind = require "user.lsp_kind"
+local diag_source = "nvim_lsp"
+local ok, _ = pcall(require, "vim.diagnostic")
+if ok then
+  diag_source = "nvim"
+end
 
 local function clock()
   return " " .. os.date "%H:%M"
@@ -167,7 +173,7 @@ end
 
 local function get_file_icon()
   local icon
-  local ok, devicons = pcall(require, "nvim-web-devicons")
+  local _, devicons = pcall(require, "nvim-web-devicons")
   if not ok then
     print "No icon plugin found. Please install 'kyazdani42/nvim-web-devicons'"
     return ""
@@ -419,8 +425,19 @@ M.config = function()
   }
   ins_left {
     function()
+<<<<<<< HEAD
       local fname = vim.fn.expand "%:T"
       return fname .. "%{&readonly?'  ':''}" .. "%{&modified?'  ':''}"
+=======
+      local fname = vim.fn.expand "%:p"
+      local ftype = vim.fn.expand "%:e"
+      local cwd = vim.api.nvim_call_function("getcwd", {})
+      local show_name = vim.fn.expand "%:t"
+      if #cwd > 0 and #ftype > 0 then
+        show_name = fname:sub(#cwd + 2)
+      end
+      return show_name .. "%{&readonly?'  ':''}" .. "%{&modified?'  ':''}"
+>>>>>>> bc1e8ba3e8a904796de7674a5bc2a169ff24f67a
     end,
     cond = conditions.buffer_not_empty,
     padding = { left = 1, right = 1 },
@@ -512,24 +529,13 @@ M.config = function()
     color = { fg = colors.red },
   }
 
-  local ok, _ = pcall(require, "vim.diagnostic")
-  if ok then
-    ins_right {
-      "diagnostics",
-      sources = { "nvim" },
-      symbols = { error = " ", warn = " ", info = " ", hint = " " },
-      -- symbols = { error = " ", warn = " ", info = " ", hint = " " },
-      cond = conditions.hide_in_width,
-    }
-  else
-    ins_right {
-      "diagnostics",
-      sources = { "nvim_lsp" },
-      symbols = { error = " ", warn = " ", info = " ", hint = " " },
-      -- symbols = { error = " ", warn = " ", info = " ", hint = " " },
-      cond = conditions.hide_in_width,
-    }
-  end
+  ins_right {
+    "diagnostics",
+    sources = { diag_source },
+    symbols = { error = kind.icons.error, warn = kind.icons.warn, info = kind.icons.info, hint = kind.icons.hint },
+    cond = conditions.hide_in_width,
+  }
+
   ins_right {
     function()
       if next(vim.treesitter.highlighter.active) then
