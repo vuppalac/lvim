@@ -12,6 +12,7 @@ M.config = function()
   end
 
   local color = pick_color()
+  local kind = require "user.lsp_kind"
 
   local header = {
     type = "text",
@@ -35,7 +36,8 @@ M.config = function()
   local plugin_count = {
     type = "text",
     -- val = "└─   " .. plugins .. " plugins in total ─┘",
-    val = "└─   " .. plugins .. " plugins in total ─┘",
+    --val = "└─   " .. plugins .. " plugins in total ─┘",
+    val = "└─ " .. kind.cmp_kind.Module .. " " .. plugins .. " plugins in total ─┘",
     opts = {
       position = "center",
       -- hl = "String",
@@ -48,6 +50,7 @@ M.config = function()
     -- val = "┌─   Today is " .. date .. " ─┐",
     -- val = "   " .. plugins .. " plugins loaded ➖ " .. datetime,
     val = "  " .. plugins .. " plugins loaded ➖ " .. datetime,
+    -- val = "┌─ " .. kind.icons.calendar .. " Today is " .. date .. " ─┐",
     opts = {
       position = "center",
       -- hl = "String",
@@ -98,12 +101,13 @@ M.config = function()
   local buttons = {
     type = "group",
     val = {
-      button("f", "   Find File", ":Telescope find_files<CR>"),
-      button("e", "   New File", ":ene <BAR> startinsert <CR>"),
-      button("r", "   Recents", ":Telescope oldfiles<CR>"),
-      button("s", "   Find Word", ":Telescope live_grep<CR>"),
+      button("f", " " .. kind.cmp_kind.Folder .. " Explore", ":Telescope find_files<CR>"),
+      button("e", " " .. kind.cmp_kind.File .. " New file", ":ene <BAR> startinsert <CR>"),
+      button("s", " " .. kind.cmp_kind.Text .. " Ripgrep", ":Telescope live_grep<CR>"),
+      button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
+      button("b", " " .. kind.icons.buffer .. " Buffers", ":Telescope buffers<CR>"),
       button("m", "   Marks", ":Telescope marks<CR>"),
-      button("o", "   Options", ":e ~/.config/lvim/config.lua<CR>"),
+      button("o", " " .. kind.icons.settings .. " Options", ":e ~/.config/lvim/config.lua<CR>"),
     },
     opts = {
       spacing = 1,
