@@ -38,6 +38,8 @@ lvim.builtin.cursorline = { active = true } -- use a bit fancier cursorline
 lvim.builtin.motion_provider = "hop" -- change this to use different motion providers ( hop or lightspeed )
 lvim.builtin.hlslens = { active = false } -- enable/disable hlslens
 lvim.builtin.csv_support = false -- enable/disable csv support
+lvim.builtin.sidebar = { active = false } -- enable/disable sidebar
+
 lvim.builtin.gitsigns = { active = true, gitpath = "git" } -- use a custom gitsigns, which has support for non-default git command location
 local user = os.getenv "USER"
 if user and user == "abz" then
@@ -69,9 +71,13 @@ end
 
 -- Language Specific
 -- =========================================
+<<<<<<< HEAD
 local custom_servers = { "sumneko_lua", "jsonls" }
 vim.list_extend(lvim.lsp.override, { "rust_analyzer", "clangd" })
 vim.list_extend(lvim.lsp.override, custom_servers)
+=======
+vim.list_extend(lvim.lsp.override, { "rust_analyzer" })
+>>>>>>> 7869b9420baefb00b2eda929616a060a2a2b8b8a
 require("user.null_ls").config()
 
 -- Additional Plugins
