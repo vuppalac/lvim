@@ -30,10 +30,10 @@ M.cmp_kind = {
 }
 
 M.icons = {
-  error = " ",
-  warn = " ",
-  info = "",
-  hint = " ",
+  error = " ",
+  warn = " ",
+  info = " ",
+  hint = " ",
   code_action = "",
   test = "",
   docs = "",
@@ -100,7 +100,7 @@ M.symbols_outline = {
 }
 
 M.todo_comments = {
-  FIX = "律",
+  FIX = " ",
   TODO = " ",
   HACK = " ",
   WARN = "裂",
