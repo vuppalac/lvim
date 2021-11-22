@@ -71,13 +71,7 @@ end
 
 -- Language Specific
 -- =========================================
-<<<<<<< HEAD
-local custom_servers = { "sumneko_lua", "jsonls" }
 vim.list_extend(lvim.lsp.override, { "rust_analyzer", "clangd" })
-vim.list_extend(lvim.lsp.override, custom_servers)
-=======
-vim.list_extend(lvim.lsp.override, { "rust_analyzer" })
->>>>>>> 7869b9420baefb00b2eda929616a060a2a2b8b8a
 require("user.null_ls").config()
 
 -- Additional Plugins
