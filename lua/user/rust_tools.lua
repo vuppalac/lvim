@@ -16,6 +16,19 @@ M.config = function()
       executor = require("rust-tools/executors").termopen, -- can be quickfix or termopen
       runnables = {
         use_telescope = true,
+        prompt_prefix = "  ",
+        selection_caret = "  ",
+        entry_prefix = "  ",
+        initial_mode = "insert",
+        selection_strategy = "reset",
+        sorting_strategy = "descending",
+        layout_strategy = "vertical",
+        layout_config = {
+          width = 0.3,
+          height = 0.50,
+          preview_cutoff = 0,
+          prompt_position = "bottom",
+        },
       },
       debuggables = {
         use_telescope = true,
@@ -53,9 +66,9 @@ M.config = function()
   }
   local user = os.getenv "USER"
   if user and user == "abz" then
-    local extension_path = "~/.vscode-oss/extensions/vadimcn.vscode-lldb-1.6.0/"
+    local extension_path = "/Users/abz/.vscode/extensions/vadimcn.vscode-lldb-1.6.10/"
     local codelldb_path = extension_path .. "adapter/codelldb"
-    local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+    local liblldb_path = extension_path .. "lldb/lib/liblldb.dylib"
 
     opts.dap = {
       adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
