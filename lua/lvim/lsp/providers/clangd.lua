@@ -1,5 +1,6 @@
 -- local clangd_bin = vim.fn.stdpath "data" .. "/lsp_servers/clangd/clangd"
-local clangd_bin = "clangd-13"
+-- local clangd_bin = "/home/cvuppala/.local/llvm/bin/clangd"
+local clangd_bin = "clangd"
 local clangd_flags = {
   -- "--all-scopes-completion",
   -- "--suggest-missing-includes",

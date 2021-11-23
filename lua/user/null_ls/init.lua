@@ -63,6 +63,9 @@ M.config = function()
       },
       filetypes = { "python" },
     },
+    {
+      exe = "clang-format",
+    }
   }
   local linters = require "lvim.lsp.null-ls.linters"
   linters.setup {}
