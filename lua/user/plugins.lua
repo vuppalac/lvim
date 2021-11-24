@@ -200,7 +200,10 @@ M.config = function()
       event = "BufReadPre",
       module = "persistence",
       config = function()
-        require("persistence").setup()
+        require("persistence").setup {
+          dir = vim.fn.expand(get_cache_dir() .. "/sessions/"), -- directory where session files are saved
+          options = { "buffers", "curdir", "tabpages", "winsize" }, -- sessionoptions used for saving
+        }
       end,
       disable = not lvim.builtin.persistence.active,
     },
@@ -482,7 +485,7 @@ M.config = function()
       config = function()
         require("user.sidebar").config()
       end,
-      event = "BufRead",
+      -- event = "BufRead",
       disable = not lvim.builtin.sidebar.active,
     },
     {
