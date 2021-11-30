@@ -3,6 +3,42 @@ local M = {}
 local action_state = require "telescope.actions.state"
 local themes = require "telescope.themes"
 local builtin = require "telescope.builtin"
+local actions = require "telescope.actions"
+
+function M._multiopen(prompt_bufnr, open_cmd)
+  local picker = action_state.get_current_picker(prompt_bufnr)
+  local num_selections = table.getn(picker:get_multi_selection())
+  if num_selections > 1 then
+    local picker = action_state.get_current_picker(prompt_bufnr)
+    vim.cmd "bw!"
+    for _, entry in ipairs(picker:get_multi_selection()) do
+      vim.cmd(string.format("%s %s", open_cmd, entry.value))
+    end
+    vim.cmd "stopinsert"
+  else
+    if open_cmd == "vsplit" then
+      actions.file_vsplit(prompt_bufnr)
+    elseif open_cmd == "split" then
+      actions.file_split(prompt_bufnr)
+    elseif open_cmd == "tabe" then
+      actions.file_tab(prompt_bufnr)
+    else
+      actions.file_edit(prompt_bufnr)
+    end
+  end
+end
+function M.multi_selection_open_vsplit(prompt_bufnr)
+  M._multiopen(prompt_bufnr, "vsplit")
+end
+function M.multi_selection_open_split(prompt_bufnr)
+  M._multiopen(prompt_bufnr, "split")
+end
+function M.multi_selection_open_tab(prompt_bufnr)
+  M._multiopen(prompt_bufnr, "tabe")
+end
+function M.multi_selection_open(prompt_bufnr)
+  M._multiopen(prompt_bufnr, "edit")
+end
 
 -- beautiful default layout for telescope prompt
 function M.layout_config()
@@ -214,7 +250,7 @@ function M.project_search()
   builtin.find_files {
     previewer = false,
     layout_strategy = "vertical",
-    cwd = require("nvim_lsp.util").root_pattern ".git"(vim.fn.expand "%:p"),
+    cwd = require("lspconfig/util").root_pattern ".git"(vim.fn.expand "%:p"),
   }
 end
 
@@ -231,9 +267,18 @@ end
 function M.git_status()
   local opts = themes.get_dropdown {
     winblend = 10,
-    border = true,
     previewer = false,
     shorten_path = false,
+    borderchars = {
+      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    },
+    border = {},
+    layout_config = {
+      width = 0.45,
+      prompt_position = "top",
+    },
   }
 
   -- Can change the git icons using this.
@@ -265,7 +310,7 @@ function M.git_files()
     path = nil
   end
 
-  local width = 0.35
+  local width = 0.45
   if path and string.find(path, "sourcegraph.*sourcegraph", 1, false) then
     width = 0.6
   end
@@ -274,9 +319,16 @@ function M.git_files()
     winblend = 5,
     previewer = false,
     shorten_path = false,
+    borderchars = {
+      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    },
+    border = {},
     cwd = path,
     layout_config = {
       width = width,
+      prompt_position = "top",
     },
   }
 

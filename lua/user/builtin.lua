@@ -121,7 +121,6 @@ M.config = function()
 
   -- NvimTree
   -- =========================================
-  lvim.builtin.nvimtree.setup.auto_open = 0
   lvim.builtin.nvimtree.setup.diagnostics = {
     enable = true,
     icons = {
@@ -294,11 +293,28 @@ M.config = function()
     "target/",
   }
   lvim.builtin.telescope.defaults.layout_config = require("user.telescope").layout_config()
+  local actions = require "telescope.actions"
+  local custom_actions = require "user.telescope"
   lvim.builtin.telescope.defaults.mappings = {
     i = {
       ["<esc>"] = require("telescope.actions").close,
       ["<C-c>"] = require("telescope.actions").close,
       ["<C-y>"] = require("telescope.actions").which_key,
+      ["<tab>"] = actions.toggle_selection + actions.move_selection_next,
+      ["<s-tab>"] = actions.toggle_selection + actions.move_selection_previous,
+      ["<cr>"] = custom_actions.multi_selection_open,
+      ["<c-v>"] = custom_actions.multi_selection_open_vsplit,
+      ["<c-s>"] = custom_actions.multi_selection_open_split,
+      ["<c-t>"] = custom_actions.multi_selection_open_tab,
+    },
+    n = {
+      ["<esc>"] = actions.close,
+      ["<tab>"] = actions.toggle_selection + actions.move_selection_next,
+      ["<s-tab>"] = actions.toggle_selection + actions.move_selection_previous,
+      ["<cr>"] = custom_actions.multi_selection_open,
+      ["<c-v>"] = custom_actions.multi_selection_open_vsplit,
+      ["<c-s>"] = custom_actions.multi_selection_open_split,
+      ["<c-t>"] = custom_actions.multi_selection_open_tab,
     },
   }
   local telescope_actions = require "telescope.actions.set"
