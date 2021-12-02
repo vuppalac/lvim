@@ -340,7 +340,7 @@ M.config = function()
     { "lazygit", "gg", "LazyGit" },
   }
   lvim.builtin.terminal.open_mapping = [[<c-\>]]
-  lvim.builtin.terminal.direction = 'tab'
+  lvim.builtin.terminal.direction = 'horizontal'
 
   -- WhichKey
   -- =========================================

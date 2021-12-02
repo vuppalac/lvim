@@ -23,7 +23,7 @@ lvim.builtin.dap.active = false -- change this to enable/disable debugging
 lvim.builtin.fancy_statusline = { active = true } -- enable/disable fancy statusline
 lvim.builtin.fancy_bufferline = { active = true } -- enable/disable fancy bufferline
 lvim.builtin.fancy_dashboard = { active = true } -- enable/disable fancy dashboard
-lvim.builtin.fancy_wild_menu = { active = false } -- enable/disable use wilder.nvim
+lvim.builtin.fancy_wild_menu = { active = true } -- enable/disable use wilder.nvim
 lvim.builtin.fancy_rename = { active = true } -- enable/disable custom rename
 lvim.builtin.fancy_diff = { active = true } -- enable/disable fancier git diff
 lvim.builtin.lua_dev = { active = true } -- change this to enable/disable folke/lua_dev
@@ -41,8 +41,8 @@ lvim.builtin.motion_provider = "hop" -- change this to use different motion prov
 lvim.builtin.hlslens = { active = false } -- enable/disable hlslens
 lvim.builtin.csv_support = false -- enable/disable csv support
 lvim.builtin.sidebar = { active = false } -- enable/disable sidebar
-lvim.builtin.async_tasks = { active = false } -- enable/disable async tasks
-lvim.builtin.gitsigns = { active = true, gitpath = "git" } -- use a custom gitsigns, which has support for non-default git command location
+lvim.builtin.async_tasks = { active = true } -- enable/disable async tasks
+lvim.builtin.gitsigns.opts.git_path = "git" -- use a custom gitsigns, which has support for non-default git command location
 local user = os.getenv "USER"
 if user and user == "abz" then
   lvim.builtin.nvim_web_devicons = { active = false }

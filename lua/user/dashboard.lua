@@ -30,7 +30,7 @@ M.config = function()
   -- local thingy = io.popen 'echo "$(date +%a) $(date +%d) $(date +%b)" | tr -d "\n"'
   -- local date = thingy:read "*a"
   -- thingy:close()
-  local datetime = os.date(" %d-%m-%Y  %H:%M:%S")
+  local datetime = os.date(kind.icons.calendar .. "%d-%m-%Y ".. kind.icons.clock .. "%H:%M:%S")
   plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
 
   local plugin_count = {
@@ -106,7 +106,7 @@ M.config = function()
       button("s", " " .. kind.cmp_kind.Text .. " Ripgrep", ":Telescope live_grep<CR>"),
       button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
       button("b", " " .. kind.icons.buffer .. " Buffers", ":Telescope buffers<CR>"),
-      button("m", "   Marks", ":Telescope marks<CR>"),
+      button("m", " " .. kind.icons.Marks ..  " Marks", ":Telescope marks<CR>"),
       button("o", " " .. kind.icons.settings .. " Options", ":e ~/.config/lvim/config.lua<CR>"),
     },
     opts = {
