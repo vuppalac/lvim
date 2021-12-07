@@ -107,7 +107,7 @@ M.config = function()
       button(
         "g",
         " " .. kind.icons.git .. " Git Status",
-        ":lua require('lvim.core.terminal')._exec_toggle('lazygit')<CR>"
+        ":lua require('lvim.core.terminal')._exec_toggle({cmd = 'lazygit', count = 1, direction = 'float'})<CR>"
       ),
       button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
       button("o", " " .. kind.icons.settings .. " Options", ":e ~/.config/lvim/config.lua<CR>"),

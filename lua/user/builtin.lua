@@ -97,24 +97,13 @@ M.config = function()
 
   -- LSP
   -- =========================================
+  lvim.lsp.diagnostics.float.border = "rounded"
+  lvim.lsp.diagnostics.float.focusable = false
   lvim.lsp.diagnostics.signs.values = {
-    --{ name = "LspDiagnosticsSignError", text = "" },
-    --{ name = "LspDiagnosticsSignWarning", text = "" },
-    --{ name = "LspDiagnosticsSignHint", text = "" },
-    --{ name = "LspDiagnosticsSignInformation", text = "" },
-
-    -- { name = "LspDiagnosticsSignError", text = " " },
-    -- { name = "LspDiagnosticsSignWarning", text = "" },
-    -- { name = "LspDiagnosticsSignHint", text = "" },
-    -- { name = "LspDiagnosticsSignInformation", text = "" },
-    -- { name = "LspDiagnosticsSignError", text = "📛" },
-    -- { name = "LspDiagnosticsSignWarning", text = "👎" },
-    -- { name = "LspDiagnosticsSignHint", text = [[👩]] },
-    -- { name = "LspDiagnosticsSignInformation", text = [[💁]] },
-    { name = "LspDiagnosticsSignError", text = kind.icons.error },
-    { name = "LspDiagnosticsSignWarning", text = kind.icons.warn },
-    { name = "LspDiagnosticsSignInformation", text = kind.icons.info },
-    { name = "LspDiagnosticsSignHint", text = kind.icons.hint },
+    { name = "DiagnosticSignError", text = kind.icons.error },
+    { name = "DiagnosticSignWarn", text = kind.icons.warn },
+    { name = "DiagnosticSignInfo", text = kind.icons.info },
+    { name = "DiagnosticSignHint", text = kind.icons.hint },
   }
   local ok, _ = pcall(require, "vim.diagnostic")
   if ok then
@@ -305,14 +294,16 @@ M.config = function()
   lvim.builtin.telescope.defaults.mappings = {
     i = {
       ["<esc>"] = require("telescope.actions").close,
-      ["<C-c>"] = require("telescope.actions").close,
-      ["<C-y>"] = require("telescope.actions").which_key,
+      ["<c-c>"] = require("telescope.actions").close,
+      ["<c-y>"] = require("telescope.actions").which_key,
       ["<tab>"] = actions.toggle_selection + actions.move_selection_next,
       ["<s-tab>"] = actions.toggle_selection + actions.move_selection_previous,
       ["<cr>"] = custom_actions.multi_selection_open,
       ["<c-v>"] = custom_actions.multi_selection_open_vsplit,
       ["<c-s>"] = custom_actions.multi_selection_open_split,
       ["<c-t>"] = custom_actions.multi_selection_open_tab,
+      ["<c-j>"] = actions.move_selection_next,
+      ["<c-k>"] = actions.move_selection_previous,
     },
     n = {
       ["<esc>"] = actions.close,
@@ -322,6 +313,11 @@ M.config = function()
       ["<c-v>"] = custom_actions.multi_selection_open_vsplit,
       ["<c-s>"] = custom_actions.multi_selection_open_split,
       ["<c-t>"] = custom_actions.multi_selection_open_tab,
+      ["<c-j>"] = actions.move_selection_next,
+      ["<c-k>"] = actions.move_selection_previous,
+      ["<c-n>"] = actions.cycle_history_next,
+      ["<c-p>"] = actions.cycle_history_prev,
+      ["<c-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
     },
   }
   local telescope_actions = require "telescope.actions.set"
@@ -343,11 +339,7 @@ M.config = function()
   -- Terminal
   -- =========================================
   lvim.builtin.terminal.active = true
-  lvim.builtin.terminal.execs = {
-    { "lazygit", "gg", "LazyGit" },
-  }
   lvim.builtin.terminal.open_mapping = [[<c-\>]]
-  lvim.builtin.terminal.direction = 'horizontal'
 
   -- WhichKey
   -- =========================================
