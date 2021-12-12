@@ -1,10 +1,5 @@
 local M = {}
 local kind = require "user.lsp_kind"
-local diag_source = "nvim_lsp"
-local ok, _ = pcall(require, "vim.diagnostic")
-if ok then
-  diag_source = "nvim"
-end
 
 local function clock()
   return kind.icons.clock .. os.date "%H:%M"
@@ -485,7 +480,7 @@ M.config = function()
 
   ins_right {
     "diagnostics",
-    sources = { diag_source },
+    sources = { "nvim_diagnostic" },
     symbols = { error = kind.icons.error, warn = kind.icons.warn, info = kind.icons.info, hint = kind.icons.hint },
     cond = conditions.hide_in_width,
   }
