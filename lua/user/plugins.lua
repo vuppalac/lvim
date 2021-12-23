@@ -96,7 +96,7 @@ M.config = function()
           auto_close = true,
           padding = false,
           height = 10,
-          use_lsp_diagnostic_signs = true,
+          use_diagnostic_signs = true,
         }
       end,
       cmd = "Trouble",
@@ -260,6 +260,24 @@ M.config = function()
       disable = not lvim.builtin.lua_dev.active,
     },
     {
+      "jose-elias-alvarez/nvim-lsp-ts-utils",
+      ft = {
+        "javascript",
+        "javascriptreact",
+        "javascript.jsx",
+        "typescript",
+        "typescriptreact",
+        "typescript.tsx",
+      },
+      opt = true,
+      event = "BufReadPre",
+      before = "williamboman/nvim-lsp-installer",
+    },
+    {
+      "lervag/vimtex",
+      ft = "tex",
+    },
+    {
       "akinsho/bufferline.nvim",
       config = function()
         require("user.bufferline").config()
@@ -333,6 +351,7 @@ M.config = function()
           html = true,
           c = true,
           cpp = true,
+          java = true,
           javascript = true,
           typescript = true,
           javascriptreact = true,
@@ -479,7 +498,7 @@ M.config = function()
         )
       end,
       event = "BufRead",
-      ft = { "rust", "go" },
+      ft = { "rust", "go", "typescript", "typescriptreact" },
     },
     {
       "chrisbra/csv.vim",

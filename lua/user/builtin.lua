@@ -241,6 +241,7 @@ M.config = function()
         url = "https://github.com/ikatyang/tree-sitter-markdown",
         files = { "src/parser.c", "src/scanner.cc" },
       },
+      filetype = "markdown",
     }
     if lvim.builtin.orgmode.active then
       parser_config.org = {
@@ -287,6 +288,18 @@ M.config = function()
     "gradle/",
     "node_modules/",
     "target/",
+    "%.pdb",
+    "%.dll",
+    "%.class",
+    "%.exe",
+    "%.cache",
+    "%.ico",
+    "%.pdf",
+    "%.dylib",
+    "%.jar",
+    "%.docx",
+    "%.met",
+    "smalljre_*/*",
   }
   lvim.builtin.telescope.defaults.layout_config = require("user.telescope").layout_config()
   local actions = require "telescope.actions"

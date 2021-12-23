@@ -53,6 +53,7 @@ if user and user == "abz" then
   lvim.builtin.async_tasks.active = true
   lvim.builtin.dap.active = true
   lvim.builtin.sql_integration.active = true
+  require("user.prose").config() -- setup prosemd-lsp for my local use
 end
 lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
 lvim.builtin.notify.active = true
@@ -78,6 +79,7 @@ end
 -- Language Specific
 -- =========================================
 vim.list_extend(lvim.lsp.override, { "rust_analyzer", "clangd" })
+--vim.list_extend(lvim.lsp.override, { "rust_analyzer", "tsserver", "dockerls", "texlab", "sumneko_lua", "gopls", "jsonls" })
 require("user.null_ls").config()
 
 -- Additional Plugins
