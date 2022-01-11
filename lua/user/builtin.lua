@@ -13,6 +13,10 @@ M.config = function()
     autopairs.remove_rule("$", "$", { "tex", "latex" })
   end
 
+  -- Command Palette
+  -- =========================================
+  lvim.builtin.cpmenu = M.cpmenu()
+
   -- Barbar
   -- =========================================
   if lvim.builtin.fancy_bufferline.active then
@@ -99,6 +103,7 @@ M.config = function()
   -- =========================================
   lvim.lsp.diagnostics.float.border = "rounded"
   lvim.lsp.diagnostics.float.focusable = false
+  lvim.lsp.float.focusable = true
   lvim.lsp.diagnostics.signs.values = {
     { name = "DiagnosticSignError", text = kind.icons.error },
     { name = "DiagnosticSignWarn", text = kind.icons.warn },
@@ -236,13 +241,6 @@ M.config = function()
       filetype = "solidity",
     }
     parser_config.jsonc.used_by = "json"
-    parser_config.markdown = {
-      install_info = {
-        url = "https://github.com/ikatyang/tree-sitter-markdown",
-        files = { "src/parser.c", "src/scanner.cc" },
-      },
-      filetype = "markdown",
-    }
     if lvim.builtin.orgmode.active then
       parser_config.org = {
         install_info = {
@@ -260,6 +258,7 @@ M.config = function()
   lvim.builtin.telescope.defaults.path_display = { "smart", "absolute", "truncate" }
   lvim.builtin.telescope.defaults.path_display = { shorten = 10 }
   lvim.builtin.telescope.defaults.winblend = 6
+  lvim.builtin.telescope.defaults.cache_picker = { num_pickers = 3 }
   lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
   lvim.builtin.telescope.defaults.file_ignore_patterns = {
     "vendor/*",
@@ -300,6 +299,7 @@ M.config = function()
     "%.docx",
     "%.met",
     "smalljre_*/*",
+    ".vale/",
   }
   lvim.builtin.telescope.defaults.layout_config = require("user.telescope").layout_config()
   local actions = require "telescope.actions"
@@ -347,6 +347,7 @@ M.config = function()
   }
   lvim.builtin.telescope.on_config_done = function(telescope)
     telescope.load_extension "file_create"
+    telescope.load_extension "command_palette"
   end
 
   -- Terminal
@@ -364,6 +365,7 @@ M.config = function()
       ["ga"] = { "<cmd>lua require('user.telescope').code_actions()<CR>", "Code Action" },
       ["gR"] = { "<cmd>Trouble lsp_references<CR>", "Goto References" },
       ["gI"] = { "<cmd>lua require('user.telescope').lsp_implementations()<CR>", "Goto Implementation" },
+      ["gA"] = { "<cmd>lua vim.lsp.codelens.run()<CR>", "CodeLens Action" },
     }
     wk.register(keys, { mode = "n" })
   end
@@ -500,6 +502,85 @@ function M.shift_tab(fallback)
       methods.feedkeys("<Plug>(Tabout)", "")
     end
   end
+end
+
+function M.cpmenu()
+  return {
+    {
+      "File",
+      { "entire selection", ':call feedkeys("GVgg")' },
+      { "file browser", ":lua require('user.telescope').file_browser()", 1 },
+      { "files", ":lua require('telescope.builtin').find_files()", 1 },
+      { "git files", ":lua require('user.telescope').git_files()", 1 },
+      { "last search", ":lua require('telescope.builtin').resume({cache_index=3})" },
+      { "quit", ":qa" },
+      { "save all files", ":wa" },
+      { "save current file", ":w" },
+      { "search word", ":lua require('user.telescope').find_string()", 1 },
+    },
+    {
+      "Lsp",
+      { "formatting", ":lua vim.lsp.buf.formatting_seq_sync()" },
+      { "workspace diagnostics", ":Telescope lsp_workspace_diagnostics" },
+      { "workspace symbols", ":Telescope lsp_workspace_symbols" },
+    },
+    {
+      "Project",
+      { "list", ":Telescope projects" },
+      { "build", ":AsyncTask project-build" },
+      { "run", ":AsyncTask project-run" },
+    },
+    {
+      "Vim",
+      { "buffers", ":Telescope buffers" },
+      { "check health", ":checkhealth" },
+      { "colorshceme", ":lua require('telescope.builtin').colorscheme()", 1 },
+      { "command history", ":lua require('telescope.builtin').command_history()" },
+      { "commands", ":lua require('telescope.builtin').commands()" },
+      { "cursor column", ":set cursorcolumn!" },
+      { "cursor line", ":set cursorline!" },
+      { "jumps", ":lua require('telescope.builtin').jumplist()" },
+      { "keymaps", ":lua require('telescope.builtin').keymaps()" },
+      { "paste mode", ":set paste!" },
+      { "registers (A-e)", ":lua require('telescope.builtin').registers()" },
+      { "relative number", ":set relativenumber!" },
+      { "reload vimrc", ":source $MYVIMRC" },
+      { "search highlighting", ":set hlsearch!" },
+      { "search history", ":lua require('telescope.builtin').search_history()" },
+      { "spell checker", ":set spell!" },
+      { "vim options", ":lua require('telescope.builtin').vim_options()" },
+    },
+    {
+      "Help",
+      { "cheatsheet", ":help index" },
+      { "quick reference", ":help quickref" },
+      { "search help", ":lua require('telescope.builtin').help_tags()", 1 },
+      { "summary", ":help summary" },
+      { "tips", ":help tips" },
+      { "tutorial", ":help tutor" },
+    },
+    {
+      "Dap",
+      { "brakpoints", ":lua require'telescope'.extensions.dap.list_breakpoints{}" },
+      { "clear breakpoints", ":lua require('dap.breakpoints').clear()" },
+      { "close", ":lua require'dap'.close(); require'dap'.repl.close()" },
+      { "commands", ":lua require'telescope'.extensions.dap.commands{}" },
+      { "configurations", ":lua require'telescope'.extensions.dap.configurations{}" },
+      { "continue", ":lua require'dap'.continue()" },
+      { "current scopes floating window", ":lua ViewCurrentScopesFloatingWindow()" },
+      { "current scopes", ':lua ViewCurrentScopes(); vim.cmd("wincmd w|vertical resize 40")' },
+      { "current value floating window", ":lua ViewCurrentValueFloatingWindow()" },
+      { "frames", ":lua require'telescope'.extensions.dap.frames{}" },
+      { "pause", ":lua require'dap'.pause()" },
+      { "repl", ":lua require'dap'.repl.open(); vim.cmd(\"wincmd w|resize 12\")" },
+      { "run to cursor", ":lua require'dap'.run_to_cursor()" },
+      { "step back", ":lua require'dap'.step_back()" },
+      { "step into", ":lua require'dap'.step_into()" },
+      { "step out", ":lua require'dap'.step_out()" },
+      { "step over", ":lua require'dap'.step_over()" },
+      { "toggle breakpoint", ":lua require'dap'.toggle_breakpoint()" },
+    },
+  }
 end
 
 return M

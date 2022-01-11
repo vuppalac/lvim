@@ -7,10 +7,6 @@ lvim.debug = false
 vim.lsp.set_log_level "warn"
 lvim.log.level = "warn"
 require("user.neovim").config()
-local _time = os.date "*t"
-if _time.hour >= 21 and _time.hour < 24 then
-  lvim.colorscheme = "onedarker"
-end
 
 -- Customization
 -- =========================================
@@ -43,7 +39,13 @@ lvim.builtin.hlslens = { active = false } -- enable/disable hlslens
 lvim.builtin.csv_support = false -- enable/disable csv support
 lvim.builtin.sidebar = { active = false } -- enable/disable sidebar
 lvim.builtin.async_tasks = { active = true } -- enable/disable async tasks
+lvim.builtin.metals = {
+  active = false, -- enable/disable nvim-metals for scala development
+  fallbackScalaVersion = "2.13.7",
+  serverVersion = "0.10.9+271-a8bb69f6-SNAPSHOT",
+}
 lvim.builtin.gitsigns.opts.git_path = "git" -- use a custom gitsigns, which has support for non-default git command location
+
 local user = os.getenv "USER"
 if user and user == "abz" then
   lvim.builtin.nvim_web_devicons = { active = false }
@@ -78,8 +80,10 @@ end
 
 -- Language Specific
 -- =========================================
-vim.list_extend(lvim.lsp.override, { "rust_analyzer", "clangd" })
---vim.list_extend(lvim.lsp.override, { "rust_analyzer", "tsserver", "dockerls", "texlab", "sumneko_lua", "gopls", "jsonls" })
+vim.list_extend(
+  lvim.lsp.override,
+  { "rust_analyzer", "tsserver", "dockerls", "texlab", "sumneko_lua", "gopls", "jsonls", "yamlls", "clangd" }
+)
 require("user.null_ls").config()
 
 -- Additional Plugins

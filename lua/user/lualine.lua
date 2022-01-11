@@ -201,16 +201,14 @@ M.config = function()
   local colors = default_colors
   local themes = require("user.theme").colors
   local _time = os.date "*t"
-  if _time.hour >= 5 and _time.hour < 8 then
-    colors = themes.zephyr_colors
-  elseif _time.hour >= 8 and _time.hour < 11 then
+  if _time.hour >= 1 and _time.hour < 9 then
     colors = themes.rose_pine_colors
-  elseif (_time.hour >= 0 and _time.hour < 5) or (_time.hour >= 11 and _time.hour < 17) then
+  elseif _time.hour >= 9 and _time.hour < 17 then
     colors = themes.tokyonight_colors
   elseif _time.hour >= 17 and _time.hour < 21 then
     colors = themes.doom_one_colors
-  elseif _time.hour >= 21 and _time.hour < 24 then
-    colors = themes.onedarker_colors
+  elseif (_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1) then
+    colors = themes.kanagawa_colors
   end
 
   -- Color table for highlights
@@ -241,10 +239,10 @@ M.config = function()
       return vim.fn.empty(vim.fn.expand "%:t") ~= 1
     end,
     hide_in_width = function()
-      return vim.fn.winwidth(0) > 80 or lvim.builtin.global_status_line.active
+      return vim.fn.winwidth(0) > 80
     end,
     hide_small = function()
-      return vim.fn.winwidth(0) > 150 or lvim.builtin.global_status_line.active
+      return vim.fn.winwidth(0) > 150
     end,
     check_git_workspace = function()
       local filepath = vim.fn.expand "%:p:h"
@@ -509,9 +507,6 @@ M.config = function()
       local buf_ft = vim.bo.filetype
       local buf_client_names = {}
       local trim = vim.fn.winwidth(0) < 120
-      if lvim.builtin.global_status_line.active then
-        trim = false
-      end
 
       for _, client in pairs(buf_clients) do
         if client.name ~= "null-ls" then
@@ -526,7 +521,7 @@ M.config = function()
       -- add formatter
       local formatters = require "lvim.lsp.null-ls.formatters"
       local supported_formatters = {}
-      for _, fmt in pairs(formatters.list_registered_providers(buf_ft)) do
+      for _, fmt in pairs(formatters.list_registered(buf_ft)) do
         local _added_formatter = fmt
         if trim then
           _added_formatter = string.sub(fmt, 1, 4)
@@ -538,7 +533,7 @@ M.config = function()
       -- add linter
       local linters = require "lvim.lsp.null-ls.linters"
       local supported_linters = {}
-      for _, lnt in pairs(linters.list_registered_providers(buf_ft)) do
+      for _, lnt in pairs(linters.list_registered(buf_ft)) do
         local _added_linter = lnt
         if trim then
           _added_linter = string.sub(lnt, 1, 4)

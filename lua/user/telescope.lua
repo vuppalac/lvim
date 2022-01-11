@@ -9,7 +9,7 @@ function M._multiopen(prompt_bufnr, open_cmd)
   local picker = action_state.get_current_picker(prompt_bufnr)
   local num_selections = table.getn(picker:get_multi_selection())
   local border_contents = picker.prompt_border.contents[1]
-  if string.find(border_contents, "LuaSnip") or string.find(border_contents, "LSP") then
+  if not (string.find(border_contents, "Find Files") or string.find(border_contents, "Git Files")) then
     actions.select_default(prompt_bufnr)
     return
   end
@@ -230,19 +230,6 @@ function M.find_updir()
   builtin.find_files(opts)
 end
 
-function M.grep_last_search(opts)
-  opts = opts or {}
-
-  -- \<getreg\>\C
-  -- -> Subs out the search things
-  local register = vim.fn.getreg("/"):gsub("\\<", ""):gsub("\\>", ""):gsub("\\C", "")
-
-  opts.path_display = { "shorten" }
-  opts.word_match = "-w"
-  opts.search = register
-
-  builtin.grep_string(opts)
-end
 
 function M.installed_plugins()
   builtin.find_files {

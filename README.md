@@ -49,13 +49,12 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
 
 Themes are automatically changed based on time of the day:
 
-| Theme                                                                              |     Time of the day      |
-| ---------------------------------------------------------------------------------- | :----------------------: |
-| [zephyr](https://github.com/abzcoding/zephyr-nvim)                                 |        [5am, 8am)        |
-| [rose-pine](https://github.com/rose-pine/neovim)                                   |       [8am, 11am)        |
-| [tokyonight](https://github.com/folke/tokyonight)                                  | [12am, 5am), [11am, 5pm) |
-| [doom-one](https://github.com/abzcoding/doom-one.nvim/tree/feat/nvim-cmp-floating) |        [5pm, 9pm)        |
-| onedarker                                                                          |      [9pm, 11:59pm]      |
+| Theme                                                                              |      Time of the day       |
+| ---------------------------------------------------------------------------------- | :------------------------: |
+| [rose-pine](https://github.com/rose-pine/neovim)                                   |         [1am, 9am)         |
+| [tokyonight](https://github.com/folke/tokyonight)                                  |         [9am, 5pm)         |
+| [doom-one](https://github.com/abzcoding/doom-one.nvim/tree/feat/nvim-cmp-floating) |         [5pm, 9pm)         |
+| [kanagawa](https://github.com/rebelot/kanagawa.nvim)                               | [9pm, 11:59pm), [0am, 1am] |
 
 You can change this in [plugins.lua](./lua/user/plugins.lua) and [lualine.lua](./lua/user/lualine.lua)
 
@@ -338,7 +337,6 @@ _Symbols Outline_
 - [Tokyonight Theme](https://github.com/folke/tokyonight.nvim/)
 - [Doom One Theme](https://github.com/NTBBloodbath/doom-one.nvim)
 - [Rose Pine Theme](https://github.com/rose-pine/neovim)
-- [Zephyr Theme](https://github.com/abzcoding/zephyr-nvim)
 - [LSP Signature](https://github.com/ray-x/lsp_signature.nvim/)
 - [Todo Comments](https://github.com/folke/todo-comments.nvim)
 - [Trouble](https://github.com/folke/trouble.nvim)
@@ -358,7 +356,6 @@ _Symbols Outline_
 - [Bufferline](https://github.com/akinsho/bufferline.nvim)
 - [flutter-tools.nvim](https://github.com/akinsho/flutter-tools.nvim)
 - [NeoClip](https://github.com/AckslD/nvim-neoclip.lua)
-- [Dependency-assist.nvim](https://github.com/akinsho/dependency-assist.nvim)
 - [Telescope live grep raw](nvim-telescope/telescope-live-grep-raw.nvim)
 - [nvim-lightbulb](https://github.com/kosayoda/nvim-lightbulb)
 
@@ -385,8 +382,6 @@ _Symbols Outline_
 - [Copilot](https://github.com/github/copilot.vim)
 - [Harpoon](https://github.com/ThePrimeagen/harpoon)
 - [Renamer](https://github.com/filipdutescu/renamer.nvim)
-- [Floatline](https://github.com/windwp/floatline.nvim)
-- [Stabilize](https://github.com/luukvbaal/stabilize.nvim)
 - [vim-log-highlighting](https://github.com/mtdl9/vim-log-highlighting)
 - [nvim-cursorline](https://github.com/yamatsum/nvim-cursorline)
 - [nvim-hlslens](https://github.com/kevinhwang91/nvim-hlslens)
@@ -394,6 +389,7 @@ _Symbols Outline_
 - [sidebar.nvim](https://github.com/sidebar-nvim/sidebar.nvim)
 - [asynctasks.vim](https://github.com/skywind3000/asynctasks.vim)
 - [asyncrun.vim](https://github.com/skywind3000/asyncrun.vim)
+- [nvim-metals](https://github.com/scalameta/nvim-metals)
 
 </details>
 
@@ -452,7 +448,8 @@ Note that,
 | <kbd>Space</kbd>+<kbd>z</kbd> |  𝐍   | Zen mode            | <small>zen-mode.nvim</small>                  |
 | <kbd>Space</kbd>+<kbd>P</kbd> |  𝐍   | Projects            | <small>project.nvim</small>                   |
 | <kbd>Ctrl</kbd>+<kbd>s</kbd>  |  𝐈   | show signature help | <small>`vim.lsp.buf.signature_help()`</small> |
-| <kbd>Alt</kbd>+<kbd>s</kbd>   |  𝐈   | snippet selection   | <small>telescope luasnip extension</small>    |
+| <kbd>Alt</kbd>+<kbd>s</kbd>   |  𝐈   | snippet selection   | <small>Telescope luasnip extension</small>    |
+| <kbd>Space</kbd>+<kbd>C</kbd> |  𝐍   | Command Palette     | <small>Telescope command_palette</small>      |
 
 ### Motion
 
@@ -480,6 +477,7 @@ Note that,
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>                                                    | 𝐈 𝐒  | Navigate snippet placeholders       |
 | <kbd>Space</kbd>+<kbd>l</kbd>                                                            |  𝐍   | keybindings for lsp                 |
 | <kbd>g</kbd>+<kbd>a</kbd>                                                                |  𝐍   | code actions                        |
+| <kbd>g</kbd>+<kbd>A</kbd>                                                                |  𝐍   | codelens actions                    |
 | <kbd>g</kbd>+<kbd>d</kbd>                                                                |  𝐍   | goto definition                     |
 | <kbd>g</kbd>+<kbd>D</kbd>                                                                |  𝐍   | goto declaration                    |
 | <kbd>g</kbd>+<kbd>I</kbd>                                                                |  𝐍   | goto implementation                 |
@@ -517,35 +515,36 @@ Note that,
 
 ### Plugin: Telescope
 
-| Key                                        | Mode | Action                   |
-| ------------------------------------------ | :--: | ------------------------ |
-| <kbd>Space</kbd>+<kbd>f</kbd>              |  𝐍   | File search              |
-| <kbd>Space</kbd>+<kbd>P</kbd>              |  𝐍   | Project search           |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>s</kbd> |  𝐍   | Grep search              |
-| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>l</kbd> |  𝐍   | Reopen last search       |
-| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>f</kbd> |  𝐍   | Buffers                  |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>c</kbd> |  𝐍   | Colorschemes             |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>C</kbd> |  𝐍   | Command history          |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>h</kbd> |  𝐍   | Find help                |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>k</kbd> |  𝐍   | Keymap search            |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>M</kbd> |  𝐍   | Man Pages search         |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>r</kbd> |  𝐍   | Register search          |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐕   | Grep string under cursor |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐍   | Grep raw                 |
-| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>b</kbd> |  𝐍   | Builtin search           |
-| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>f</kbd> |  𝐍   | Current buffer search    |
-| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>g</kbd> |  𝐍   | Git files search         |
-| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>i</kbd> |  𝐍   | Installed plugins        |
-| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>p</kbd> |  𝐍   | Project search           |
-| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>i</kbd> |  𝐍   | Installed plugins        |
-| **in _Telescope_ window**                  |      |                          |
-| <kbd>CR</kbd>                              | 𝐈 𝐍  | Multi/Single Open        |
-| <kbd>Ctrl</kbd>+<kbd>c</kbd>               | 𝐈 𝐍  | Exit telescope           |
-| <kbd>Ctrl</kbd>+<kbd>v</kbd>               | 𝐈 𝐍  | Open in a vertical split |
-| <kbd>Ctrl</kbd>+<kbd>s</kbd>               | 𝐈 𝐍  | Open in a split          |
-| <kbd>Ctrl</kbd>+<kbd>t</kbd>               | 𝐈 𝐍  | Open in a tab            |
-| <kbd>Tab</kbd>                             | 𝐈 𝐍  | Toggle Selection + Next  |
-| <kbd>Shift</kbd>+<kbd>Tab</kbd>            | 𝐈 𝐍  | Toggle Selection + Prev  |
+| Key                                        | Mode | Action                     |
+| ------------------------------------------ | :--: | -------------------------- |
+| <kbd>Space</kbd>+<kbd>f</kbd>              |  𝐍   | File search                |
+| <kbd>Space</kbd>+<kbd>P</kbd>              |  𝐍   | Project search             |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>s</kbd> |  𝐍   | Grep search                |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>l</kbd> |  𝐍   | Reopen last search         |
+| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>f</kbd> |  𝐍   | Buffers                    |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>c</kbd> |  𝐍   | Colorschemes               |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>C</kbd> |  𝐍   | Command history            |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>h</kbd> |  𝐍   | Find help                  |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>k</kbd> |  𝐍   | Keymap search              |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>M</kbd> |  𝐍   | Man Pages search           |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>r</kbd> |  𝐍   | Register search            |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐕   | Grep string under cursor   |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>t</kbd> |  𝐍   | Grep raw                   |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>b</kbd> |  𝐍   | Builtin search             |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>f</kbd> |  𝐍   | Current buffer search      |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>g</kbd> |  𝐍   | Git files search           |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>i</kbd> |  𝐍   | Installed plugins          |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>p</kbd> |  𝐍   | Project search             |
+| <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>i</kbd> |  𝐍   | Installed plugins          |
+| **in _Telescope_ window**                  |      |                            |
+| <kbd>CR</kbd>                              | 𝐈 𝐍  | Multi/Single Open          |
+| <kbd>Ctrl</kbd>+<kbd>c</kbd>               | 𝐈 𝐍  | Exit telescope             |
+| <kbd>Ctrl</kbd>+<kbd>v</kbd>               | 𝐈 𝐍  | Open in a vertical split   |
+| <kbd>Ctrl</kbd>+<kbd>s</kbd>               | 𝐈 𝐍  | Open in a split            |
+| <kbd>Ctrl</kbd>+<kbd>t</kbd>               | 𝐈 𝐍  | Open in a tab              |
+| <kbd>Ctrl</kbd>+<kbd>b</kbd>               |  𝐈   | Go back in Command Palette |
+| <kbd>Tab</kbd>                             | 𝐈 𝐍  | Toggle Selection + Next    |
+| <kbd>Shift</kbd>+<kbd>Tab</kbd>            | 𝐈 𝐍  | Toggle Selection + Prev    |
 
 ### Plugin: Harpoon
 

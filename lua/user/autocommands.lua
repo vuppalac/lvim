@@ -55,6 +55,8 @@ augroup END
   end
 
   lvim.autocommands.custom_groups = {
+    { "CursorHold", "*.rs,*.go,*.ts,*.tsx", codelens_viewer },
+
     -- toggleterm
     { "TermOpen", "term://*", "lua require('user.keybindings').set_terminal_keymaps()" },
 
@@ -65,7 +67,6 @@ augroup END
     { "Filetype", "c,cpp", "nnoremap <leader>H <Cmd>ClangdSwitchSourceHeader<CR>" },
 
     -- go
-    { "CursorHold", "*.rs,*.go,*.ts,*.tsx", codelens_viewer },
     {
       "Filetype",
       "go",
@@ -82,6 +83,11 @@ augroup END
       "Filetype",
       "java",
       "nnoremap <leader>m <cmd>lua require('toggleterm.terminal').Terminal:new {cmd='mvn compile;read', hidden =false}:toggle()<CR>",
+    },
+    {
+      "Filetype",
+      "scala,sbt,java",
+      "lua require('user.metals').config()",
     },
 
     -- rust

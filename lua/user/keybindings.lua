@@ -1,5 +1,16 @@
 local M = {}
 
+-- HACK: for some reason, the alt keybindings are not working in my wezterm
+M.set_wezterm_keybindings = function()
+  lvim.keys.insert_mode["å"] = lvim.keys.insert_mode["<A-a>"]
+  lvim.keys.insert_mode["ß"] = lvim.keys.insert_mode["<A-s>"]
+  lvim.keys.insert_mode["´"] = lvim.keys.insert_mode["<A-e>"]
+  lvim.keys.insert_mode["∆"] = lvim.keys.insert_mode["<A-j>"]
+  lvim.keys.insert_mode["˚"] = lvim.keys.insert_mode["<A-k>"]
+  lvim.keys.normal_mode["å"] = lvim.keys.normal_mode["<A-a>"]
+  lvim.keys.normal_mode["≈"] = lvim.keys.normal_mode["<A-x>"]
+end
+
 M.set_terminal_keymaps = function()
   local opts = { noremap = true }
   vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
@@ -164,21 +175,22 @@ M.config = function()
 
   lvim.keys.normal_mode["<A-a>"] = "<C-a>"
   lvim.keys.normal_mode["<A-x>"] = "<C-x>"
+  lvim.keys.normal_mode["<CR>"] = {
+    "<cmd>lua require('user.neovim').maximize_current_split()<CR>",
+    { noremap = true, silent = true, nowait = true },
+  }
   lvim.keys.insert_mode["<A-a>"] = "<ESC>ggVG<CR>"
   lvim.keys.insert_mode["jk"] = "<ESC>:w<CR>"
   lvim.keys.insert_mode["<C-s>"] = "<cmd>lua vim.lsp.buf.signature_help()<cr>"
   lvim.keys.insert_mode["<A-s>"] =
     "<cmd>lua require('telescope').extensions.luasnip.luasnip(require('telescope.themes').get_cursor({}))<CR>"
   lvim.keys.command_mode["w!!"] = "execute 'silent! write !sudo tee % >/dev/null' <bar> edit!"
-  lvim.keys.normal_mode["]d"] =
-    "<cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = {border = lvim.lsp.popup_border}})<cr>"
-  lvim.keys.normal_mode["[d"] =
-    "<cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = {border = lvim.lsp.popup_border}})<cr>"
+  lvim.keys.normal_mode["]d"] = "<cmd>lua vim.diagnostic.goto_next()<cr>"
+  lvim.keys.normal_mode["[d"] = "<cmd>lua vim.diagnostic.goto_prev()<cr>"
   lvim.keys.normal_mode["<A-a>"] = "<C-a>"
   lvim.keys.normal_mode["<A-x>"] = "<C-x>"
   lvim.keys.normal_mode["<C-,>"] = "<cmd>lua require('neogen').jump_next()<CR>"
   lvim.keys.normal_mode["<C-n>i"] = { "<C-i>", { noremap = true } }
-  lvim.keys.normal_mode["<leader>lr"] = "<Cmd>lua require('renamer').rename()<CR>"
   if vim.fn.has "mac" == 1 then
     lvim.keys.normal_mode["gx"] =
       [[<cmd>lua os.execute("open " .. vim.fn.shellescape(vim.fn.expand "<cWORD>")); vim.cmd "redraw!"<cr>]]
@@ -202,7 +214,6 @@ M.config = function()
   end
   lvim.keys.visual_mode["p"] = [["_dP]]
   lvim.keys.visual_mode["<leader>st"] = "<Cmd>lua require('user.telescope').grep_string_visual()<CR>"
-  lvim.keys.visual_mode["<leader>lr"] = "<Cmd>lua require('renamer').rename()<CR>"
 
   -- WhichKey keybindings
   -- =========================================
@@ -224,12 +235,16 @@ M.config = function()
     g = { "<cmd>lua require('user.telescope').git_files()<cr>", "Git Files" },
     i = { "<cmd>lua require('user.telescope').installed_plugins()<cr>", "Installed Plugins" },
     l = {
-      "<cmd>lua require('user.telescope').grep_last_search({layout_strategy = \"vertical\"})<cr>",
+      "<cmd>lua require('telescope.builtin').resume()<cr>",
       "Last Search",
     },
     p = { "<cmd>lua require('user.telescope').project_search()<cr>", "Project" },
     s = { "<cmd>lua require('user.telescope').git_status()<cr>", "Git Status" },
     z = { "<cmd>lua require('user.telescope').search_only_certain_files()<cr>", "Certain Filetype" },
+  }
+  lvim.builtin.which_key.mappings["C"] = {
+    "<cmd>lua require('telescope').extensions.command_palette.command_palette()<cr>",
+    "Command Palette",
   }
   lvim.builtin.which_key.mappings["H"] = "Help"
   local ok, _ = pcall(require, "vim.diagnostic")
@@ -245,6 +260,10 @@ M.config = function()
   end
   if lvim.builtin.fancy_rename then
     lvim.builtin.which_key.mappings["l"]["r"] = { "<cmd>lua require('renamer').rename()<cr>", "Rename" }
+    lvim.builtin.which_key.vmappings["l"] = {
+      name = "+Lsp",
+      r = { "<ESC><CMD>lua require('renamer').rename()<CR>", "Rename" },
+    }
   end
   lvim.builtin.which_key.mappings["l"]["f"] = {
     "<cmd>lua vim.lsp.buf.formatting_seq_sync()<cr>",
@@ -291,15 +310,22 @@ M.config = function()
   }
   lvim.builtin.which_key.mappings["t"] = {
     name = "+Trouble",
-    d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnosticss" },
+    d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnosticss" },
     f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
     l = { "<cmd>Trouble loclist<cr>", "LocationList" },
     q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
     r = { "<cmd>Trouble lsp_references<cr>", "References" },
     t = { "<cmd>TodoLocList <cr>", "Todo" },
-    w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnosticss" },
+    w = { "<cmd>Trouble workspace_diagnostics<cr>", "Diagnosticss" },
   }
   lvim.builtin.which_key.mappings["z"] = { "<cmd>ZenMode<cr>", "Zen" }
+
+  -- My wezterm is weird
+  -- =========================================
+  local user = os.getenv "USER"
+  if user and user == "abz" then
+    M.set_wezterm_keybindings()
+  end
 
   -- Navigate merge conflict markers
   local whk_status, whk = pcall(require, "which-key")
