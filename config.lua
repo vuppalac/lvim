@@ -88,11 +88,7 @@ end
 -- =========================================
 vim.list_extend(
   lvim.lsp.override,
-<<<<<<< HEAD
-  { "rust_analyzer", "tsserver", "dockerls", "texlab", "sumneko_lua", "gopls", "jsonls", "yamlls", "clangd" }
-=======
-  { "rust_analyzer", "tsserver", "dockerls", "texlab", "sumneko_lua", "gopls", "jsonls", "yamlls", "r_language_server" }
->>>>>>> 37edaec5f9b8ebfd0a190d2fcd15bab0831c61a0
+  { "rust_analyzer", "tsserver", "dockerls", "texlab", "sumneko_lua", "gopls", "jsonls", "yamlls", "r_language_server", "clangd" }
 )
 require("user.null_ls").config()
 
