@@ -8,10 +8,10 @@ M.config = function()
 
   -- Autopairs
   -- =========================================
-  lvim.builtin.autopairs.on_config_done = function(autopairs)
-    autopairs.remove_rule("$$", "$$", "tex")
-    autopairs.remove_rule("$", "$", { "tex", "latex" })
-  end
+  -- lvim.builtin.autopairs.on_config_done = function(autopairs)
+  --   local Rule = require "nvim-autopairs.rule"
+  --   autopairs.add_rule(Rule("$$", "$$", "tex"))
+  -- end
 
   -- Command Palette
   -- =========================================
@@ -161,7 +161,7 @@ M.config = function()
   }
   lvim.builtin.treesitter.highlight.disable = { "org" }
   lvim.builtin.treesitter.highlight.aditional_vim_regex_highlighting = { "org" }
-  lvim.builtin.treesitter.ignore_install = { "haskell" }
+  lvim.builtin.treesitter.ignore_install = { "haskell", "norg" }
   lvim.builtin.treesitter.incremental_selection = {
     enable = true,
     keymaps = {
@@ -348,6 +348,9 @@ M.config = function()
   lvim.builtin.telescope.on_config_done = function(telescope)
     telescope.load_extension "file_create"
     telescope.load_extension "command_palette"
+    if lvim.builtin.file_browser.active then
+      telescope.load_extension "file_browser"
+    end
   end
 
   -- Terminal
@@ -521,7 +524,7 @@ function M.cpmenu()
     {
       "Lsp",
       { "formatting", ":lua vim.lsp.buf.formatting_seq_sync()" },
-      { "workspace diagnostics", ":Telescope lsp_workspace_diagnostics" },
+      { "workspace diagnostics", ":Telescope diagnostics" },
       { "workspace symbols", ":Telescope lsp_workspace_symbols" },
     },
     {

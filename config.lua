@@ -44,6 +44,9 @@ lvim.builtin.metals = {
   fallbackScalaVersion = "2.13.7",
   serverVersion = "0.10.9+271-a8bb69f6-SNAPSHOT",
 }
+lvim.builtin.collaborative_editing = { active = false } -- enable/disable collaborative editing
+lvim.builtin.file_browser = { active = false } -- enable/disable telescope file browser
+
 lvim.builtin.gitsigns.opts.git_path = "git" -- use a custom gitsigns, which has support for non-default git command location
 
 local user = os.getenv "USER"
@@ -55,6 +58,9 @@ if user and user == "abz" then
   lvim.builtin.async_tasks.active = true
   lvim.builtin.dap.active = true
   lvim.builtin.sql_integration.active = true
+  vim.g.instant_username = user
+  lvim.builtin.collaborative_editing.active = true
+  lvim.builtin.file_browser.active = true
   require("user.prose").config() -- setup prosemd-lsp for my local use
 end
 lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
@@ -82,7 +88,11 @@ end
 -- =========================================
 vim.list_extend(
   lvim.lsp.override,
+<<<<<<< HEAD
   { "rust_analyzer", "tsserver", "dockerls", "texlab", "sumneko_lua", "gopls", "jsonls", "yamlls", "clangd" }
+=======
+  { "rust_analyzer", "tsserver", "dockerls", "texlab", "sumneko_lua", "gopls", "jsonls", "yamlls", "r_language_server" }
+>>>>>>> 37edaec5f9b8ebfd0a190d2fcd15bab0831c61a0
 )
 require("user.null_ls").config()
 

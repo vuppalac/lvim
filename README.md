@@ -14,17 +14,12 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
 
 <!-- vim-markdown-toc GFM -->
 
-- [Features](#features)
 - [Theme](#theme)
 - [Customization](#features)
-- [Screenshot](#screenshot)
 - [Install](#install)
-- [Prerequisites](#prerequisites)
-- [Language-Server Protocol (LSP)](#language-server-protocol-lsp)
-- [Upgrade](#upgrade)
-  - [Recommended Fonts](#recommended-fonts)
-  - [Recommended Linters](#recommended-linters)
-  - [Recommended Tools](#recommended-tools)
+- [Collaborative Editing](#collaborative-editing)
+- [Recommended Fonts](#recommended-fonts)
+- [Screenshot](#screenshot)
 - [Structure](#structure)
 - [Plugins Included](#plugins-included)
   - [Optional Plugins](#optional-plugins)
@@ -41,6 +36,8 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
   - [Plugin: Persistence](#plugin-persistence)
   - [Plugin: Bufferline](#plugin-bufferline)
   - [Plugin: Trouble](#plugin-trouble)
+  - [Plugin: Ultest](#plugin-ultest)
+  - [Plugin: Spectre](#plugin-spectre)
 
 <!-- vim-markdown-toc -->
 </details>
@@ -236,6 +233,24 @@ go build -o /usr/local/bin/gostructhelper && chmod 0755 /usr/local/bin/gostructh
 
 ---
 
+## Collaborative Editing
+
+The default is to serve localhost only, on port 8080. For a more advanced (remote server) overview see [Deploy a server](https://github.com/jbyuki/instant.nvim/wiki/Deploy-a-server)
+
+### Server side
+
+- `:InstantStartServer [host] [port]` : Start the server using
+  - `:InstantStartSingle [host] [port]` : This only shares the current buffer.
+  - `:InstantStartSession [host] [port]` :This shares all opened (and newly opened) buffers with the other clients
+
+### Client side
+
+- `let g:instant_username="sth"` : Set your preferred username.
+  - `:InstantJoinSingle [host] [port]` : Use this command if another client already initiated a single share.
+  - `:InstantJoinSession [host] [port]` : Use this command if another client already initiated a session share
+
+---
+
 ## Screenshot
 
 <details>
@@ -358,6 +373,7 @@ _Symbols Outline_
 - [NeoClip](https://github.com/AckslD/nvim-neoclip.lua)
 - [Telescope live grep raw](nvim-telescope/telescope-live-grep-raw.nvim)
 - [nvim-lightbulb](https://github.com/kosayoda/nvim-lightbulb)
+- [fidget](https://github.com/j-hui/fidget.nvim)
 
 ### Optional Plugins
 
@@ -390,6 +406,7 @@ _Symbols Outline_
 - [asynctasks.vim](https://github.com/skywind3000/asynctasks.vim)
 - [asyncrun.vim](https://github.com/skywind3000/asyncrun.vim)
 - [nvim-metals](https://github.com/scalameta/nvim-metals)
+- [instant.nvim](https://github.com/jbyuki/instant.nvim)
 
 </details>
 
@@ -473,6 +490,7 @@ Note that,
 | <kbd>]</kbd>+<kbd>d</kbd>                                                                |  𝐍   | Next diagnostic                     |
 | <kbd>[</kbd>+<kbd>d</kbd>                                                                |  𝐍   | Previous diagnostic                 |
 | <kbd>Space</kbd>+<kbd>l</kbd>+<kbd>j</kbd> or <kbd>Space</kbd>+<kbd>l</kbd>+<kbd>k</kbd> |  𝐍   | Next/previous LSP diagnostic        |
+| <kbd>Space</kbd>+<kbd>l</kbd>+<kbd>r</kbd>                                               |  𝐍   | replace current word in project     |
 | <kbd>Ctrl</kbd>+<kbd>e</kbd>                                                             |  𝐈   | Close pop-up                        |
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>                                                    | 𝐈 𝐒  | Navigate snippet placeholders       |
 | <kbd>Space</kbd>+<kbd>l</kbd>                                                            |  𝐍   | keybindings for lsp                 |
@@ -520,6 +538,8 @@ Note that,
 | <kbd>Space</kbd>+<kbd>f</kbd>              |  𝐍   | File search                |
 | <kbd>Space</kbd>+<kbd>P</kbd>              |  𝐍   | Project search             |
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>s</kbd> |  𝐍   | Grep search                |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>f</kbd> |  𝐍   | Telescope find_files       |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>F</kbd> |  𝐍   | Telescope file_browser     |
 | <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>l</kbd> |  𝐍   | Reopen last search         |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>f</kbd> |  𝐍   | Buffers                    |
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>c</kbd> |  𝐍   | Colorschemes               |
@@ -561,8 +581,10 @@ Note that,
 
 | Key                                        | Mode | Action                 |
 | ------------------------------------------ | :--: | ---------------------- |
-| <kbd>Space</kbd>+<kbd>n</kbd>+<kbd>c</kbd> |  𝐍   | class documentation    |
-| <kbd>Space</kbd>+<kbd>n</kbd>+<kbd>f</kbd> |  𝐍   | function documentation |
+| <kbd>Space</kbd>+<kbd>n</kbd>+<kbd>c</kbd> |  𝐍   | Class documentation    |
+| <kbd>Space</kbd>+<kbd>n</kbd>+<kbd>f</kbd> |  𝐍   | Function documentation |
+| <kbd>Space</kbd>+<kbd>n</kbd>+<kbd>t</kbd> |  𝐍   | Type documentation     |
+| <kbd>Space</kbd>+<kbd>n</kbd>+<kbd>F</kbd> |  𝐍   | File documentation     |
 
 ### Plugin: Persistence
 
@@ -585,11 +607,27 @@ Note that,
 
 | Key                                        | Mode | Action                |
 | ------------------------------------------ | :--: | --------------------- |
-| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>d</kbd> |  𝐍   | diagnostics           |
-| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>f</kbd> |  𝐍   | definitions           |
-| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>r</kbd> |  𝐍   | references            |
-| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>t</kbd> |  𝐍   | todo                  |
-| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>w</kbd> |  𝐍   | workspace diagnostics |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>d</kbd> |  𝐍   | diagnostics           |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>f</kbd> |  𝐍   | definitions           |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>r</kbd> |  𝐍   | references            |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>t</kbd> |  𝐍   | todo                  |
+| <kbd>Space</kbd>+<kbd>T</kbd>+<kbd>w</kbd> |  𝐍   | workspace diagnostics |
+
+### Plugin: Ultest
+
+| Key                                        | Mode | Action                  |
+| ------------------------------------------ | :--: | ----------------------- |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>f</kbd> |  𝐍   | run all tests in a file |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>n</kbd> |  𝐍   | only run nearest test   |
+| <kbd>Space</kbd>+<kbd>t</kbd>+<kbd>s</kbd> |  𝐍   | open test summary       |
+
+### Plugin: Spectre
+
+| Key                                        | Mode | Action                         |
+| ------------------------------------------ | :--: | ------------------------------ |
+| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>p</kbd> |  𝐍   | replace word in project        |
+| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>w</kbd> |  𝐍   | replace visually selected word |
+| <kbd>Space</kbd>+<kbd>R</kbd>+<kbd>f</kbd> |  𝐍   | replace word in current buffer |
 
 </details>
 

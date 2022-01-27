@@ -24,13 +24,13 @@ M.config = function()
   for _, plugin in pairs(disabled_plugins) do
     vim.g["loaded_" .. plugin] = 1
   end
-  vim.g.did_load_filetypes = 1
+  -- vim.g.did_load_filetypes = 1
   vim.g.ultest_summary_width = 30
   vim.opt.relativenumber = false
   vim.opt.wrap = true
   vim.opt.termguicolors = true
   vim.opt.updatetime = 100
-  vim.opt.timeoutlen = 500
+  vim.opt.timeoutlen = 250
   vim.opt.redrawtime = 1500
   vim.opt.ttimeoutlen = 10
   vim.opt.wrapscan = true -- Searches wrap around the end of the file
