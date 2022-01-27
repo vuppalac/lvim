@@ -21,6 +21,8 @@ local clangd_flags = {
 }
 
 local opts = {
-  cmd = { clangd_bin, unpack(clangd_flags)}
+  cmd = { clangd_bin, unpack(clangd_flags) },
+--  on_attach = custom_on_attach,
 }
-return opts
+
+require("lvim.lsp.manager").setup("clangd", opts)
