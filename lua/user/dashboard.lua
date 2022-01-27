@@ -23,7 +23,7 @@ M.config = function()
     },
   }
 
-  local handle = io.popen 'fd -d 2 . $HOME"/.local/share/lunarvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
+  local handle = io.popen 'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
   local plugins = handle:read "*a"
   handle:close()
 
@@ -110,9 +110,8 @@ M.config = function()
         ":lua require('lvim.core.terminal')._exec_toggle({cmd = 'lazygit', count = 1, direction = 'float'})<CR>"
       ),
       button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
-      button("o", " " .. kind.icons.settings .. " Options", ":e ~/.config/lvim/config.lua<CR>"),
       button("m", " " .. kind.icons.Marks ..  " Marks", ":Telescope marks<CR>"),
-      button("c", " " .. kind.icons.settings .. " Config", ":e ~/.config/lvim/config.lua<CR>"),
+      button("c", " " .. kind.icons.settings .. " Config", ":e ~/.config/nvim/config.lua<CR>"),
     },
     opts = {
       spacing = 1,
