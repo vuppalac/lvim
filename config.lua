@@ -18,7 +18,6 @@ lvim.builtin.presence = { active = false } -- change to true if you want discord
 lvim.builtin.orgmode = { active = false } -- change to true if you want orgmode.nvim
 lvim.builtin.dap.active = false -- change this to enable/disable debugging
 lvim.builtin.fancy_statusline = { active = true } -- enable/disable fancy statusline
-lvim.builtin.fancy_bufferline = { active = true } -- enable/disable fancy bufferline
 lvim.builtin.fancy_dashboard = { active = true } -- enable/disable fancy dashboard
 lvim.builtin.fancy_wild_menu = { active = true } -- enable/disable use wilder.nvim
 lvim.builtin.fancy_rename = { active = true } -- enable/disable custom rename
@@ -46,6 +45,8 @@ lvim.builtin.metals = {
 }
 lvim.builtin.collaborative_editing = { active = false } -- enable/disable collaborative editing
 lvim.builtin.file_browser = { active = false } -- enable/disable telescope file browser
+lvim.builtin.sniprun = { active = false } -- enable/disable sniprun
+lvim.builtin.tag_provider = "symbols-outline" -- change this to use different tag providers ( symbols-outline or vista )
 
 lvim.builtin.gitsigns.opts.git_path = "git" -- use a custom gitsigns, which has support for non-default git command location
 
@@ -86,10 +87,18 @@ end
 
 -- Language Specific
 -- =========================================
-vim.list_extend(
-  lvim.lsp.override,
-  { "rust_analyzer", "tsserver", "dockerls", "texlab", "sumneko_lua", "gopls", "jsonls", "yamlls", "r_language_server", "clangd" }
-)
+vim.list_extend(lvim.lsp.override, {
+  "rust_analyzer",
+  "tsserver",
+  "dockerls",
+  "texlab",
+  "sumneko_lua",
+  "gopls",
+  "yamlls",
+  "r_language_server",
+  "pyright",
+  "clangd",
+})
 require("user.null_ls").config()
 
 -- Additional Plugins

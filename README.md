@@ -74,13 +74,11 @@ You can change this in [plugins.lua](./lua/user/plugins.lua) and [lualine.lua](.
   - `lvim.builtin.fancy_dashboard = { active = false }`
 - I use a custom `lualine` disable it if you don't like it
   - `lvim.builtin.fancy_statusline = { active = false }`
-- I'm using `bufferline` instead of `barbar`, if you don't like it, disable it
-  - `lvim.builtin.fancy_bufferline = { active = false }`
 - You can use the fancy wild menu if you want, make sure to do a `:UpdateRemotePlugins`
   - `lvim.builtin.fancy_wild_menu = { active = true }`
 - You can use the `diffview` plugin instead of normal `gitsigns diff`
   - `lvim.builtin.fancy_diff = { active = true }`
-- if you want to use debugging, change the following line to true:
+- if you want to use debugging, change the following line to true, also [install codelldb](https://github.com/mfussenegger/nvim-dap/wiki/C-C---Rust-(via--codelldb)):
   - `lvim.builtin.dap.active = true`
 - sometimes instead of saving you jump trough jumplist 😢 just disable nvim-lastplace
   - `lvim.builtin.lastplace = { active = false }`
@@ -368,7 +366,6 @@ _Symbols Outline_
 - [Neogen](https://github.com/danymat/neogen)
 - [Vimtex](https://github.com/lervag/vimtex)
 - [nvim-lsp-ts-utils](https://github.com/jose-elias-alvarez/nvim-lsp-ts-utils)
-- [Bufferline](https://github.com/akinsho/bufferline.nvim)
 - [flutter-tools.nvim](https://github.com/akinsho/flutter-tools.nvim)
 - [NeoClip](https://github.com/AckslD/nvim-neoclip.lua)
 - [Telescope live grep raw](nvim-telescope/telescope-live-grep-raw.nvim)
@@ -407,6 +404,8 @@ _Symbols Outline_
 - [asyncrun.vim](https://github.com/skywind3000/asyncrun.vim)
 - [nvim-metals](https://github.com/scalameta/nvim-metals)
 - [instant.nvim](https://github.com/jbyuki/instant.nvim)
+- [SnipRun](https://github.com/michaelb/sniprun)
+- [Vista](https://github.com/liuchengxu/vista.vim)
 
 </details>
 
@@ -541,7 +540,7 @@ Note that,
 | <kbd>Space</kbd>+<kbd>P</kbd>              |  𝐍   | Project search             |
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>s</kbd> |  𝐍   | Grep search                |
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>f</kbd> |  𝐍   | Telescope find_files       |
-| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>F</kbd> |  𝐍   | Telescope file_browser     |
+| <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>e</kbd> |  𝐍   | Telescope file_browser     |
 | <kbd>Space</kbd>+<kbd>F</kbd>+<kbd>l</kbd> |  𝐍   | Reopen last search         |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>f</kbd> |  𝐍   | Buffers                    |
 | <kbd>Space</kbd>+<kbd>s</kbd>+<kbd>c</kbd> |  𝐍   | Colorschemes               |

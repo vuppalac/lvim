@@ -120,7 +120,7 @@ M.config = function()
         require("user.symbols_outline").config()
       end,
       event = "BufReadPost",
-      -- cmd = "SymbolsOutline",
+      disable = lvim.builtin.tag_provider ~= "symbols-outline",
     },
     {
       "lukas-reineke/indent-blankline.nvim",
@@ -268,14 +268,6 @@ M.config = function()
       ft = "tex",
     },
     {
-      "akinsho/bufferline.nvim",
-      config = function()
-        require("user.bufferline").config()
-      end,
-      requires = "nvim-web-devicons",
-      disable = not lvim.builtin.fancy_bufferline.active,
-    },
-    {
       "rcarriga/vim-ultest",
       cmd = { "Ultest", "UltestSummary", "UltestNearest" },
       wants = "vim-test",
@@ -324,30 +316,9 @@ M.config = function()
       disable = not lvim.builtin.neoscroll.active,
     },
     {
-      "b0o/schemastore.nvim",
-    },
-    {
       "github/copilot.vim",
       config = function()
-        vim.g.copilot_no_tab_map = true
-        vim.g.copilot_assume_mapped = true
-        vim.g.copilot_tab_fallback = ""
-        vim.g.copilot_filetypes = {
-          ["*"] = false,
-          python = true,
-          lua = true,
-          go = true,
-          rust = true,
-          html = true,
-          c = true,
-          cpp = true,
-          java = true,
-          javascript = true,
-          typescript = true,
-          javascriptreact = true,
-          typescriptreact = true,
-          terraform = true,
-        }
+        require("user.copilot").config()
       end,
       disable = not lvim.builtin.sell_your_soul_to_devil,
     },
@@ -398,49 +369,13 @@ M.config = function()
     {
       "nathom/filetype.nvim",
       config = function()
-        require("filetype").setup {
-          overrides = {
-            literal = {
-              ["kitty.conf"] = "kitty",
-              [".gitignore"] = "conf",
-            },
-            complex = {
-              [".clang*"] = "yaml",
-              [".*%.env.*"] = "sh",
-              [".*ignore"] = "conf",
-            },
-            extensions = {
-              tf = "terraform",
-              tfvars = "terraform",
-              tfstate = "json",
-              eslintrc = "json",
-              prettierrc = "json",
-              mdx = "markdown",
-            },
-          },
-        }
+        require("user.filetype").config()
       end,
     },
     {
       "Nguyen-Hoang-Nam/nvim-mini-file-icons",
       config = function()
-        require("nvim-web-devicons").set_icon {
-          rs = {
-            icon = "",
-            color = "#d28445",
-            name = "Rust",
-          },
-          tf = {
-            icon = "",
-            color = "#3d59a1",
-            name = "Terraform",
-          },
-          tfvars = {
-            icon = "勇",
-            color = "#51afef",
-            name = "Terraform",
-          },
-        }
+        require("user.dev_icons").set_icon()
       end,
       disable = lvim.builtin.nvim_web_devicons == nil,
     },
@@ -448,7 +383,8 @@ M.config = function()
       "nvim-telescope/telescope-live-grep-raw.nvim",
     },
     {
-      "filipdutescu/renamer.nvim",
+      "abzcoding/renamer.nvim",
+      branch = "develop",
       config = function()
         require("user.renamer").config()
       end,
@@ -540,6 +476,19 @@ M.config = function()
       config = function()
         require("user.fidget_spinner").config()
       end,
+    },
+    {
+      "michaelb/sniprun",
+      run = "bash ./install.sh",
+      disable = not lvim.builtin.sniprun.active,
+    },
+    {
+      "liuchengxu/vista.vim",
+      setup = function()
+        require("user.vista").config()
+      end,
+      event = "BufReadPost",
+      disable = lvim.builtin.tag_provider ~= "vista",
     },
     -- end of abz config
     {
