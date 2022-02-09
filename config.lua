@@ -88,16 +88,16 @@ end
 -- Language Specific
 -- =========================================
 vim.list_extend(lvim.lsp.override, {
-  "rust_analyzer",
-  "tsserver",
-  "dockerls",
-  "texlab",
-  "sumneko_lua",
-  "gopls",
-  "yamlls",
-  "r_language_server",
-  "pyright",
   "clangd",
+  "dockerls",
+  "gopls",
+  "pyright",
+  "r_language_server",
+  "rust_analyzer",
+  "sumneko_lua",
+  "texlab",
+  "tsserver",
+  "yamlls",
 })
 require("user.null_ls").config()
 

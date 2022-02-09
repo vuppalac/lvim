@@ -23,15 +23,19 @@ M.config = function()
     },
   }
 
-  local handle = io.popen 'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
-  local plugins = handle:read "*a"
-  handle:close()
+  local plugins = ""
+  local date = ""
+  if vim.fn.has "linux" == 1 or vim.fn.has "mac" == 1 then
+    local handle = io.popen 'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
+    plugins = handle:read "*a"
+    handle:close()
 
-  -- local thingy = io.popen 'echo "$(date +%a) $(date +%d) $(date +%b)" | tr -d "\n"'
-  -- local date = thingy:read "*a"
-  -- thingy:close()
-  local datetime = os.date(kind.icons.calendar .. "%d-%m-%Y ".. kind.icons.clock .. "%H:%M:%S")
-  plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
+    date = os.date(kind.icons.calendar .. "%d-%m-%Y ".. kind.icons.clock .. "%H:%M:%S")
+    plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
+  else
+    plugins = "N/A"
+    date = "  whatever "
+  end
 
   local plugin_count = {
     type = "text",
