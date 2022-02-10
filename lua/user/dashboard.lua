@@ -24,17 +24,17 @@ M.config = function()
   }
 
   local plugins = ""
-  local date = ""
+  local datetime = ""
   if vim.fn.has "linux" == 1 or vim.fn.has "mac" == 1 then
     local handle = io.popen 'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
     plugins = handle:read "*a"
     handle:close()
 
-    date = os.date(kind.icons.calendar .. "%d-%m-%Y ".. kind.icons.clock .. "%H:%M:%S")
+    datetime = os.date(kind.icons.calendar .. "%d-%m-%Y ".. kind.icons.clock .. "%H:%M:%S")
     plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
   else
     plugins = "N/A"
-    date = "  whatever "
+    datetime = "  whatever "
   end
 
   local plugin_count = {
