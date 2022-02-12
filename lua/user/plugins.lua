@@ -2,7 +2,7 @@ local M = {}
 
 M.config = function()
   local neoclip_req = { "tami5/sqlite.lua", module = "sqlite" }
-  if lvim.builtin.neoclip.enable_persistant_history == false then
+  if lvim.builtin.neoclip.enable_persistent_history == false then
     neoclip_req = {}
   end
   lvim.plugins = {

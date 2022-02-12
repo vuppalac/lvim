@@ -6,30 +6,30 @@ M.config = function()
     return
   end
   local clangd_bin = "clangd"
-  local clangd_flags = {
-    -- "--all-scopes-completion",
-    -- "--suggest-missing-includes",
-    "--background-index",
-    -- "--pch-storage=disk",
-    -- "--cross-file-rename",
-    -- "--log=info",
-    -- "--completion-style=detailed",
-    -- "--enable-config", -- clangd 11+ supports reading from .clangd configuration file
-    "--header-insertion=never",
-    -- "--cross-file-rename",
-    "--clang-tidy",
-    -- "--clang-tidy-checks=-*,llvm-*,clang-analyzer-*,modernize-*,-modernize-use-trailing-return-type",
-    "--compile-commands-dir=build_el7_2020_05"
-    -- "--fallback-style=Google",
-    -- "--header-insertion=never",
-    -- "--query-driver=<list-of-white-listed-complers>"
-  }
 
+  local clangd_flags = {
+    "--background-index",
+    "-j=12",
+    "--all-scopes-completion",
+    "--pch-storage=disk",
+    "--clang-tidy",
+    "--log=error",
+    "--completion-style=detailed",
+    "--header-insertion=iwyu",
+    "--header-insertion-decorators",
+    "--enable-config",
+    "--offset-encoding=utf-16",
+    "--ranking-model=heuristics",
+    "--folding-ranges",
+    "--compile-commands-dir=build_el7_2020_05"
+  }
   clangd_extensions.setup {
     server = {
       -- options to pass to nvim-lspconfig
       -- i.e. the arguments to require("lspconfig").clangd.setup({})
       cmd = { clangd_bin, unpack(clangd_flags) },
+      on_attach = require("lvim.lsp").common_on_attach,
+      on_init = require("lvim.lsp").common_on_init,
       capabilities = require("lvim.lsp").common_capabilities(),
     },
     extensions = {
