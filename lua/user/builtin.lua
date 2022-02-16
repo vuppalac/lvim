@@ -272,6 +272,7 @@ M.config = function()
       enable = true,
       set_jumps = true, -- whether to set jumps in the jumplist
       goto_next_start = {
+        ["]p"] = "@parameter.inner",
         ["]f"] = "@function.outer",
         ["]]"] = "@class.outer",
       },
@@ -280,6 +281,7 @@ M.config = function()
         ["]["] = "@class.outer",
       },
       goto_previous_start = {
+        ["[p"] = "@parameter.inner",
         ["[f"] = "@function.outer",
         ["[["] = "@class.outer",
       },
@@ -349,7 +351,7 @@ M.config = function()
     "%.flac",
     "%.tar.gz",
   }
-  local user_telescope = require('user.telescope')
+  local user_telescope = require "user.telescope"
   lvim.builtin.telescope.defaults.layout_config = user_telescope.layout_config()
   local actions = require "telescope.actions"
   lvim.builtin.telescope.defaults.mappings = {
