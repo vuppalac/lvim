@@ -502,6 +502,14 @@ M.config = function()
       event = "BufRead",
       disable = not lvim.builtin.editorconfig.active,
     },
+    {
+      "saecki/crates.nvim",
+      event = { "BufRead Cargo.toml" },
+      requires = { { "nvim-lua/plenary.nvim" } },
+      config = function()
+        require("user.crates").config()
+      end,
+    },
     -- end of abz config
     {
       'vim-scripts/DoxygenToolkit.vim',
