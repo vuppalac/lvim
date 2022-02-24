@@ -51,8 +51,7 @@ lvim.builtin.editorconfig = { active = true } -- enable/disable editorconfig
 lvim.builtin.fancy_telescope = { active = true } -- telescope to the moon
 
 lvim.builtin.gitsigns.opts.git_path = "git" -- use a custom gitsigns, which has support for non-default git command location
-
-local user = os.getenv "USER" and vim.fn.has "win" ~= 1 or os.getenv "USERNAME" == "Abouz"
+local user = os.getenv "USER"
 if user and user == "abz" then
   lvim.builtin.nvim_web_devicons = { active = false }
   lvim.builtin.sell_your_soul_to_devil = true
