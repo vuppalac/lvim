@@ -1,11 +1,6 @@
 local M = {}
 
 M.config = function()
-  local present, alpha = pcall(require, "alpha")
-  if not present then
-    return
-  end
-
   local function pick_color()
     local colors = {"String", "Identifier", "Keyword", "Number"}
     return colors[math.random(#colors)]
@@ -116,6 +111,7 @@ M.config = function()
       button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
       button("m", " " .. kind.icons.Marks ..  " Marks", ":Telescope marks<CR>"),
       button("c", " " .. kind.icons.settings .. " Config", ":e ~/.config/nvim/config.lua<CR>"),
+      button("q", " " .. kind.icons.exit .. " Quit", ":q<CR>"),
     },
     opts = {
       spacing = 1,
@@ -148,7 +144,7 @@ M.config = function()
       margin = 5,
     },
   }
-  alpha.setup(opts)
+  return opts
 end
 
 return M

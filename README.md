@@ -70,8 +70,6 @@ You can change this in [plugins.lua](./lua/user/plugins.lua) and [theme.lua](./l
   - `lvim.builtin.harpoon = { active = false }`
 - if you want to try out GitHub copilot, change the following
   - `lvim.builtin.sell_your_soul_to_devil = true`
-- I'm using a custom dashboard, use the default LunarVim one if you like it better
-  - `lvim.builtin.fancy_dashboard = { active = false }`
 - I use a custom `lualine` disable it if you don't like it
   - `lvim.builtin.fancy_statusline = { active = false }`
 - You can use the fancy wild menu if you want, make sure to do a `:UpdateRemotePlugins`
@@ -102,7 +100,6 @@ You can change this in [plugins.lua](./lua/user/plugins.lua) and [theme.lua](./l
   - `lvim.builtin.async_tasks = { active = true }`
 - If you wanna see the issues, remove `lvim.lsp.diagnostics.virtual_text = false`
 - I'm using `skim` for `latex` stuff, change it to `zathura` if you are on `linux`
-- Using tailwinds CSS for markdown, disable it if you want
 
 <!--
 - orgmode is using `~/shared/orgs` folder
@@ -389,7 +386,6 @@ _Symbols Outline_
 - [vim-test](https://github.com/vim-test/vim-test)
 - [vim-ultest](https://github.com/rcarriga/vim-ultest)
 - [nvim-cheat](https://github.com/RishabhRD/nvim-cheat.sh)
-- [alpha-nvim](https://github.com/goolord/alpha-nvim)
 - [vim-dadbod](https://github.com/tpope/vim-dadbod)
 - [vim-dadbod-completion](https://github.com/kristijanhusak/vim-dadbod-completion)
 - [vim-dadbod-ui](https://github.com/kristijanhusak/vim-dadbod-ui)
@@ -477,8 +473,8 @@ Note that,
 | --------------------------- | :--: | ----------------------- | ------------------------------------------------------------------- |
 | <kbd>f</kbd>                |  𝐍   | find next character     | <small>HopChar1CurrentLineAC</small> or <small>Lightspeed_f</small> |
 | <kbd>F</kbd>                |  𝐍   | find previous character | <small>HopChar1CurrentLineBC</small> or <small>Lightspeed_F</small> |
-| <kbd>s</kbd>                |  𝐍   | find character          | <small>HopChar2</small> or <small>Lightspeed_s</small>              |
-| <kbd>S</kbd>                |  𝐍   | find word               | <small>HopWord</small> or <small>Lightspeed_S</small>               |
+| <kbd>s</kbd>                |  𝐍   | find character          | <small>HopChar2MW</small> or <small>Lightspeed_s</small>            |
+| <kbd>S</kbd>                |  𝐍   | find word               | <small>HopWordMW</small> or <small>Lightspeed_S</small>             |
 | <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐈   | select all              | <small>ggVG</small>                                                 |
 | <kbd>Alt</kbd>+<kbd>a</kbd> |  𝐍   | increment number        | <small>C-A</small>                                                  |
 | <kbd>Alt</kbd>+<kbd>x</kbd> |  𝐍   | decrement number        | <small>C-X</small>                                                  |

@@ -49,6 +49,9 @@ M.icons = {
   config = " ",
   git = " ",
   magic = " ",
+  exit = " ",
+  repo = "",
+  term = " ",
   Marks = " ",
 }
 

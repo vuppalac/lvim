@@ -81,6 +81,7 @@ M.config = function()
       },
     },
   }
+  lvim.builtin.bufferline.options.separator_style = os.getenv 'KITTY_WINDOW_ID' and 'slant' or 'thin'
 
   -- CMP
   -- =========================================
@@ -150,13 +151,9 @@ M.config = function()
 
   -- Dashboard
   -- =========================================
-  lvim.builtin.dashboard.active = not lvim.builtin.fancy_dashboard.active
-  if not lvim.builtin.fancy_dashboard.active then
-    lvim.builtin.dashboard.custom_section["m"] = {
-      description = { "  Marks              " },
-      command = "Telescope marks",
-    }
-  end
+  lvim.builtin.alpha.mode = "custom"
+  local alpha_opts = require("user.dashboard").config()
+  lvim.builtin.alpha["custom"] = { config = alpha_opts }
 
   -- LSP
   -- =========================================
@@ -164,7 +161,39 @@ M.config = function()
     "<cmd>lua require('user.builtin').show_documentation()<CR>",
     "Show Documentation",
   }
-  lvim.lsp.diagnostics.float.border = "rounded"
+  lvim.lsp.float.border = {
+    { "╔", "FloatBorder" },
+    { "═", "FloatBorder" },
+    { "╗", "FloatBorder" },
+    { "║", "FloatBorder" },
+    { "╝", "FloatBorder" },
+    { "═", "FloatBorder" },
+    { "╚", "FloatBorder" },
+    { "║", "FloatBorder" },
+  }
+  lvim.lsp.diagnostics.float.border = {
+    { " ", "FloatBorder" },
+    { " ", "FloatBorder" },
+    { " ", "FloatBorder" },
+    { " ", "FloatBorder" },
+    { " ", "FloatBorder" },
+    { " ", "FloatBorder" },
+    { " ", "FloatBorder" },
+    { " ", "FloatBorder" },
+  }
+  if os.getenv "KITTY_WINDOW_ID" then
+    lvim.lsp.float.border = {
+      { "🭽", "FloatBorder" },
+      { "▔", "FloatBorder" },
+      { "🭾", "FloatBorder" },
+      { "▕", "FloatBorder" },
+      { "🭿", "FloatBorder" },
+      { "▁", "FloatBorder" },
+      { "🭼", "FloatBorder" },
+      { "▏", "FloatBorder" },
+    }
+    lvim.lsp.diagnostics.float.border = lvim.lsp.float.border
+  end
   lvim.lsp.diagnostics.float.focusable = false
   lvim.lsp.float.focusable = true
   lvim.lsp.diagnostics.signs.values = {
@@ -202,6 +231,9 @@ M.config = function()
     },
   }
   lvim.builtin.nvimtree.icons = kind.nvim_tree_icons
+  lvim.builtin.nvimtree.on_config_done = function(_)
+    lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeToggle<CR>", " Explorer" }
+  end
   -- lvim.builtin.nvimtree.hide_dotfiles = 0
 
   -- Project
@@ -264,6 +296,8 @@ M.config = function()
         ["il"] = "@loop.inner",
         ["aa"] = "@parameter.outer",
         ["ia"] = "@parameter.inner",
+        ["av"] = "@variable.outer",
+        ["iv"] = "@variable.inner",
       },
     },
     swap = {
@@ -434,6 +468,11 @@ M.config = function()
   -- =========================================
   lvim.builtin.which_key.setup.window.winblend = 10
   lvim.builtin.which_key.setup.window.border = "none"
+  lvim.builtin.which_key.setup.icons = {
+    breadcrumb = "/", -- symbol used in the command line area that shows your active key combo
+    separator = "·", -- symbol used between a key and it's label
+    group = "", -- symbol prepended to a group
+  }
   lvim.builtin.which_key.setup.ignore_missing = true
   lvim.builtin.which_key.on_config_done = function(wk)
     local keys = {
