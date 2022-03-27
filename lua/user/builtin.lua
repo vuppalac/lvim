@@ -81,7 +81,7 @@ M.config = function()
       },
     },
   }
-  lvim.builtin.bufferline.options.separator_style = os.getenv 'KITTY_WINDOW_ID' and 'slant' or 'thin'
+  lvim.builtin.bufferline.options.separator_style = os.getenv "KITTY_WINDOW_ID" and "slant" or "thin"
 
   -- CMP
   -- =========================================
@@ -157,6 +157,16 @@ M.config = function()
 
   -- LSP
   -- =========================================
+  lvim.lsp.buffer_mappings.normal_mode["ga"] = {
+    "<cmd>lua require('user.telescope').code_actions()<CR>",
+    "Code Action",
+  }
+  lvim.lsp.buffer_mappings.normal_mode["gI"] = {
+    "<cmd>lua require('user.telescope').lsp_implementations()<CR>",
+    "Goto Implementation",
+  }
+  lvim.lsp.buffer_mappings.normal_mode["gA"] = { "<cmd>lua vim.lsp.codelens.run()<CR>", "CodeLens Action" }
+  lvim.lsp.buffer_mappings.normal_mode["gt"] = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto Type Definition" }
   lvim.lsp.buffer_mappings.normal_mode["K"] = {
     "<cmd>lua require('user.builtin').show_documentation()<CR>",
     "Show Documentation",
@@ -341,18 +351,14 @@ M.config = function()
   -- =========================================
   lvim.builtin.telescope.defaults.path_display = { "smart", "absolute", "truncate" }
   lvim.builtin.telescope.defaults.path_display = { shorten = 10 }
-  if lvim.builtin.fancy_telescope.active then
-    lvim.builtin.telescope.defaults.prompt_prefix = "  "
-    lvim.builtin.telescope.defaults.borderchars = {
-      prompt = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-      results = { "─", "▐", "─", "│", "╭", "▐", "▐", "╰" },
-      -- results = {' ', '▐', '▄', '▌', '▌', '▐', '▟', '▙' };
-      preview = { " ", "│", " ", "▌", "▌", "╮", "╯", "▌" },
-    }
-    lvim.builtin.telescope.defaults.selection_caret = "  "
-  else
-    lvim.builtin.telescope.defaults.winblend = 15
-  end
+  lvim.builtin.telescope.defaults.prompt_prefix = "  "
+  lvim.builtin.telescope.defaults.borderchars = {
+    prompt = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    results = { "─", "▐", "─", "│", "╭", "▐", "▐", "╰" },
+    -- results = {' ', '▐', '▄', '▌', '▌', '▐', '▟', '▙' };
+    preview = { " ", "│", " ", "▌", "▌", "╮", "╯", "▌" },
+  }
+  lvim.builtin.telescope.defaults.selection_caret = "  "
   lvim.builtin.telescope.defaults.cache_picker = { num_pickers = 3 }
   lvim.builtin.telescope.defaults.layout_strategy = "horizontal"
   lvim.builtin.telescope.defaults.file_ignore_patterns = {
@@ -474,16 +480,6 @@ M.config = function()
     group = "", -- symbol prepended to a group
   }
   lvim.builtin.which_key.setup.ignore_missing = true
-  lvim.builtin.which_key.on_config_done = function(wk)
-    local keys = {
-      ["ga"] = { "<cmd>lua require('user.telescope').code_actions()<CR>", "Code Action" },
-      ["gR"] = { "<cmd>Trouble lsp_references<CR>", "Goto References" },
-      ["gI"] = { "<cmd>lua require('user.telescope').lsp_implementations()<CR>", "Goto Implementation" },
-      ["gA"] = { "<cmd>lua vim.lsp.codelens.run()<CR>", "CodeLens Action" },
-      ["gt"] = { "<cmd>lua vim.lsp.buf.type_definition()<CR>", "Goto Type Definition" },
-    }
-    wk.register(keys, { mode = "n" })
-  end
 
   lvim.builtin.which_key.mappings['t'] = {
     name = "+Toggle",

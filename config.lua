@@ -47,7 +47,6 @@ lvim.builtin.file_browser = { active = false } -- enable/disable telescope file 
 lvim.builtin.sniprun = { active = false } -- enable/disable sniprun
 lvim.builtin.tag_provider = "symbols-outline" -- change this to use different tag providers ( symbols-outline or vista )
 lvim.builtin.editorconfig = { active = true } -- enable/disable editorconfig
-lvim.builtin.fancy_telescope = { active = true } -- telescope to the moon
 lvim.builtin.global_statusline = false -- set true to use global statusline
 
 lvim.builtin.gitsigns.opts.git_path = "git" -- use a custom gitsigns, which has support for non-default git command location
