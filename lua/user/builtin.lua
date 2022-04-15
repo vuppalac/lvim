@@ -98,19 +98,6 @@ M.config = function()
     { name = "crates" },
     { name = "orgmode" },
   }
-  local border = {
-    { "╭", "CmpBorder" },
-    { "─", "CmpBorder" },
-    { "╮", "CmpBorder" },
-    { "│", "CmpBorder" },
-    { "╯", "CmpBorder" },
-    { "─", "CmpBorder" },
-    { "╰", "CmpBorder" },
-    { "│", "CmpBorder" },
-  }
-  lvim.builtin.cmp.documentation.border = border
-  lvim.builtin.cmp.documentation.scrollbar = "║"
-  lvim.builtin.cmp.window = { border = border, scrollbar = "║" }
   lvim.builtin.cmp.experimental = {
     ghost_text = false,
     native_menu = false,
@@ -142,6 +129,7 @@ M.config = function()
   end
   if lvim.builtin.fancy_wild_menu.active then
     cmp.setup.cmdline(":", {
+      mapping = cmp.mapping.preset.cmdline {},
       sources = {
         { name = "cmdline" },
         { name = "path" },
