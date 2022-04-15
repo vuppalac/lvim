@@ -287,17 +287,6 @@ M.config = function()
       disable = not lvim.builtin.neoclip.active,
     },
     {
-<<<<<<< HEAD
-      "gelguy/wilder.nvim",
-      -- event = { "CursorHold", "CmdlineEnter" },
-      rocks = { "luarocks-fetch-gitrec", "pcre2" },
-      requires = { "romgrk/fzy-lua-native" },
-      config = function()
-        vim.cmd(string.format("source %s", "~/.config/nvim/vimscript/wilder.vim"))
-      end,
-      run = ":UpdateRemotePlugins",
-      disable = not lvim.builtin.fancy_wild_menu.active,
-=======
       "kristijanhusak/vim-dadbod-completion",
       disable = not lvim.builtin.sql_integration.active,
     },
@@ -318,7 +307,6 @@ M.config = function()
       },
       opt = true,
       disable = not lvim.builtin.sql_integration.active,
->>>>>>> dd504aa98b1ce265584088119905aaf557289e2f
     },
     {
       "karb94/neoscroll.nvim",
