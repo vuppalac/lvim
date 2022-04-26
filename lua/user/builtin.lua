@@ -154,7 +154,7 @@ M.config = function()
       { name = "buffer", max_item_count = 5, keyword_length = 5 },
     }),
   })
-  if lvim.builtin.sell_your_soul_to_devil then
+  if lvim.builtin.sell_your_soul_to_devil.active then
     lvim.keys.insert_mode["<c-h>"] = { [[copilot#Accept("\<CR>")]], { expr = true, script = true } }
     lvim.keys.insert_mode["<M-]>"] = { "<Plug>(copilot-next)", { silent = true } }
     lvim.keys.insert_mode["<M-[>"] = { "<Plug>(copilot-previous)", { silent = true } }
@@ -393,7 +393,8 @@ M.config = function()
 
   -- Telescope
   -- =========================================
-  lvim.builtin.telescope.defaults.path_display = { "smart", "absolute", "truncate" }
+  -- lvim.builtin.telescope.defaults.path_display = { "smart", "absolute", "truncate" }
+  lvim.builtin.telescope.defaults.dynamic_preview_title = true
   lvim.builtin.telescope.defaults.path_display = { shorten = 10 }
   lvim.builtin.telescope.defaults.prompt_prefix = "  "
   lvim.builtin.telescope.defaults.borderchars = {
