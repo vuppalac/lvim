@@ -155,7 +155,13 @@ M.config = function()
     }),
   })
   if lvim.builtin.sell_your_soul_to_devil.active then
-    lvim.keys.insert_mode["<c-h>"] = { [[copilot#Accept("\<CR>")]], { expr = true, script = true } }
+    local function t(str)
+      return vim.api.nvim_replace_termcodes(str, true, true, true)
+    end
+
+    lvim.builtin.cmp.mapping["<c-h>"] = cmp.mapping(function()
+      vim.api.nvim_feedkeys(vim.fn["copilot#Accept"](t "<Tab>"), "n", true)
+    end)
     lvim.keys.insert_mode["<M-]>"] = { "<Plug>(copilot-next)", { silent = true } }
     lvim.keys.insert_mode["<M-[>"] = { "<Plug>(copilot-previous)", { silent = true } }
     lvim.keys.insert_mode["<M-\\>"] = { "<Cmd>vertical Copilot panel<CR>", { silent = true } }
@@ -195,10 +201,7 @@ M.config = function()
 
   -- LSP
   -- =========================================
-  lvim.lsp.buffer_mappings.normal_mode["ga"] = {
-    "<cmd>lua require('user.telescope').code_actions()<CR>",
-    "Code Action",
-  }
+  lvim.lsp.buffer_mappings.normal_mode["ga"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" }
   lvim.lsp.buffer_mappings.normal_mode["gI"] = {
     "<cmd>lua require('user.telescope').lsp_implementations()<CR>",
     "Goto Implementation",
@@ -533,6 +536,7 @@ M.config = function()
     separator = "·", -- symbol used between a key and it's label
     group = "", -- symbol prepended to a group
   }
+  lvim.builtin.which_key.setup.triggers = { "<leader>", "g", "z", "]", "[" }
   lvim.builtin.which_key.setup.ignore_missing = true
 
   lvim.builtin.which_key.mappings['t'] = {
@@ -557,12 +561,9 @@ M.config = function()
     end
     return default_exe_handler(err, result, ctx, config)
   end
-  --   if lvim.builtin.lastplace.active == false then
-  --     -- go to last loc when opening a buffer
-  --     vim.cmd [[
-  --   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"" | endif
-  -- ]]
-  --   end
+  if not lvim.use_icons and lvim.builtin.custom_web_devicons then
+    require("user.dev_icons").use_my_icons()
+  end
 end
 
 function M.tab(fallback)
@@ -574,13 +575,13 @@ function M.tab(fallback)
     cmp.select_next_item()
   elseif vim.api.nvim_get_mode().mode == "c" then
     fallback()
-  elseif copilot_keys ~= "" then -- prioritise copilot over snippets
-    -- Copilot keys do not need to be wrapped in termcodes
-    vim.api.nvim_feedkeys(copilot_keys, "i", true)
   elseif luasnip.expandable() then
     luasnip.expand()
   elseif methods.jumpable() then
     luasnip.jump(1)
+  elseif copilot_keys ~= "" then -- prioritise copilot over snippets
+    -- Copilot keys do not need to be wrapped in termcodes
+    vim.api.nvim_feedkeys(copilot_keys, "i", true)
   elseif methods.check_backspace() then
     fallback()
   else

@@ -28,6 +28,7 @@ lvim.builtin.sql_integration = { active = false } -- use sql integration
 lvim.builtin.smooth_scroll = "cinnamon" -- for smoth scrolling, can be "cinnamon", "neoscroll" or ""
 lvim.builtin.neoclip = { active = true, enable_persistent_history = false }
 lvim.builtin.nonumber_unfocus = false -- diffrentiate between focused and non focused windows
+lvim.builtin.custom_web_devicons = true -- install https://github.com/Nguyen-Hoang-Nam/mini-file-icons
 lvim.builtin.harpoon = { active = false } -- use the harpoon plugin
 lvim.builtin.remote_dev = { active = false } -- enable/disable remote development
 lvim.builtin.global_status_line = { active = true } -- WARN: doesn't work with nvim head
@@ -54,7 +55,8 @@ lvim.builtin.refactoring = { active = true } -- enable to use refactoring.nvim c
 lvim.builtin.gitsigns.opts.git_path = "git" -- use a custom gitsigns, which has support for non-default git command location
 local user = os.getenv "USER"
 if user and user == "abz" then
-  lvim.builtin.nvim_web_devicons = { active = false }
+  lvim.builtin.custom_web_devicons = true
+  lvim.use_icons = false -- only set to false if you know what are you doing
   lvim.builtin.sell_your_soul_to_devil = { active = true, prada = false }
   lvim.lsp.document_highlight = false
   lvim.builtin.csv_support = true
@@ -68,7 +70,7 @@ if user and user == "abz" then
   lvim.builtin.dressing.active = true
   lvim.builtin.fancy_wild_menu.active = true
   lvim.builtin.refactoring.active = true
-  require("user.prose").config() -- setup prosemd-lsp for my local use
+  require("lvim.lsp.manager").setup("prosemd_lsp", {})
 end
 lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors
 lvim.builtin.notify.active = true
