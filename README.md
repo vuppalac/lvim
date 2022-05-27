@@ -40,6 +40,8 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly ðŸ
   - [Plugin: Ultest](#plugin-ultest)
   - [Plugin: Spectre](#plugin-spectre)
   - [Plugin: Copilot](#plugin-copilot)
+- [Troubleshooting](#troubleshooting)
+
 
 <!-- vim-markdown-toc -->
 </details>
@@ -165,7 +167,7 @@ npm run build-plugin
 
 ### Recommended Fonts
 
-- [FiraCode Nerd Font](firaCode): My preferred font
+- [FiraCode]: My preferred nerd font
 - Any of the [Nerd Fonts]
 
 On macOS with Homebrew, choose one of the [Nerd Fonts],
@@ -382,7 +384,6 @@ _Symbols Outline_
 - [flutter-tools.nvim](https://github.com/akinsho/flutter-tools.nvim)
 - [NeoClip](https://github.com/AckslD/nvim-neoclip.lua)
 - [Telescope live grep raw](nvim-telescope/telescope-live-grep-raw.nvim)
-- [nvim-lightbulb](https://github.com/kosayoda/nvim-lightbulb)
 - [fidget](https://github.com/j-hui/fidget.nvim)
 - [clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim)
 - [crates.nvim](https://github.com/Saecki/crates.nvim)
@@ -673,3 +674,10 @@ Note that,
 [nodejs install]: https://nodejs.org/en/download/package-manager/#macos
 [lsp-installer]: https://github.com/williamboman/nvim-lsp-installer#available-lsps
 [tex-support]: https://gist.github.com/peterhurford/75957ba9335e755013b87254ec85fab1
+
+  
+# Troubleshooting
+  
+1. Check your neovim version. Are you on the newest nightly version? 
+2. Reset your packer cache, and update lvim.
+  

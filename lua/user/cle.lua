@@ -8,6 +8,7 @@ M.config = function()
   local clangd_bin = "clangd"
 
   local clangd_flags = {
+    "--fallback-style=google",
     "--background-index",
     "-j=12",
     "--all-scopes-completion",
