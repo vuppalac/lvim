@@ -38,7 +38,7 @@ M.config = function()
     nls.builtins.formatting.sqlformat,
     nls.builtins.formatting.terraform_fmt,
     -- Support for nix files
-    nls.builtins.formatting.alejandra,
+    -- nls.builtins.formatting.alejandra,
     nls.builtins.formatting.shfmt.with { extra_args = { "-i", "2", "-ci" } },
     nls.builtins.formatting.black.with { extra_args = { "--fast" }, filetypes = { "python" } },
     nls.builtins.formatting.isort.with { extra_args = { "--profile", "black" }, filetypes = { "python" } },
