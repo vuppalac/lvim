@@ -27,7 +27,7 @@ M.config = function()
   -- vim.g.did_load_filetypes = 1
   vim.g.ultest_summary_width = 30
   vim.opt.completeopt = { "menu", "menuone", "noselect" }
-  vim.opt.relativenumber = true
+  vim.opt.relativenumber = false
   vim.opt.diffopt = {
     "internal",
     "filler",
