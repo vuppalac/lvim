@@ -31,6 +31,10 @@ local luadev = lua_dev.setup {
           maxPreload = 100000,
           preloadFileSize = 10000,
         },
+        -- Do not send telemetry data containing a randomized but unique identifier
+        telemetry = {
+          enable = false,
+        },
       },
     },
   },

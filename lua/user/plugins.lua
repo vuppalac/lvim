@@ -594,6 +594,12 @@ M.config = function()
         "Gvdiff",
       },
       ft = {"fugitive"}
+    },
+    {
+      "NvChad/nvterm",
+      config = function ()
+        require("user.nvterm").config()
+      end,
     }
   }
 end

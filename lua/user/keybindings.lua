@@ -177,6 +177,15 @@ M.set_async_tasks_keymaps = function()
   end
 end
 
+M.set_nvterm_keymaps = function()
+  lvim.builtin.which_key.mappings["x"] = {
+    name = " Terminal",
+    f = { "<CMD>lua require('nvterm.terminal').toggle('float')<CR>" , "   toggle floating term" },
+    h = { "<CMD>lua require('nvterm.terminal').toggle('horizontal')<CR>" , "   toggle horizontal term" },
+    v = { "<CMD>lua require('nvterm.terminal').toggle('vertical')<CR>" , "   toggle vertical term" },
+  }
+end
+
 M.config = function()
   -- Additional keybindings
   -- =========================================
@@ -365,6 +374,9 @@ M.config = function()
   if user and user == "abz" then
     M.set_wezterm_keybindings()
   end
+
+  -- Set nvterm keys
+  M.set_nvterm_keymaps()
 
   -- Navigate merge conflict markers
   local whk_status, whk = pcall(require, "which-key")
