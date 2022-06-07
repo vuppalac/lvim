@@ -177,15 +177,6 @@ M.set_async_tasks_keymaps = function()
   end
 end
 
-M.set_nvterm_keymaps = function()
-  lvim.builtin.which_key.mappings["x"] = {
-    name = " Terminal",
-    f = { "<CMD>lua require('nvterm.terminal').toggle('float')<CR>" , "   toggle floating term" },
-    h = { "<CMD>lua require('nvterm.terminal').toggle('horizontal')<CR>" , "   toggle horizontal term" },
-    v = { "<CMD>lua require('nvterm.terminal').toggle('vertical')<CR>" , "   toggle vertical term" },
-  }
-end
-
 M.config = function()
   -- Additional keybindings
   -- =========================================
@@ -214,8 +205,7 @@ M.config = function()
   lvim.keys.insert_mode["<A-a>"] = "<ESC>ggVG<CR>"
   lvim.keys.insert_mode["jk"] = "<ESC>:w<CR>"
   lvim.keys.insert_mode["<C-s>"] = "<cmd>lua vim.lsp.buf.signature_help()<cr>"
-  lvim.keys.insert_mode["<A-s>"] =
-    "<cmd>lua require('telescope').extensions.luasnip.luasnip(require('telescope.themes').get_cursor({}))<CR>"
+  lvim.keys.insert_mode["<A-s>"] = "<cmd>lua require('telescope').extensions.luasnip.luasnip(require('telescope.themes').get_cursor({}))<CR>"
   lvim.keys.command_mode["w!!"] = "execute 'silent! write !sudo tee % >/dev/null' <bar> edit!"
   lvim.keys.normal_mode["]d"] = "<cmd>lua vim.diagnostic.goto_next()<cr>"
   lvim.keys.normal_mode["[d"] = "<cmd>lua vim.diagnostic.goto_prev()<cr>"
@@ -224,11 +214,9 @@ M.config = function()
   lvim.keys.normal_mode["<C-,>"] = "<cmd>lua require('neogen').jump_next()<CR>"
   lvim.keys.normal_mode["<C-n>i"] = { "<C-i>", { noremap = true } }
   if vim.fn.has "mac" == 1 then
-    lvim.keys.normal_mode["gx"] =
-      [[<cmd>lua os.execute("open " .. vim.fn.shellescape(vim.fn.expand "<cWORD>")); vim.cmd "redraw!"<cr>]]
+    lvim.keys.normal_mode["gx"] = [[<cmd>lua os.execute("open " .. vim.fn.shellescape(vim.fn.expand "<cWORD>")); vim.cmd "redraw!"<cr>]]
   elseif vim.fn.has "linux" then
-    lvim.keys.normal_mode["gx"] =
-      [[<cmd>lua os.execute("xdg-open " .. vim.fn.shellescape(vim.fn.expand "<cWORD>")); vim.cmd "redraw!"<cr>]]
+    lvim.keys.normal_mode["gx"] = [[<cmd>lua os.execute("xdg-open " .. vim.fn.shellescape(vim.fn.expand "<cWORD>")); vim.cmd "redraw!"<cr>]]
   end
   set_bufferline_keymaps()
   if lvim.builtin.sidebar.active then
@@ -277,8 +265,18 @@ M.config = function()
     s = { "<cmd>lua require('user.telescope').git_status()<cr>", "Git Status" },
     z = { "<cmd>lua require('user.telescope').search_only_certain_files()<cr>", "Certain Filetype" },
   }
-  lvim.builtin.which_key.mappings["C"] = { "<cmd>Telescope command_center<cr>", " Command Palette" }
+  lvim.builtin.which_key.mappings["c"] = { "<cmd>Telescope command_center<cr>", " Command Palette" }
   -- lvim.keys.normal_mode["<c-P>"] = "<cmd>Telescope command_center<cr>"
+  lvim.builtin.which_key.mappings["d"] = {
+    name = "飯Trouble",
+    d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnosticss" },
+    f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+    l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+    q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+    r = { "<cmd>Trouble lsp_references<cr>", "References" },
+    t = { "<cmd>TodoLocList <cr>", "Todo" },
+    w = { "<cmd>Trouble workspace_diagnostics<cr>", "Diagnosticss" },
+  }
 
   if lvim.builtin.file_browser.active then
     lvim.builtin.which_key.mappings["se"] = { "<cmd>Telescope file_browser<cr>", "File Browser" }
@@ -346,20 +344,16 @@ M.config = function()
     "String",
   }
   lvim.builtin.which_key.mappings["t"] = {
+    name = " Terminal",
+    f = { "<CMD>ToggleTerm direction=float<CR>", "   Toggle floating term" },
+    h = { "<CMD>lua require('nvterm.terminal').toggle('horizontal')<CR>", "   Toggle horizontal term" },
+    v = { "<CMD>lua require('nvterm.terminal').toggle('vertical')<CR>", "   Toggle vertical term" },
+  }
+  lvim.builtin.which_key.mappings["T"] = {
     name = "ﭧ Test",
     f = { "<cmd>Ultest<cr>", "File" },
     n = { "<cmd>UltestNearest<cr>", "Nearest" },
     s = { "<cmd>UltestSummary<cr>", "Summary" },
-  }
-  lvim.builtin.which_key.mappings["T"] = {
-    name = "飯Trouble",
-    d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnosticss" },
-    f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-    l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-    q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
-    r = { "<cmd>Trouble lsp_references<cr>", "References" },
-    t = { "<cmd>TodoLocList <cr>", "Todo" },
-    w = { "<cmd>Trouble workspace_diagnostics<cr>", "Diagnosticss" },
   }
   lvim.builtin.which_key.mappings["z"] = { "<cmd>ZenMode<cr>", " Zen" }
   lvim.builtin.which_key.mappings["w"] = { "<cmd>w!<CR>", " Save" }
@@ -374,9 +368,6 @@ M.config = function()
   if user and user == "abz" then
     M.set_wezterm_keybindings()
   end
-
-  -- Set nvterm keys
-  M.set_nvterm_keymaps()
 
   -- Navigate merge conflict markers
   local whk_status, whk = pcall(require, "which-key")
