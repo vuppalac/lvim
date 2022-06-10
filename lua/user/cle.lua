@@ -24,11 +24,13 @@ M.config = function()
     "--folding-ranges",
     "--compile-commands-dir=build_el7_2020_05"
   }
+  local nvim_lsp = require('lspconfig')
   clangd_extensions.setup {
     server = {
       -- options to pass to nvim-lspconfig
       -- i.e. the arguments to require("lspconfig").clangd.setup({})
       cmd = { clangd_bin, unpack(clangd_flags) },
+      root_dir = nvim_lsp.util.root_pattern('.git'),
       on_attach = require("lvim.lsp").common_on_attach,
       on_init = require("lvim.lsp").common_on_init,
       capabilities = require("lvim.lsp").common_capabilities(),
