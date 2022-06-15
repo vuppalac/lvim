@@ -58,6 +58,21 @@ Themes are automatically changed based on time of the day:
 | [kanagawa](https://github.com/rebelot/kanagawa.nvim) | [9pm, 11:59pm), [0am, 1am] |
 
 You can change this in [plugins.lua](./lua/user/plugins.lua) and [theme.lua](./lua/user/theme.lua)
+or just disable it and install your own theme
+
+```lua
+lvim.colorscheme = "catppuccin"
+lvim.builtin.time_based_themes = false
+lvim.plugins = {
+  {
+    "catppuccin/nvim",
+    as = "catppuccin",
+    config = function()
+      require("catppuccin").setup()
+    end,
+  }
+}
+```
 
 ## Customization
 
@@ -385,7 +400,7 @@ _Symbols Outline_
 - [typescript.nvim](https://github.com/jose-elias-alvarez/typescript.nvim)
 - [flutter-tools.nvim](https://github.com/akinsho/flutter-tools.nvim)
 - [NeoClip](https://github.com/AckslD/nvim-neoclip.lua)
-- [Telescope live grep raw](nvim-telescope/telescope-live-grep-raw.nvim)
+- [Telescope live grep args](nvim-telescope/telescope-live-grep-args.nvim)
 - [fidget](https://github.com/j-hui/fidget.nvim)
 - [clangd_extensions.nvim](https://github.com/p00f/clangd_extensions.nvim)
 - [crates.nvim](https://github.com/Saecki/crates.nvim)

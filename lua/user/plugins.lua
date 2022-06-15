@@ -15,7 +15,7 @@ M.config = function()
       end,
       cond = function()
         local _time = os.date "*t"
-        return (_time.hour >= 1 and _time.hour < 9)
+        return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
       end,
     },
     {
@@ -27,7 +27,7 @@ M.config = function()
       end,
       cond = function()
         local _time = os.date "*t"
-        return _time.hour >= 9 and _time.hour < 17
+        return (_time.hour >= 9 and _time.hour < 17) and lvim.builtin.time_based_themes
       end,
     },
     {
@@ -39,7 +39,7 @@ M.config = function()
       end,
       cond = function()
         local _time = os.date "*t"
-        return (_time.hour >= 17 and _time.hour < 21)
+        return (_time.hour >= 17 and _time.hour < 21) and lvim.builtin.time_based_themes
       end,
     },
     {
@@ -50,7 +50,8 @@ M.config = function()
       end,
       cond = function()
         local _time = os.date "*t"
-        return (_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1)
+        return ((_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1))
+          and lvim.builtin.time_based_themes
       end,
     },
     {
@@ -404,7 +405,7 @@ M.config = function()
       disable = lvim.use_icons or not lvim.builtin.custom_web_devicons,
     },
     {
-      "nvim-telescope/telescope-live-grep-raw.nvim",
+      "nvim-telescope/telescope-live-grep-args.nvim",
     },
     { "mtdl9/vim-log-highlighting", ft = { "text", "log" } },
     {
