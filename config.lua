@@ -53,13 +53,20 @@ lvim.builtin.editorconfig = { active = true } -- enable/disable editorconfig
 lvim.builtin.global_statusline = true -- set true to use global statusline
 lvim.builtin.dressing = { active = true } -- enable to override vim.ui.input and vim.ui.select with telescope
 lvim.builtin.refactoring = { active = true } -- enable to use refactoring.nvim code_actions
+lvim.builtin.tmux_lualine = true -- use vim-tpipeline to integrate lualine and tmux
 
-lvim.builtin.gitsigns.opts.git_path = "git" -- use a custom gitsigns, which has support for non-default git command location
-vim.opt.cmdheight = 0 -- WARN: only works with the latest neovim
+if lvim.builtin.tmux_lualine then
+  vim.opt.cmdheight = 0 -- WARN: only works with the latest neovim
+  vim.g.tpipeline_cursormoved = 1
+end
 
 local user = os.getenv "USER"
 if user and user == "abz" then
-  vim.opt.cmdheight = 0 -- WARN: only works with the latest neovim
+  lvim.builtin.tmux_lualine = true
+  if lvim.builtin.tmux_lualine then
+    vim.opt.cmdheight = 0 -- WARN: only works with the latest neovim
+    vim.g.tpipeline_cursormoved = 1
+  end
   lvim.builtin.custom_web_devicons = true
   lvim.use_icons = false -- only set to false if you know what are you doing
   lvim.builtin.sell_your_soul_to_devil = { active = true, prada = false }

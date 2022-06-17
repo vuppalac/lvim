@@ -574,6 +574,10 @@ M.config = function()
       event = { "InsertEnter", "CursorMoved" },
       disable = lvim.builtin.winbar_provider ~= "treesitter",
     },
+    {
+      "vimpostor/vim-tpipeline",
+      disable = not lvim.builtin.tmux_lualine,
+    },
     -- end of abz config
     {
       'vim-scripts/DoxygenToolkit.vim',
