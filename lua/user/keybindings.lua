@@ -112,7 +112,8 @@ local function set_bufferline_keymaps()
     ["8"] = { "<Cmd>BufferLineGoToBuffer 8<CR>", "goto 8" },
     ["9"] = { "<Cmd>BufferLineGoToBuffer 9<CR>", "goto 9" },
     c = { "<Cmd>BufferLinePickClose<CR>", "delete buffer" },
-    p = { "<Cmd>BufferLinePick<CR>", "pick buffer" },
+    p = { "<Cmd>BufferLineTogglePin<CR>", "toggle pin" },
+    s = { "<Cmd>BufferLinePick<CR>", "pick buffer" },
     t = { "<Cmd>BufferLineGroupToggle docs<CR>", "toggle groups" },
     f = { "<cmd>Telescope buffers<cr>", "Find" },
     b = { "<cmd>b#<cr>", "Previous" },
@@ -354,6 +355,12 @@ M.config = function()
     f = { "<cmd>Ultest<cr>", "File" },
     n = { "<cmd>UltestNearest<cr>", "Nearest" },
     s = { "<cmd>UltestSummary<cr>", "Summary" },
+    -- f = { "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", "File" },
+    -- o = { "<cmd>lua require('neotest').output.open({ enter = true, short = false })<cr>", "Output" },
+    -- r = { "<cmd>lua require('neotest').run.run()<cr>", "Run" },
+    -- s = { "<cmd>lua require('neotest').summary.toggle()<cr>", "Summary" },
+    -- n = { "<cmd>lua require('neotest').jump.next({ status = 'failed' })<cr>", "jump to next failed" },
+    -- p = { "<cmd>lua require('neotest').jump.prev({ status = 'failed' })<cr>", "jump to previous failed" },
   }
   lvim.builtin.which_key.mappings["z"] = { "<cmd>ZenMode<cr>", " Zen" }
   lvim.builtin.which_key.mappings["w"] = { "<cmd>w!<CR>", " Save" }

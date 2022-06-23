@@ -261,6 +261,22 @@ M.config = function()
       "lervag/vimtex",
       ft = "tex",
     },
+    -- {
+    --   "nvim-neotest/neotest",
+    --   config = function()
+    --     require("user.ntest").config()
+    --   end,
+    --   requires = {
+    --     "nvim-neotest/neotest-go",
+    --     "nvim-neotest/neotest-python",
+    --     "nvim-neotest/neotest-plenary",
+    --     "nvim-neotest/neotest-vim-test",
+    --     "vim-test/vim-test",
+    --   },
+    --   -- opt = true,
+    --   -- event = { "BufEnter *_test.*,*_spec.*,test_*.*" },
+    --   disable = not lvim.builtin.test_runner.active,
+    -- },
     {
       "rcarriga/vim-ultest",
       cmd = { "Ultest", "UltestSummary", "UltestNearest" },
@@ -268,7 +284,7 @@ M.config = function()
       requires = { "vim-test/vim-test" },
       run = ":UpdateRemotePlugins",
       opt = true,
-      event = { "BufEnter *_test.*,*_spec.*" },
+      event = { "BufEnter *_test.*,*_spec.*,*est_*.*" },
       disable = not lvim.builtin.test_runner.active,
     },
     {
@@ -294,6 +310,10 @@ M.config = function()
         "DBUIFindBuffer",
         "DBUIRenameBuffer",
       },
+      setup = function()
+        vim.g.db_ui_use_nerd_fonts = 1
+        vim.g.db_ui_show_database_icon = 1
+      end,
       requires = {
         {
           "tpope/vim-dadbod",

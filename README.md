@@ -442,7 +442,7 @@ _Symbols Outline_
 - [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
 - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
 - [incline.nvim](https://github.com/b0o/incline.nvim)
-- [winbar.nvim](https://github.com/b0o/incline.nvim)
+- [winbar.nvim](https://github.com/fgheng/winbar.nvim)
 - [vim-tpipeline](https://github.com/vimpostor/vim-tpipeline)
 
 </details>
@@ -639,7 +639,8 @@ Note that,
 | <kbd>Shift</kbd>+<kbd>x</kbd>              |  𝐍   | close buffer         |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>f</kbd> |  𝐍   | find buffer          |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>b</kbd> |  𝐍   | toggle buffer groups |
-| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>p</kbd> |  𝐍   | pick buffer          |
+| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>p</kbd> |  𝐍   | toggle pin           |
+| <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>s</kbd> |  𝐍   | pick buffer          |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>1</kbd> |  𝐍   | goto buffer 1        |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>h</kbd> |  𝐍   | Close all to left    |
 | <kbd>Space</kbd>+<kbd>b</kbd>+<kbd>l</kbd> |  𝐍   | Close all to right   |
