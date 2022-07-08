@@ -14,7 +14,7 @@ M.config = function()
         vim.cmd [[colorscheme rose-pine]]
       end,
       cond = function()
-        local _time = os.date "*t"
+        local _time = os.date("*t", os.time() + lvim.builtin.time_offset * 60 * 60)
         return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
       end,
     },
@@ -26,7 +26,7 @@ M.config = function()
         vim.cmd [[colorscheme tokyonight]]
       end,
       cond = function()
-        local _time = os.date "*t"
+        local _time = os.date("*t", os.time() + lvim.builtin.time_offset * 60 * 60)
         return (_time.hour >= 9 and _time.hour < 17) and lvim.builtin.time_based_themes
       end,
     },
@@ -38,7 +38,7 @@ M.config = function()
         vim.cmd [[colorscheme catppuccin]]
       end,
       cond = function()
-        local _time = os.date "*t"
+        local _time = os.date("*t", os.time() + lvim.builtin.time_offset * 60 * 60)
         return (_time.hour >= 17 and _time.hour < 21) and lvim.builtin.time_based_themes
       end,
     },
@@ -49,7 +49,7 @@ M.config = function()
         vim.cmd [[colorscheme kanagawa]]
       end,
       cond = function()
-        local _time = os.date "*t"
+        local _time = os.date("*t", os.time() + lvim.builtin.time_offset * 60 * 60)
         return ((_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1))
           and lvim.builtin.time_based_themes
       end,
