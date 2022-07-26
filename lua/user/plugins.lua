@@ -177,6 +177,27 @@ M.config = function()
       end,
     },
     {
+      "iamcco/markdown-preview.nvim",
+      run = "cd app && npm install",
+      ft = "markdown",
+    },
+    {
+      "simrat39/rust-tools.nvim",
+      config = function()
+        require("user.rust_tools").config()
+      end,
+      ft = { "rust", "rs" },
+    },
+    {
+      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+      config = function()
+        require("lsp_lines").setup()
+      end,
+      event = "BufRead",
+      disable = not lvim.builtin.lsp_lines,
+
+    },
+    {
       "folke/zen-mode.nvim",
       config = function()
         require("user.zen").config()
@@ -544,11 +565,10 @@ M.config = function()
       disable = not lvim.builtin.fancy_wild_menu.active,
     },
     {
-      "gfeiyou/command-center.nvim",
+      "mrjones2014/legendary.nvim",
       config = function()
-        require("user.cc").config()
+        require("user.legendary").config()
       end,
-      requires = "nvim-telescope/telescope.nvim",
     },
     {
       "stevearc/dressing.nvim",
@@ -600,7 +620,6 @@ M.config = function()
     {
       "vimpostor/vim-tpipeline",
       disable = not lvim.builtin.tmux_lualine,
-      commit = "a95ccb6939c819142f9b972033010403c4b7f5d8",
     },
     -- end of abz config
     {
