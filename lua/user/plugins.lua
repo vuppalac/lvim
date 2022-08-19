@@ -110,7 +110,7 @@ M.config = function()
     },
     {
       "simrat39/symbols-outline.nvim",
-      setup = function()
+      config = function()
         require("user.symbols_outline").config()
       end,
       event = "BufReadPost",
@@ -279,7 +279,6 @@ M.config = function()
       config = function()
         require("user.tss").config()
       end,
-      before = "williamboman/nvim-lsp-installer",
     },
     {
       "lervag/vimtex",
