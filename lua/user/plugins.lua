@@ -195,7 +195,6 @@ M.config = function()
       end,
       event = "BufRead",
       disable = not lvim.builtin.lsp_lines,
-
     },
     {
       "folke/zen-mode.nvim",
@@ -262,7 +261,7 @@ M.config = function()
       config = function()
         require("user.vim_test").config()
       end,
-      disable = not lvim.builtin.test_runner.active,
+      disable = not (lvim.builtin.test_runner.active and lvim.builtin.test_runner.runner == "ultest"),
     },
     {
       "jose-elias-alvarez/typescript.nvim",
@@ -284,22 +283,21 @@ M.config = function()
       "lervag/vimtex",
       ft = "tex",
     },
-    -- {
-    --   "nvim-neotest/neotest",
-    --   config = function()
-    --     require("user.ntest").config()
-    --   end,
-    --   requires = {
-    --     "nvim-neotest/neotest-go",
-    --     "nvim-neotest/neotest-python",
-    --     "nvim-neotest/neotest-plenary",
-    --     "nvim-neotest/neotest-vim-test",
-    --     "vim-test/vim-test",
-    --   },
-    --   -- opt = true,
-    --   -- event = { "BufEnter *_test.*,*_spec.*,test_*.*" },
-    --   disable = not lvim.builtin.test_runner.active,
-    -- },
+    {
+      "nvim-neotest/neotest",
+      config = function()
+        require("user.ntest").config()
+      end,
+      requires = {
+        { "nvim-neotest/neotest-go" },
+        { "nvim-neotest/neotest-python" },
+        { "nvim-neotest/neotest-plenary" },
+        { "rouge8/neotest-rust" },
+      },
+      -- opt = true,
+      -- event = { "BufEnter *_test.*,*_spec.*,test_*.*" },
+      disable = not (lvim.builtin.test_runner.active and lvim.builtin.test_runner.runner == "neotest"),
+    },
     {
       "rcarriga/vim-ultest",
       cmd = { "Ultest", "UltestSummary", "UltestNearest" },
@@ -308,7 +306,7 @@ M.config = function()
       run = ":UpdateRemotePlugins",
       opt = true,
       event = { "BufEnter *_test.*,*_spec.*,*est_*.*" },
-      disable = not lvim.builtin.test_runner.active,
+      disable = not (lvim.builtin.test_runner.active and lvim.builtin.test_runner.runner == "ultest"),
     },
     {
       "AckslD/nvim-neoclip.lua",
@@ -361,6 +359,7 @@ M.config = function()
       config = function()
         require("cinnamon").setup {
           default_keymaps = true,
+          default_delay = 4,
           extra_keymaps = true,
           extended_keymaps = false,
           centered = true,

@@ -244,10 +244,13 @@ M.config = function()
   -- WhichKey keybindings
   -- =========================================
   M.set_async_tasks_keymaps()
-  lvim.builtin.which_key.mappings["/"] = {
-    "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>",
-    " Comment",
-  }
+  local status_ok_comment, cmt = pcall(require, "Comment.api")
+  if status_ok_comment and cmt["toggle"] ~= nil then
+    lvim.builtin.which_key.mappings["/"] = {
+      "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>",
+      " Comment",
+    }
+  end
   lvim.builtin.which_key.mappings[";"] = { "<cmd>Alpha<CR>", "舘Dashboard" }
   if lvim.builtin.dap.active then
     lvim.builtin.which_key.mappings["de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" }
@@ -312,8 +315,10 @@ M.config = function()
     }
   end
 
-  lvim.builtin.which_key.vmappings["/"] =
-    { "<ESC><CMD>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", "Comment" }
+  if status_ok_comment and cmt["toggle"] ~= nil then
+    lvim.builtin.which_key.vmappings["/"] =
+      { "<ESC><CMD>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<CR>", "Comment" }
+  end
 
   lvim.builtin.which_key.vmappings["l"] = {
     name = "+Lsp",
@@ -358,29 +363,55 @@ M.config = function()
     "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>",
     "String",
   }
-  lvim.builtin.which_key.mappings["t"] = {
-    name = " Terminal",
-    f = { "<CMD>ToggleTerm direction=float<CR>", "   Toggle floating term" },
-    h = { "<CMD>lua require('nvterm.terminal').toggle('horizontal')<CR>", "   Toggle horizontal term" },
-    v = { "<CMD>lua require('nvterm.terminal').toggle('vertical')<CR>", "   Toggle vertical term" },
-  }
+  if lvim.builtin.test_runner.active then
+    if lvim.builtin.test_runner.runner == "neotest" then
+      lvim.builtin.which_key.mappings["t"] = {
+        name = "ﭧ Test",
+        f = {
+          "<cmd>lua require('neotest').run.run({vim.fn.expand('%'), env=require('user.ntest').get_env()})<cr>",
+          "File",
+        },
+        o = { "<cmd>lua require('neotest').output.open({ enter = true, short = false })<cr>", "Output" },
+        r = { "<cmd>lua require('neotest').run.run({env=require('user.ntest').get_env()})<cr>", "Run" },
+        a = { "<cmd>lua require('user.ntest').run_all()<cr>", "Run All" },
+        s = { "<cmd>lua require('neotest').summary.toggle()<cr>", "Summary" },
+        n = { "<cmd>lua require('neotest').jump.next({ status = 'failed' })<cr>", "jump to next failed" },
+        p = { "<cmd>lua require('neotest').jump.prev({ status = 'failed' })<cr>", "jump to previous failed" },
+        d = { "<cmd>lua require('neotest').run.run({ strategy = 'dap' })<cr>", "Dap Run" },
+        x = { "<cmd>lua require('neotest').run.stop()<cr>", "Stop" },
+        w = { "<cmd>lua require('neotest').watch.watch()<cr>", "Watch" },
+      }
+    else
+      lvim.builtin.which_key.mappings["t"] = {
+        name = "ﭧ Test",
+        f = { "<cmd>Ultest<cr>", "File" },
+        n = { "<cmd>UltestNearest<cr>", "Nearest" },
+        s = { "<cmd>UltestSummary<cr>", "Summary" },
+      }
+    end
+  end
   lvim.builtin.which_key.mappings["T"] = {
-    name = "ﭧ Test",
-    f = { "<cmd>Ultest<cr>", "File" },
-    n = { "<cmd>UltestNearest<cr>", "Nearest" },
-    s = { "<cmd>UltestSummary<cr>", "Summary" },
-    -- f = { "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", "File" },
-    -- o = { "<cmd>lua require('neotest').output.open({ enter = true, short = false })<cr>", "Output" },
-    -- r = { "<cmd>lua require('neotest').run.run()<cr>", "Run" },
-    -- s = { "<cmd>lua require('neotest').summary.toggle()<cr>", "Summary" },
-    -- n = { "<cmd>lua require('neotest').jump.next({ status = 'failed' })<cr>", "jump to next failed" },
-    -- p = { "<cmd>lua require('neotest').jump.prev({ status = 'failed' })<cr>", "jump to previous failed" },
+    name = "飯Trouble",
+    d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnosticss" },
+    f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+    l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+    q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+    r = { "<cmd>Trouble lsp_references<cr>", "References" },
+    t = { "<cmd>TodoLocList <cr>", "Todo" },
+    w = { "<cmd>Trouble workspace_diagnostics<cr>", "Diagnosticss" },
   }
   lvim.builtin.which_key.mappings["z"] = { "<cmd>ZenMode<cr>", " Zen" }
   lvim.builtin.which_key.mappings["w"] = { "<cmd>w!<CR>", " Save" }
   lvim.builtin.which_key.vmappings["g"] = {
     name = " Git",
     s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
+  }
+
+  lvim.builtin.which_key.mappings["t"] = {
+    name = " Terminal",
+    f = { "<CMD>ToggleTerm direction=float<CR>", "   Toggle floating term" },
+    h = { "<CMD>lua require('nvterm.terminal').toggle('horizontal')<CR>", "   Toggle horizontal term" },
+    v = { "<CMD>lua require('nvterm.terminal').toggle('vertical')<CR>", "   Toggle vertical term" },
   }
 
   -- My wezterm is weird
