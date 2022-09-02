@@ -290,7 +290,7 @@ M.config = function()
     w = { "<cmd>Trouble workspace_diagnostics<cr>", "Diagnosticss" },
   }
   lvim.builtin.which_key.mappings["C"] = { "<cmd>lua require('legendary').find('commands')<cr>", " Command Palette" }
-  lvim.keys.normal_mode["<c-P>"] = "<cmd>lua require('legendary').find()<cr>"
+  -- lvim.keys.normal_mode["<c-P>"] = "<cmd>lua require('legendary').find()<cr>"
 
   if lvim.builtin.file_browser.active then
     lvim.builtin.which_key.mappings["se"] = { "<cmd>Telescope file_browser<cr>", "File Browser" }
