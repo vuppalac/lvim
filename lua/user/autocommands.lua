@@ -47,6 +47,14 @@ augroup END
       command = "lua require('cmp').setup.buffer { sources = { { name = 'vim-dadbod-completion' } } }",
     })
   end
+  create_aucmd("TextYankPost", {
+    group = "_general_settings",
+    pattern = "*",
+    desc = "Highlight text on yank",
+    callback = function()
+      require("vim.highlight").on_yank { higroup = "Search", timeout = 40 }
+    end,
+  })
   create_aucmd("BufWritePre", {
     group = "_lvim_user",
     pattern = { "/tmp/*", "COMMIT_EDITMSG", "MERGE_MSG", "*.tmp", "*.bak" },
@@ -71,11 +79,13 @@ augroup END
     pattern = "go",
     command = "nnoremap <leader>H <cmd>lua require('lvim.core.terminal')._exec_toggle({cmd='go vet .;read',count=2,direction='float'})<CR>",
   })
-  create_aucmd("Filetype", {
-    group = "_lvim_user",
-    pattern = { "scala", "sbt", "java" },
-    command = "lua require('user.metals').config()",
-  })
+  if lvim.builtin.metals.active then
+    create_aucmd("Filetype", {
+      group = "_lvim_user",
+      pattern = { "scala", "sbt" },
+      callback = require("user.metals").start,
+    })
+  end
   create_aucmd("FileType", {
     group = "_lvim_user",
     pattern = "java",

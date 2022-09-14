@@ -6,7 +6,16 @@ M.config = function()
     return
   end
 
-  nt.setup {
+  local namespace = vim.api.nvim_create_namespace "neotest"
+  vim.diagnostic.config({
+    virtual_text = {
+      format = function(diagnostic)
+        return diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+      end,
+    },
+  }, namespace)
+
+  local opts = {
     running = {
       concurrent = false,
     },
@@ -20,10 +29,10 @@ M.config = function()
       },
     },
     discovery = {
-      enabled = false,
+      enabled = true,
     },
     diagnostic = {
-      enabled = false,
+      enabled = true,
     },
     icons = {
       running = require("user.lsp_kind").icons.clock,
@@ -44,6 +53,18 @@ M.config = function()
       require "neotest-plenary",
     },
   }
+
+  if lvim.builtin.task_runner == "overseer" then
+    opts.consumers = {
+      overseer = require "neotest.consumers.overseer",
+    }
+    opts.overseer = {
+      enabled = true,
+      force_default = true,
+    }
+  end
+
+  nt.setup(opts)
 end
 
 M.get_env = function()
@@ -72,6 +93,14 @@ M.run_all = function()
   for _, adapter_id in ipairs(neotest.run.adapters()) do
     neotest.run.run { suite = true, adapter = adapter_id }
   end
+end
+
+M.cancel = function()
+  require("neotest").run.stop { interactive = true }
+end
+
+M.run_file_sync = function()
+  require("neotest").run.run { vim.fn.expand "%", concurrent = false }
 end
 
 return M

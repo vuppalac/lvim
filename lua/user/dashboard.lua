@@ -19,24 +19,30 @@ M.config = function()
   }
 
   local plugins = ""
-  local datetime = ""
-  if vim.fn.has "unix" == 1 or vim.fn.has "linux" == 1 or vim.fn.has "mac" == 1 then
-    local handle = io.popen 'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
+  local datetime = os.date(kind.icons.calendar .. "%d-%m-%Y ".. kind.icons.clock .. "%H:%M:%S")
+  if vim.fn.has "linux" == 1 or vim.fn.has "mac" == 1 then
+    local handle = io.popen 'fd -d 2 . $HOME"/.local/share/lunarvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
     plugins = handle:read "*a"
     handle:close()
 
-    datetime = os.date(kind.icons.calendar .. "%d-%m-%Y ".. kind.icons.clock .. "%H:%M:%S")
     plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
   else
     plugins = "N/A"
-    datetime = "whatever "
   end
 
   local plugin_count = {
     type = "text",
-    -- val = "└─   " .. plugins .. " plugins in total ─┘",
-    --val = "└─   " .. plugins .. " plugins in total ─┘",
-    val = "└─ " .. kind.cmp_kind.Module .. " " .. plugins .. " plugins in total ─┘",
+    val = "└─ "
+      .. kind.cmp_kind.Module
+      .. " "
+      .. string.format("% 3d", plugins)
+      .. " plugins  v"
+      .. vim.version().major
+      .. "."
+      .. vim.version().minor
+      .. "."
+      .. vim.version().patch
+      .. " ─┘",
     opts = {
       position = "center",
       -- hl = "String",
@@ -100,7 +106,11 @@ M.config = function()
   local buttons = {
     type = "group",
     val = {
-      button("f", " " .. kind.cmp_kind.Folder .. " Explore", "<cmd>lua require('lvim.core.telescope.custom-finders').find_project_files()<CR>"),
+      button(
+        "f",
+        " " .. kind.cmp_kind.Folder .. " Explore",
+        "<cmd>lua require('lvim.core.telescope.custom-finders').find_project_files()<CR>"
+      ),
       button("e", " " .. kind.cmp_kind.File .. " New file", ":ene <BAR> startinsert <CR>"),
       button("s", " " .. kind.icons.magic .. " Restore", ":lua require('persistence').load()<cr>"),
       button(

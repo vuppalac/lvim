@@ -24,10 +24,10 @@ lvim.builtin.fancy_statusline = { active = true } -- enable/disable fancy status
 lvim.builtin.fancy_wild_menu = { active = false } -- enable/disable cmp-cmdline
 lvim.builtin.fancy_diff = { active = true } -- enable/disable fancier git diff
 lvim.builtin.lua_dev = { active = true } -- change this to enable/disable folke/lua_dev
-lvim.builtin.test_runner = { active = true, runner = "ultest" } -- change this to enable/disable ultest or neotest
+lvim.builtin.test_runner = { active = false, runner = "ultest" } -- change this to enable/disable ultest or neotest
 lvim.builtin.cheat = { active = false } -- enable cheat.sh integration
 lvim.builtin.sql_integration = { active = false } -- use sql integration
-lvim.builtin.smooth_scroll = "cinnamon" -- for smoth scrolling, can be "cinnamon", "neoscroll" or ""
+lvim.builtin.smooth_scroll = "" -- for smoth scrolling, can be "cinnamon", "neoscroll" or ""
 lvim.builtin.neoclip = { active = true, enable_persistent_history = false }
 lvim.builtin.nonumber_unfocus = false -- diffrentiate between focused and non focused windows
 lvim.builtin.custom_web_devicons = true -- install https://github.com/Nguyen-Hoang-Nam/mini-file-icons
@@ -39,12 +39,12 @@ lvim.builtin.motion_provider = "hop" -- change this to use different motion prov
 lvim.builtin.hlslens = { active = false } -- enable/disable hlslens
 lvim.builtin.csv_support = false -- enable/disable csv support
 lvim.builtin.sidebar = { active = false } -- enable/disable sidebar
-lvim.builtin.async_tasks = { active = true } -- enable/disable async tasks
-lvim.builtin.winbar_provider = "treesitter" -- can be "filename" or "treesitter" or ""
+lvim.builtin.task_runner = "" -- change this to use different task runners ( "async_tasks" or "overseer" or "")
+lvim.builtin.winbar_provider = "filename" -- can be "filename" or "treesitter" or ""
 lvim.builtin.metals = {
   active = false, -- enable/disable nvim-metals for scala development
-  fallbackScalaVersion = "2.13.7",
-  serverVersion = "0.10.9+271-a8bb69f6-SNAPSHOT",
+  fallbackScalaVersion = "3.2.0-RC3",
+  serverVersion = "0.11.8",
 }
 lvim.builtin.collaborative_editing = { active = false } -- enable/disable collaborative editing
 lvim.builtin.file_browser = { active = false } -- enable/disable telescope file browser
@@ -55,7 +55,7 @@ lvim.builtin.global_statusline = true -- set true to use global statusline
 lvim.builtin.dressing = { active = true } -- enable to override vim.ui.input and vim.ui.select with telescope
 lvim.builtin.refactoring = { active = true } -- enable to use refactoring.nvim code_actions
 lvim.builtin.tmux_lualine = true -- use vim-tpipeline to integrate lualine and tmux
-lvim.builtin.lsp_lines = true -- enable/disable lsp_lines to display lsp virtual text below instead of behind
+lvim.builtin.lsp_lines = false -- enable/disable lsp_lines to display lsp virtual text below instead of behind
 
 if lvim.builtin.tmux_lualine then
   vim.opt.cmdheight = 0 -- WARN: only works with the latest neovim
@@ -64,9 +64,15 @@ end
 if lvim.builtin.lsp_lines then
   lvim.lsp.diagnostics.virtual_text = false
 end
+lvim.builtin.legendary = { active = false } -- enable/disable legendary plugin ( ctrl-p command )
 
 local user = os.getenv "USER"
 if user and user == "abz" then
+  -- WARN: these only work on neovim head
+  vim.opt.mousescroll = { "ver:1", "hor:6" }
+  vim.o.mousefocus = true
+  vim.o.mousemoveevent = true
+
   lvim.builtin.lsp_lines = true
   vim.diagnostic.config { virtual_lines = false } -- i only want to use it explicitly ( by calling the toggle function)
   lvim.builtin.tmux_lualine = true
@@ -78,18 +84,20 @@ if user and user == "abz" then
   lvim.use_icons = false -- only set to false if you know what are you doing
   lvim.builtin.sell_your_soul_to_devil = { active = true, prada = false }
   lvim.lsp.document_highlight = false
-  lvim.builtin.csv_support = true
-  lvim.builtin.async_tasks.active = true
+  lvim.builtin.task_runner = "async_tasks"
   lvim.builtin.dap.active = true
-  lvim.builtin.sql_integration.active = true
   vim.g.instant_username = user
-  lvim.builtin.collaborative_editing.active = true
-  lvim.builtin.file_browser.active = true
   lvim.builtin.global_statusline = true
   lvim.builtin.dressing.active = true
   lvim.builtin.fancy_wild_menu.active = true
   lvim.builtin.refactoring.active = true
   lvim.builtin.test_runner.runner = "neotest"
+  lvim.format_on_save = {
+    pattern = "*.rs",
+    timeout = 2000,
+    filter = require("lvim.lsp.utils").format_filter,
+  }
+  lvim.builtin.smooth_scroll = "cinnamon"
   require("lvim.lsp.manager").setup("prosemd_lsp", {})
 end
 lvim.lsp.diagnostics.virtual_text = false -- remove this line if you want to see inline errors

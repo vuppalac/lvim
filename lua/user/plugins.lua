@@ -19,8 +19,7 @@ M.config = function()
       end,
     },
     {
-      "abzcoding/tokyonight.nvim",
-      branch = "feat/local",
+      "folke/tokyonight.nvim",
       config = function()
         require("user.theme").tokyonight()
         vim.cmd [[colorscheme tokyonight]]
@@ -349,6 +348,7 @@ M.config = function()
       config = function()
         require("neoscroll").setup {
           easing_function = "quadratic",
+          hide_cursor = true,
         }
       end,
       event = "BufRead",
@@ -503,7 +503,7 @@ M.config = function()
         ]]
       end,
       event = "BufRead",
-      disable = not lvim.builtin.async_tasks.active,
+      disable = lvim.builtin.task_runner ~= "async_tasks",
     },
     {
       "scalameta/nvim-metals",
@@ -567,6 +567,7 @@ M.config = function()
       config = function()
         require("user.legendary").config()
       end,
+      disable = not lvim.builtin.legendary.active,
     },
     {
       "stevearc/dressing.nvim",
@@ -618,6 +619,13 @@ M.config = function()
     {
       "vimpostor/vim-tpipeline",
       disable = not lvim.builtin.tmux_lualine,
+    },
+    {
+      "stevearc/overseer.nvim",
+      config = function()
+        require("user.ovs").config()
+      end,
+      disable = lvim.builtin.task_runner ~= "overseer",
     },
     -- end of abz config
     {

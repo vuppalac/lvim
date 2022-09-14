@@ -137,6 +137,12 @@ M.config = function()
   local alpha_opts = require("user.dashboard").config()
   lvim.builtin.alpha["custom"] = { config = alpha_opts }
 
+  -- GitSigns
+  -- =========================================
+  lvim.builtin.gitsigns.opts._threaded_diff = true
+  lvim.builtin.gitsigns.opts._extmark_signs = true
+  lvim.builtin.gitsigns.opts.current_line_blame_formatter = " <author>, <author_time> · <summary>"
+
   -- LSP
   -- =========================================
   lvim.lsp.buffer_mappings.normal_mode["ga"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" }
@@ -233,6 +239,10 @@ M.config = function()
   lvim.builtin.project.active = false
   lvim.builtin.project.patterns = { "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" }
   lvim.builtin.project.detection_methods = { "lsp", "pattern" }
+
+  -- Toggleterm
+  -- =========================================
+  lvim.builtin.terminal.autochdir = true
 
   -- Treesitter
   -- =========================================
@@ -505,11 +515,11 @@ function M.tab(fallback)
     fallback()
   elseif luasnip.expand_or_locally_jumpable() then
     luasnip.expand_or_jump()
-  elseif methods.jumpable(1) then
-    luasnip.jump(1)
   elseif copilot_keys ~= "" then -- prioritise copilot over snippets
     -- Copilot keys do not need to be wrapped in termcodes
     vim.api.nvim_feedkeys(copilot_keys, "i", true)
+  elseif methods.jumpable(1) then
+    luasnip.jump(1)
   elseif methods.has_words_before() then
     cmp.complete()
   else

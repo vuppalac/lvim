@@ -157,8 +157,8 @@ local function set_harpoon_keymaps()
   }
 end
 
-M.set_async_tasks_keymaps = function()
-  if lvim.builtin.async_tasks.active then
+M.set_task_runner_keymaps = function()
+  if lvim.builtin.task_runner == "async_tasks" then
     lvim.builtin.which_key.mappings["m"] = {
       name = " Make",
       f = { "<cmd>AsyncTask file-build<cr>", "File" },
@@ -170,6 +170,22 @@ M.set_async_tasks_keymaps = function()
       name = " Run",
       f = { "<cmd>AsyncTask file-run<cr>", "File" },
       p = { "<cmd>AsyncTask project-run<cr>", "Project" },
+    }
+  elseif lvim.builtin.task_runner == "overseer" then
+    lvim.builtin.which_key.mappings["m"] = {
+      name = " Tasks",
+      l = { "<cmd>OverseerLoadBundle<CR>", "Load Bundle" },
+      s = { "<cmd>OverseerSaveBundle<CR>", "Save Bundle" },
+      n = { "<cmd>OverseerBuild<CR>", "New Task" },
+      q = { "<cmd>OverseerQuickAction<CR>", "Quick Action" },
+      f = { "<cmd>OverseerTaskAction<CR>", "Task Action" },
+      t = { "<cmd>OverseerToggle<cr>", "Toggle Output" },
+    }
+    lvim.builtin.which_key.mappings["r"] = {
+      name = " Run",
+      f = { "<cmd>OverseerRun<cr>", "Run" },
+      p = { "<cmd>OverseerRunCmd<cr>", "Run with Cmd" },
+      t = { "<cmd>OverseerToggle<cr>", "Toggle" },
     }
   else
     lvim.builtin.which_key.mappings["m"] = "Make"
@@ -243,7 +259,7 @@ M.config = function()
 
   -- WhichKey keybindings
   -- =========================================
-  M.set_async_tasks_keymaps()
+  M.set_task_runner_keymaps()
   local status_ok_comment, cmt = pcall(require, "Comment.api")
   if status_ok_comment and cmt["toggle"] ~= nil then
     lvim.builtin.which_key.mappings["/"] = {
@@ -255,6 +271,10 @@ M.config = function()
   if lvim.builtin.dap.active then
     lvim.builtin.which_key.mappings["de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" }
     lvim.builtin.which_key.mappings["dU"] = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" }
+    lvim.builtin.which_key.mappings["ds"] = {
+      "<cmd>lua if vim.bo.filetype == 'rust' then vim.cmd[[RustDebuggables]] else require'dap'.continue() end<CR>",
+      "Start",
+    }
   end
   if lvim.builtin.fancy_diff.active then
     lvim.builtin.which_key.mappings["gd"] = { "<cmd>DiffviewOpen<cr>", "diffview: diff HEAD" }
@@ -279,18 +299,11 @@ M.config = function()
     s = { "<cmd>lua require('user.telescope').git_status()<cr>", "Git Status" },
     z = { "<cmd>lua require('user.telescope').search_only_certain_files()<cr>", "Certain Filetype" },
   }
-  lvim.builtin.which_key.mappings["d"] = {
-    name = "飯Trouble",
-    d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnosticss" },
-    f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-    l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-    q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
-    r = { "<cmd>Trouble lsp_references<cr>", "References" },
-    t = { "<cmd>TodoLocList <cr>", "Todo" },
-    w = { "<cmd>Trouble workspace_diagnostics<cr>", "Diagnosticss" },
-  }
-  lvim.builtin.which_key.mappings["C"] = { "<cmd>lua require('legendary').find('commands')<cr>", " Command Palette" }
-  -- lvim.keys.normal_mode["<c-P>"] = "<cmd>lua require('legendary').find()<cr>"
+  if lvim.builtin.legendary.active then
+    lvim.builtin.which_key.mappings["C"] =
+      { "<cmd>lua require('legendary').find('commands')<cr>", " Command Palette" }
+    -- lvim.keys.normal_mode["<c-P>"] = "<cmd>lua require('legendary').find()<cr>"
+  end
 
   if lvim.builtin.file_browser.active then
     lvim.builtin.which_key.mappings["se"] = { "<cmd>Telescope file_browser<cr>", "File Browser" }
@@ -374,6 +387,8 @@ M.config = function()
         o = { "<cmd>lua require('neotest').output.open({ enter = true, short = false })<cr>", "Output" },
         r = { "<cmd>lua require('neotest').run.run({env=require('user.ntest').get_env()})<cr>", "Run" },
         a = { "<cmd>lua require('user.ntest').run_all()<cr>", "Run All" },
+        c = { "<cmd>lua require('user.ntest').cancel()<cr>", "Cancel" },
+        R = { "<cmd>lua require('user.ntest').run_file_sync()<cr>", "Run Async" },
         s = { "<cmd>lua require('neotest').summary.toggle()<cr>", "Summary" },
         n = { "<cmd>lua require('neotest').jump.next({ status = 'failed' })<cr>", "jump to next failed" },
         p = { "<cmd>lua require('neotest').jump.prev({ status = 'failed' })<cr>", "jump to previous failed" },
