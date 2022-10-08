@@ -2,11 +2,18 @@ local M = {}
 
 M.config = function()
   local kind = require "user.lsp_kind"
-  local List = require "plenary.collections.py_list"
   lvim.builtin.bufferline.highlights = {
     background = { italic = true },
     buffer_selected = { bold = true },
   }
+  if lvim.builtin.time_based_themes then
+    lvim.builtin.bufferline.highlights.fill = {
+      bg = {
+        attribute = "bg",
+        highlight = "NormalNC",
+      },
+    }
+  end
   local g_ok, bufferline_groups = pcall(require, "bufferline.groups")
   if not g_ok then
     bufferline_groups = {
@@ -32,12 +39,13 @@ M.config = function()
           table.insert(result, symbols[name] .. count)
         end
       end
-      result = table.concat(result, " ")
-      return #result > 0 and result or ""
+      local res = table.concat(result, " ")
+      return #res > 0 and res or ""
     end,
 
     mode = "buffers",
     sort_by = "insert_after_current",
+    always_show_bufferline = false,
     groups = {
       options = {
         toggle_hidden_on_enter = true,
@@ -173,6 +181,21 @@ M.config = function()
     show_buffer_close_icons = true,
     diagnostics_update_in_insert = false,
   }
+end
+
+M.delete_buffer = function()
+  local fn = vim.fn
+  local cmd = vim.cmd
+  local buflisted = fn.getbufinfo({buflisted = 1})
+  local cur_winnr, cur_bufnr = fn.winnr(), fn.bufnr()
+  if #buflisted < 2 then cmd 'confirm qall' return end
+  for _, winid in ipairs(fn.getbufinfo(cur_bufnr)[1].windows) do
+    cmd(string.format('%d wincmd w', fn.win_id2win(winid)))
+    cmd(cur_bufnr == buflisted[#buflisted].bufnr and 'bp' or 'bn')
+  end
+  cmd(string.format('%d wincmd w', cur_winnr))
+  local is_terminal = fn.getbufvar(cur_bufnr, '&buftype') == 'terminal'
+  cmd(is_terminal and 'bd! #' or 'silent! confirm bd #')
 end
 
 return M

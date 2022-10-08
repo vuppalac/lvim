@@ -1,3 +1,4 @@
+vim.cmd [[
 highlight! link FocusedSymbol LspHighlight
 highlight! link LspCodeLens SpecialComment
 highlight! SpecialComment guibg=bold guifg=#9ca0a4
@@ -26,6 +27,7 @@ highlight! link CmpItemKindEvent  TSVariable
 highlight! link CmpItemKindOperator  Operator
 highlight! link CmpItemKindTypeParameter  Type
 highlight! link CmpItemKindSnippet  Statement
+highlight! link NeoTreeDirectoryIcon NvimTreeFolderIcon
 " hi HlSearchNear guibg=None guifg=#bb9af7 gui=underline
 " hi HlSearchFloat guibg=None guifg=#bb9af7 gui=underline
 " hi HlSearchLensNear guibg=None guifg=#bb9af7 gui=italic
@@ -36,5 +38,15 @@ highlight! link IndentBlanklineIndent3  TSComment
 highlight! link IndentBlanklineIndent4  TSComment
 highlight! link IndentBlanklineIndent5  TSComment
 highlight! link IndentBlanklineIndent6  TSComment
-lua require('user.theme').telescope_theme()
-lua require('user.dev_icons').define_dap_signs()
+highlight! IlluminatedWordRead NONE
+highlight! IlluminatedWordWrite NONE
+highlight! IlluminatedWordText NONE
+]]
+require("user.theme").telescope_theme()
+require("user.dev_icons").define_dap_signs()
+if lvim.use_icons == false and lvim.builtin.custom_web_devicons then
+  require("user.dev_icons").set_icon()
+end
+if lvim.builtin.fancy_wild_menu.active then
+  require("user.builtin").setup_cmdline()
+end

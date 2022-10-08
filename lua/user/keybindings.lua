@@ -9,6 +9,8 @@ M.set_wezterm_keybindings = function()
   lvim.keys.insert_mode["˚"] = lvim.keys.insert_mode["<A-k>"]
   lvim.keys.normal_mode["å"] = lvim.keys.normal_mode["<A-a>"]
   lvim.keys.normal_mode["≈"] = lvim.keys.normal_mode["<A-x>"]
+  lvim.keys.visual_mode["å"] = lvim.keys.visual_mode["<A-a>"]
+  lvim.keys.visual_mode["≈"] = lvim.keys.visual_mode["<A-x>"]
 end
 
 M.set_terminal_keymaps = function()
@@ -94,7 +96,7 @@ M.set_hlslens_keymaps = function()
 end
 
 local function set_bufferline_keymaps()
-  lvim.keys.normal_mode["<S-x>"] = "<Cmd>BufferKill<CR>"
+  lvim.keys.normal_mode["<S-x>"] = "<Cmd>lua require('user.bufferline').delete_buffer()<CR>"
   lvim.keys.normal_mode["<S-l>"] = "<Cmd>BufferLineCycleNext<CR>"
   lvim.keys.normal_mode["<S-h>"] = "<Cmd>BufferLineCyclePrev<CR>"
   lvim.keys.normal_mode["[b"] = "<Cmd>BufferLineMoveNext<CR>"
@@ -254,6 +256,8 @@ M.config = function()
   if lvim.builtin.harpoon.active then
     set_harpoon_keymaps()
   end
+  lvim.keys.visual_mode["<A-a>"] = "<C-a>"
+  lvim.keys.visual_mode["<A-x>"] = "<C-x>"
   lvim.keys.visual_mode["p"] = [["_dP]]
   lvim.keys.visual_mode["ga"] = "<esc><Cmd>lua vim.lsp.buf.range_code_action()<CR>"
   lvim.keys.visual_mode["<leader>st"] = "<Cmd>lua require('user.telescope').grep_string_visual()<CR>"
@@ -267,24 +271,28 @@ M.config = function()
       "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>",
       " Comment",
     }
+  else
+    lvim.builtin.which_key.mappings["/"] = { "<Plug>(comment_toggle_linewise_current)", " Comment" }
   end
   lvim.builtin.which_key.mappings[";"] = { "<cmd>Alpha<CR>", "舘Dashboard" }
   if lvim.builtin.dap.active then
     lvim.builtin.which_key.mappings["de"] = { "<cmd>lua require('dapui').eval()<cr>", "Eval" }
     lvim.builtin.which_key.mappings["dU"] = { "<cmd>lua require('dapui').toggle()<cr>", "Toggle UI" }
-    lvim.builtin.which_key.mappings["ds"] = {
-      "<cmd>lua if vim.bo.filetype == 'rust' then vim.cmd[[RustDebuggables]] else require'dap'.continue() end<CR>",
-      "Start",
-    }
   end
   if lvim.builtin.fancy_diff.active then
     lvim.builtin.which_key.mappings["gd"] = { "<cmd>DiffviewOpen<cr>", "diffview: diff HEAD" }
+    lvim.builtin.which_key.mappings["gh"] = { "<cmd>DiffviewFileHistory<cr>", "diffview: filehistory" }
+  else
+    lvim.builtin.which_key.mappings["gh"] = { "<cmd>Telescope git_bcommits<cr>", "file history" }
   end
   if lvim.builtin.cheat.active then
     lvim.builtin.which_key.mappings["?"] = { "<cmd>Cheat<CR>", " Cheat.sh" }
   end
   if lvim.builtin.lsp_lines then
     M.set_lsp_lines_keymap()
+  end
+  if lvim.builtin.tree_provider == "neo-tree" then
+    lvim.builtin.which_key.mappings["e"] = { ":NeoTreeRevealToggle<CR>", " Explorer" }
   end
   lvim.builtin.which_key.mappings["F"] = {
     name = " Find",
@@ -314,7 +322,7 @@ M.config = function()
   lvim.builtin.which_key.mappings.g.name = " Git"
   lvim.builtin.which_key.mappings.l.name = " LSP"
   lvim.builtin.which_key.mappings["f"] = {
-    require("lvim.core.telescope.custom-finders").find_project_files,
+    require("user.telescope").find_project_files,
     " Find File",
   }
   local ok, _ = pcall(require, "vim.diagnostic")

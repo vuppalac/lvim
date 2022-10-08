@@ -19,17 +19,6 @@ M.config = function()
       end,
     },
     {
-      "folke/tokyonight.nvim",
-      config = function()
-        require("user.theme").tokyonight()
-        vim.cmd [[colorscheme tokyonight]]
-      end,
-      cond = function()
-        local _time = os.date("*t", os.time() + lvim.builtin.time_offset * 60 * 60)
-        return (_time.hour >= 9 and _time.hour < 17) and lvim.builtin.time_based_themes
-      end,
-    },
-    {
       "catppuccin/nvim",
       as = "catppuccin",
       setup = function()
@@ -116,16 +105,6 @@ M.config = function()
       disable = lvim.builtin.tag_provider ~= "symbols-outline",
     },
     {
-      "lukas-reineke/indent-blankline.nvim",
-      setup = function()
-        vim.g.indent_blankline_char = "▏"
-      end,
-      config = function()
-        require("user.indent_blankline").config()
-      end,
-      event = "BufRead",
-    },
-    {
       "tzachar/cmp-tabnine",
       run = "./install.sh",
       requires = "hrsh7th/nvim-cmp",
@@ -156,16 +135,6 @@ M.config = function()
       event = "BufRead",
     },
     {
-      "rcarriga/nvim-dap-ui",
-      config = function()
-        require("user.dapui").config()
-      end,
-      ft = { "python", "rust", "go" },
-      event = "BufReadPost",
-      requires = { "mfussenegger/nvim-dap" },
-      disable = not lvim.builtin.dap.active,
-    },
-    {
       "andymass/vim-matchup",
       event = "BufReadPost",
       config = function()
@@ -186,6 +155,7 @@ M.config = function()
         require("user.rust_tools").config()
       end,
       ft = { "rust", "rs" },
+      disable = not lvim.builtin.rust_programming.active,
     },
     {
       "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
@@ -214,7 +184,7 @@ M.config = function()
       config = function()
         require("user.colorizer").config()
       end,
-      event = "BufRead",
+      event = "BufReadPre",
     },
     {
       "folke/persistence.nvim",
@@ -277,6 +247,16 @@ M.config = function()
       config = function()
         require("user.tss").config()
       end,
+      disable = not lvim.builtin.web_programming.active,
+    },
+    {
+      "vuki656/package-info.nvim",
+      config = function()
+        require("package-info").setup()
+      end,
+      opt = true,
+      event = { "BufReadPre", "BufNew" },
+      disable = not lvim.builtin.web_programming.active,
     },
     {
       "lervag/vimtex",
@@ -402,18 +382,9 @@ M.config = function()
       opt = true,
       cmd = { "DiffviewOpen", "DiffviewFileHistory" },
       module = "diffview",
-      keys = "<leader>gd",
-      setup = function()
-        require("which-key").register { ["<leader>gd"] = "diffview: diff HEAD" }
-      end,
+      keys = { "<leader>gd", "<leader>gh" },
       config = function()
-        require("diffview").setup {
-          enhanced_diff_hl = true,
-          key_bindings = {
-            file_panel = { q = "<Cmd>DiffviewClose<CR>" },
-            view = { q = "<Cmd>DiffviewClose<CR>" },
-          },
-        }
+        require("user.diffview").config()
       end,
       disable = not lvim.builtin.fancy_diff.active,
     },
@@ -434,15 +405,9 @@ M.config = function()
       disable = not lvim.builtin.remote_dev.active,
     },
     {
-      "nathom/filetype.nvim",
-      config = function()
-        require("user.filetype").config()
-      end,
-    },
-    {
       "abzcoding/nvim-mini-file-icons",
       config = function()
-        require("user.dev_icons").set_icon()
+        require("nvim-web-devicons").setup()
       end,
       disable = lvim.use_icons or not lvim.builtin.custom_web_devicons,
     },
@@ -502,7 +467,7 @@ M.config = function()
           let g:asynctasks_extra_config = ['~/.config/lvim/tasks.ini']
         ]]
       end,
-      event = "BufRead",
+      event = { "BufRead", "BufNew" },
       disable = lvim.builtin.task_runner ~= "async_tasks",
     },
     {
@@ -557,6 +522,7 @@ M.config = function()
       config = function()
         require("user.crates").config()
       end,
+      disable = not lvim.builtin.rust_programming.active,
     },
     {
       "hrsh7th/cmp-cmdline",
@@ -627,6 +593,80 @@ M.config = function()
       end,
       disable = lvim.builtin.task_runner ~= "overseer",
     },
+    {
+      "nvim-neo-tree/neo-tree.nvim",
+      branch = "v2.x",
+      requires = {
+        "MunifTanjim/nui.nvim",
+      },
+      config = function()
+        require("user.neotree").config()
+      end,
+      disable = lvim.builtin.tree_provider ~= "neo-tree",
+    },
+    {
+      "folke/noice.nvim",
+      event = "VimEnter",
+      config = function()
+        require("user.noice").config()
+      end,
+      requires = {
+        "MunifTanjim/nui.nvim",
+        "rcarriga/nvim-notify",
+      },
+      disable = not lvim.builtin.noice.active,
+    },
+    {
+      "olexsmir/gopher.nvim",
+      config = function()
+        require("gopher").setup {
+          commands = {
+            go = "go",
+            gomodifytags = "gomodifytags",
+            gotests = "gotests",
+            impl = "impl",
+            iferr = "iferr",
+          },
+        }
+      end,
+      ft = { "go", "gomod" },
+      event = { "BufRead", "BufNew" },
+      disable = not lvim.builtin.go_programming.active,
+    },
+    {
+      "leoluz/nvim-dap-go",
+      config = function()
+        require("dap-go").setup()
+      end,
+      ft = { "go", "gomod" },
+      event = { "BufRead", "BufNew" },
+      disable = not lvim.builtin.go_programming.active,
+    },
+    {
+      "AckslD/swenv.nvim",
+      disable = not lvim.builtin.python_programming.active,
+      ft = "python",
+      event = { "BufRead", "BufNew" },
+    },
+    {
+      "mfussenegger/nvim-dap-python",
+      config = function()
+        local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/")
+        require("dap-python").setup(mason_path .. "packages/debugpy/venv/bin/python")
+        require("dap-python").test_runner = "pytest"
+      end,
+      ft = "python",
+      event = { "BufRead", "BufNew" },
+      disable = not lvim.builtin.python_programming.active,
+    },
+    -- TODO: set this up when https://github.com/neovim/neovim/pull/20130 is merged
+    -- {
+    --   "lvimuser/lsp-inlayhints.nvim",
+    --   branch = "anticonceal",
+    --   config = function()
+    --     require("lsp-inlayhints").setup()
+    --   end,
+    -- },
     -- end of abz config
     {
       'vim-scripts/DoxygenToolkit.vim',
@@ -672,7 +712,7 @@ M.config = function()
       config = function ()
         require("user.nvterm").config()
       end,
-    }
+    },
   }
 end
 

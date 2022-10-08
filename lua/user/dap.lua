@@ -55,6 +55,15 @@ M.config = function()
           local target_dir = metadata.target_directory
           return target_dir .. "/debug/" .. target_name
         end,
+        args = function()
+          local inputstr = vim.fn.input("Params: ", "")
+          local params = {}
+          local sep = "%s"
+          for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
+            table.insert(params, str)
+          end
+          return params
+        end,
       },
     }
   end
@@ -203,7 +212,7 @@ M.config = function()
   }
 
   local path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason/packages/codelldb/extension/")
-    or vim.fn.expand "~/" .. ".vscode/extensions/vadimcn.vscode-lldb-1.7.3/"
+    or vim.fn.expand "~/" .. ".vscode/extensions/vadimcn.vscode-lldb-1.8.1/"
   local lldb_cmd = path .. "adapter/codelldb"
 
   dap.adapters.codelldb = {
@@ -300,9 +309,6 @@ M.config = function()
     end,
     console = "integratedTerminal",
   })
-  lvim.builtin.dap.on_config_done = function(_)
-    lvim.builtin.which_key.mappings["d"].name = " Debug"
-  end
 end
 
 return M

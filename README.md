@@ -2,7 +2,7 @@
 
 Do not use as is, use it as a source of inspiration.
 
-I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly 😅
+I've customized my ZSH/Tmux/[Wezterm](https://github.com/abzcoding/wezterm) too much, so it might not work properly 😅
 
 ![141789968-ed61958c-9154-4774-b2e2-dfabe48d9660](https://user-images.githubusercontent.com/10992695/141791560-5062246a-056c-4a73-afa7-3152e6ad396e.jpg)
 
@@ -43,6 +43,7 @@ I've customized my ZSH/Tmux/Alacritty too much, so it might not work properly �
   - [Plugin: Copilot](#plugin-copilot)
   - [Plugin: Lsp_Lines](#plugin-lsp_lines)
   - [Plugin: Overseer](#plugin-overseer)
+  - [Plugin: NeoTree](#plugin-neotree)
 - [Troubleshooting](#troubleshooting)
 
 <!-- vim-markdown-toc -->
@@ -84,7 +85,7 @@ lvim.plugins = {
     <small><i>(🔎 Click to expand/collapse)</i></small>
   </summary>
 
-- I'm on [this PR](https://github.com/LunarVim/LunarVim/pull/2544) of LunarVim and i am using `neovim 0.8 head`
+- I'm on [this PR](https://github.com/LunarVim/LunarVim/pull/2544) of LunarVim and i am using `neovim 0.9 head`
 - Do not use as is, too much bloated! Also do not use on a potato PC!!
 - i have a auto command to disable syntax,etc when you open files larger than `1MB`
 - if you don't want to use `harpoon`, disable it
@@ -114,12 +115,16 @@ lvim.plugins = {
   - `lvim.builtin.nonumber_unfocus = true`
 - choose between [hop](https://github.com/phaazon/hop.nvim) and [lightspeed](https://github.com/ggandor/lightspeed.nvim) as your favorite motion provider
   - `lvim.builtin.motion_provider = "hop"`
-- choose between [filename->incline](https://github.com/b0o/incline.nvim) and [treesitter->winbar](https://github.com/fgheng/winbar.nvim) as your winbar provider
+- choose between [filename->incline](https://github.com/b0o/incline.nvim) and [treesitter->winbar](https://github.com/fgheng/winbar.nvim) or [navic](https://github.com/SmiteshP/nvim-navic) as your winbar provider
   - `lvim.builtin.winbar_provider = "treesitter"`
 - if you don't need CSV support, disable it
   - `lvim.builtin.csv_support = false`
 - if you want to use the cool make and run system, enable it
-  - `lvim.builtin.task_runner = "async_tasks"
+  - `lvim.builtin.task_runner = "async_tasks"`
+- you can choose between `nvimtree` and `neo-tree` as your file tree viewer
+  - `lvim.builtin.tree_provider = "neo-tree"`
+- you can use noice.nvim if you want
+  - `lvim.builtin.noice = { active = true }`
 - If you wanna see the issues, remove `lvim.lsp.diagnostics.virtual_text = false`
 - I'm using `skim` for `latex` stuff, change it to `zathura` if you are on `linux`
 
@@ -136,7 +141,7 @@ lvim.plugins = {
 
 ### Prerequisites
 
-- [Neovim](neovim-install) >= v0.7.0
+- [Neovim](neovim-install) >= v0.8.0
 
 ```shell
   brew install neovim --nightly
@@ -374,14 +379,12 @@ _Symbols Outline_
 <details>
   <summary><strong>Plugins</strong> <small><i>(🔎 Click to expand/collapse)</i></small></summary>
 
-- [Tokyonight Theme](https://github.com/folke/tokyonight.nvim/)
 - [Doom One Theme](https://github.com/NTBBloodbath/doom-one.nvim)
 - [Rose Pine Theme](https://github.com/rose-pine/neovim)
 - [LSP Signature](https://github.com/ray-x/lsp_signature.nvim/)
 - [Todo Comments](https://github.com/folke/todo-comments.nvim)
 - [Trouble](https://github.com/folke/trouble.nvim)
 - [symbols-outline.nvim](https://github.com/simrat39/symbols-outline.nvim)
-- [Indent Blankline](https://github.com/lukas-reineke/indent-blankline.nvim)
 - [Twilight](https://github.com/folke/twilight.nvim)
 - [nvim-bqf](https://github.com/kevinhwang91/nvim-bqf)
 - [vim match-up](https://github.com/andymass/vim-matchup)
@@ -441,6 +444,8 @@ _Symbols Outline_
 - [neotest](https://github.com/nvim-neotest/neotest)
 - [legendary.nvim](https://github.com/mrjones2014/legendary.nvim)
 - [overseer.nvim](https://github.com/stevearc/overseer.nvim)
+- [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim/blob/v2.x)
+- [noice.nvim](https://github.com/folke/noice.nvim)
 
 </details>
 
@@ -497,7 +502,8 @@ Note that,
 | <kbd>Space</kbd>+<kbd>'</kbd>                                 |  𝐍   | Open marks          | <small>which-key marks</small>                |
 | <kbd>Space</kbd>+<kbd>z</kbd>                                 |  𝐍   | Zen mode            | <small>zen-mode.nvim</small>                  |
 | <kbd>Space</kbd>+<kbd>P</kbd>                                 |  𝐍   | Projects            | <small>project.nvim</small>                   |
-| <kbd>Ctrl</kbd>+<kbd>\</kbd>                                  |  𝐈   | Open terminal       | <small>toggleterm.nvim</small>                |
+| <kbd>Ctrl</kbd>+<kbd>\</kbd>                                  | 𝐈 𝐍  | Open terminal       | <small>toggleterm.nvim</small>                |
+| <kbd>Alt</kbd>+<kbd>0</kbd>                                   | 𝐈 𝐍  | Vertical terminal   | <small>toggleterm.nvim</small>                |
 | <kbd>Ctrl</kbd>+<kbd>s</kbd>                                  |  𝐈   | Show signature help | <small>`vim.lsp.buf.signature_help()`</small> |
 | <kbd>Alt</kbd>+<kbd>s</kbd>                                   |  𝐈   | Snippet selection   | <small>Telescope luasnip extension</small>    |
 | <kbd>Space</kbd>+<kbd>C</kbd> or <kbd>Ctrl</kbd>+<kbd>P</kbd> |  𝐍   | Command Palette     | <small>legendary.nvim</small>                 |
@@ -558,6 +564,8 @@ Note that,
 | <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>l</kbd>                                               |  𝐍   | Blame line             |
 | <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>s</kbd>                                               | 𝐍 𝐕  | Stage hunk             |
 | <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>u</kbd>                                               |  𝐍   | Undo stage hunk        |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>d</kbd>                                               |  𝐍   | Diff to head           |
+| <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>h</kbd>                                               |  𝐍   | Buffer git history     |
 | <kbd>Space</kbd>+<kbd>g</kbd>+<kbd>R</kbd>                                               | 𝐍 𝐕  | Reset hunk             |
 
 ### Plugin: LazyGit
@@ -714,6 +722,24 @@ Note that,
 | <kbd>Space</kbd>+<kbd>m</kbd>+<kbd>s</kbd> |  𝐍   | Save Task Bundle |
 | <kbd>Space</kbd>+<kbd>m</kbd>+<kbd>q</kbd> |  𝐍   | Quick Action     |
 | <kbd>Space</kbd>+<kbd>m</kbd>+<kbd>f</kbd> |  𝐍   | Task Action      |
+
+### Plugin: NeoTree
+
+| Key                           | Mode | Action                           |
+| ----------------------------- | :--: | -------------------------------- |
+| <kbd>Space</kbd>+<kbd>e</kbd> |  𝐍   | Toggle tree                      |
+| <kbd>></kbd> and <kbd><</kbd> |  𝐍   | Next and prev source inside tree |
+| <kbd><cr></kbd>               |  𝐍   | Open                             |
+| <kbd>s</kbd>                  |  𝐍   | Open in vertical split           |
+| <kbd>S</kbd>                  |  𝐍   | Open in horizontal spit          |
+| <kbd>H</kbd>                  |  𝐍   | Toggle hidden files              |
+| <kbd>a</kbd>                  |  𝐍   | Add files/dirs                   |
+| <kbd>A</kbd>                  |  𝐍   | Add new dir                      |
+| <kbd>r</kbd>                  |  𝐍   | Rename                           |
+| <kbd>h</kbd>                  |  𝐍   | Go Updir                         |
+| <kbd>l</kbd>                  |  𝐍   | Open                             |
+| <kbd>P</kbd>                  |  𝐍   | Toggle preview                   |
+| <kbd>/</kbd>                  |  𝐍   | Fuzzy finder                     |
 
 </details>
 

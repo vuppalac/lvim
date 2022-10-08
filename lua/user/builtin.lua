@@ -65,15 +65,6 @@ M.config = function()
       config = { sources = function(...) end },
     }
   end
-  if lvim.builtin.fancy_wild_menu.active then
-    cmp.setup.cmdline(":", {
-      mapping = cmp.mapping.preset.cmdline {},
-      sources = {
-        { name = "cmdline" },
-        { name = "path" },
-      },
-    })
-  end
   cmp.setup.filetype("toml", {
     sources = cmp.config.sources({
       { name = "nvim_lsp", max_item_count = 8 },
@@ -143,8 +134,19 @@ M.config = function()
   lvim.builtin.gitsigns.opts._extmark_signs = true
   lvim.builtin.gitsigns.opts.current_line_blame_formatter = " <author>, <author_time> · <summary>"
 
+  -- IndentBlankline
+  -- =========================================
+  require("user.indent_blankline").config()
+
   -- LSP
   -- =========================================
+  if lvim.builtin.go_programming.active then
+    require("lvim.lsp.manager").setup("golangci_lint_ls", {
+      on_init = require("lvim.lsp").common_on_init,
+      capabilities = require("lvim.lsp").common_capabilities(),
+    })
+  end
+
   lvim.lsp.buffer_mappings.normal_mode["ga"] = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" }
   lvim.lsp.buffer_mappings.normal_mode["gI"] = {
     "<cmd>lua require('user.telescope').lsp_implementations()<CR>",
@@ -217,11 +219,36 @@ M.config = function()
     end
     return t.message
   end
+  lvim.lsp.on_attach_callback = M.lsp_on_attach_callback
 
   -- Lualine
   -- =========================================
   lvim.builtin.lualine.active = true
   lvim.builtin.lualine.sections.lualine_b = { "branch" }
+
+  -- Mason
+  -- =========================================
+  lvim.builtin.mason.ui.icons = kind.mason
+
+  -- Notify
+  -- =========================================
+  lvim.builtin.notify.opts.min_width = function()
+    return math.floor(vim.o.columns * 0.4)
+  end
+  lvim.builtin.notify.opts.max_width = function()
+    return math.floor(vim.o.columns * 0.4)
+  end
+  lvim.builtin.notify.opts.max_height = function()
+    return math.floor(vim.o.lines * 0.8)
+  end
+  lvim.builtin.notify.opts.render = function(...)
+    local notif = select(2, ...)
+    local style = notif.title[1] == "" and "minimal" or "default"
+    require("notify.render")[style](...)
+  end
+  lvim.builtin.notify.opts.stages = "fade_in_slide_out"
+  lvim.builtin.notify.opts.timeout = 3000
+  lvim.builtin.notify.opts.background_colour = "NormalFloat"
 
   -- NvimTree
   -- =========================================
@@ -234,7 +261,6 @@ M.config = function()
       error = kind.icons.error,
     },
   }
-  lvim.builtin.nvimtree.setup.renderer.icons.glyphs = kind.nvim_tree_icons
   lvim.builtin.nvimtree.on_config_done = function(_)
     lvim.builtin.which_key.mappings["e"] = { "<cmd>NvimTreeToggle<CR>", " Explorer" }
   end
@@ -246,9 +272,23 @@ M.config = function()
   lvim.builtin.project.patterns = { "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" }
   lvim.builtin.project.detection_methods = { "lsp", "pattern" }
 
+  -- Theme
+  -- =========================================
+  lvim.builtin.theme.options.style = "storm"
+  lvim.builtin.theme.options.styles.comments = {}
+  lvim.builtin.theme.options.dim_inactive = true
+
   -- Toggleterm
   -- =========================================
+  lvim.builtin.terminal.active = true
+  lvim.builtin.terminal.execs = {}
   lvim.builtin.terminal.autochdir = true
+  lvim.builtin.terminal.open_mapping = nil
+  lvim.builtin.terminal.size = vim.o.columns * 0.4
+  lvim.builtin.terminal.on_config_done = function()
+    M.create_terminal(2, "<c-\\>", 20, "float")
+    M.create_terminal(3, "<A-0>", vim.o.columns * 0.4, "vertical")
+  end
 
   -- Treesitter
   -- =========================================
@@ -256,21 +296,22 @@ M.config = function()
   lvim.builtin.treesitter.ensure_installed = {
       "bash",
       "c",
+      "cmake",
+      "comment",
       "cpp",
-      "javascript",
+      "dockerfile",
+      "help",
       "json",
       "jsonc",
       "lua",
+      "make",
+      "markdown",
       "python",
-      "typescript",
-      "css",
+      "regex",
       "rust",
-      "java",
-      "yaml",
       "toml",
-      "go",
-    "vim",
-    "markdown",
+      "vim",
+      "yaml",
   }
   lvim.builtin.treesitter.highlight.disable = { "org" }
   lvim.builtin.treesitter.highlight.aditional_vim_regex_highlighting = { "org" }
@@ -431,6 +472,8 @@ M.config = function()
       ["<c-t>"] = user_telescope.multi_selection_open_tab,
       ["<c-j>"] = actions.move_selection_next,
       ["<c-k>"] = actions.move_selection_previous,
+      ["<c-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+      ["<C-d>"] = require("telescope.actions").delete_buffer,
     },
     n = {
       ["<esc>"] = actions.close,
@@ -445,10 +488,21 @@ M.config = function()
       ["<c-n>"] = actions.cycle_history_next,
       ["<c-p>"] = actions.cycle_history_prev,
       ["<c-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+      ["dd"] = require("telescope.actions").delete_buffer,
     },
   }
   local telescope_actions = require "telescope.actions.set"
-  lvim.builtin.telescope.defaults.pickers.find_files = {
+  lvim.builtin.telescope.pickers.git_files = {
+    hidden = true,
+    show_untracked = true,
+    layout_strategy = "horizontal",
+  }
+  lvim.builtin.telescope.pickers.live_grep = {
+    only_sort_text = true,
+    layout_strategy = "horizontal",
+  }
+  lvim.builtin.telescope.pickers.find_files = {
+    layout_strategy = "horizontal",
     attach_mappings = function(_)
       telescope_actions.select:enhance {
         post = function()
@@ -466,16 +520,14 @@ M.config = function()
     end
   end
 
-  -- Terminal
-  -- =========================================
-  lvim.builtin.terminal.active = true
-  lvim.builtin.terminal.open_mapping = [[<c-\>]]
-
   -- WhichKey
   -- =========================================
   lvim.builtin.which_key.setup.window.winblend = 10
   lvim.builtin.which_key.setup.window.border = "none"
   lvim.builtin.which_key.setup.plugins.presets.z = true
+  lvim.builtin.which_key.setup.plugins.presets.g = true
+  lvim.builtin.which_key.setup.plugins.presets.windows = true
+  lvim.builtin.which_key.setup.plugins.presets.nav = true
   lvim.builtin.which_key.setup.plugins.marks = true
   lvim.builtin.which_key.setup.plugins.registers = true
   lvim.builtin.which_key.setup.icons = {
@@ -529,7 +581,8 @@ function M.tab(fallback)
   elseif methods.jumpable(1) then
     luasnip.jump(1)
   elseif methods.has_words_before() then
-    cmp.complete()
+    -- cmp.complete()
+    fallback()
   else
     methods.feedkeys("<Plug>(Tabout)", "")
   end
@@ -621,6 +674,22 @@ M.codes = {
   },
 }
 
+--- Create a new toggleterm
+---@param num number the terminal number must be > 1
+---@param keymap string the keymap to toggle the terminal
+---@param size number the size of the terminal
+---@param direction string can be 'float','vertical','horizontal'
+M.create_terminal = function(num, keymap, size, direction)
+  local terms = require "toggleterm.terminal"
+  local ui = require "toggleterm.ui"
+  local dir = vim.loop.cwd()
+  vim.keymap.set({ "n", "t" }, keymap, function()
+    local term = terms.get_or_create_term(num, dir, direction)
+    ui.update_origin_window(term.window)
+    term:toggle(size, direction)
+  end, { noremap = true, silent = true })
+end
+
 M.show_documentation = function()
   local filetype = vim.bo.filetype
   if vim.tbl_contains({ "vim", "help" }, filetype) then
@@ -629,8 +698,129 @@ M.show_documentation = function()
     require("crates").show_popup()
   elseif vim.tbl_contains({ "man" }, filetype) then
     vim.cmd("Man " .. vim.fn.expand "<cword>")
+  elseif filetype == "rust" then
+    local found, rt = pcall(require, "rust-tools")
+    if found then
+      rt.hover_actions.hover_actions()
+    else
+      vim.lsp.buf.hover()
+    end
   else
     vim.lsp.buf.hover()
+  end
+end
+
+M.lsp_on_attach_callback = function(client, _)
+  local wkstatus_ok, which_key = pcall(require, "which-key")
+  if not wkstatus_ok then
+    return
+  end
+  local mappings = {}
+
+  local opts = {
+    mode = "n",
+    prefix = "<leader>",
+    buffer = nil,
+    silent = true,
+    noremap = true,
+    nowait = true,
+  }
+  -- local opts = { noremap = true, silent = true }
+  if client.name == "clangd" then
+    mappings["H"] = {
+      "<Cmd>ClangdSwitchSourceHeader<CR>",
+      "Swich Header/Source",
+    }
+  elseif client.name == "gopls" then
+    mappings["H"] = {
+      "<Cmd>lua require('lvim.core.terminal')._exec_toggle({cmd='go vet .;read',count=2,direction='float'})<CR>",
+      "Go Vet",
+    }
+    if lvim.builtin.go_programming.active then
+      mappings["li"] = { "<cmd>GoInstallDeps<cr>", "Install Dependencies" }
+      mappings["lT"] = { "<cmd>GoMod tidy<cr>", "Tidy" }
+      mappings["lt"] = { "<cmd>GoTestAdd<cr>", "Add Test" }
+      mappings["tA"] = { "<cmd>GoTestsAll<cr>", "Add All Tests" }
+      mappings["le"] = { "<cmd>GoTestsExp<cr>", "Add Exported Tests" }
+      mappings["lg"] = { "<cmd>GoGenerate<cr>", "Generate" }
+      mappings["lF"] = { "<cmd>GoGenerate %<cr>", "Generate File" }
+      mappings["lc"] = { "<cmd>GoCmt<cr>", "Comment" }
+      mappings["dT"] = { "<cmd>lua require('dap-go').debug_test()<cr>", "Debug Test" }
+    end
+  elseif client.name == "jdtls" then
+    mappings["rf"] = {
+      "<cmd>lua require('toggleterm.terminal').Terminal:new {cmd='mvn package;read', hidden =false}:toggle()<CR>",
+      "Maven Package",
+    }
+    mappings["mf"] = {
+      "<cmd>lua require('toggleterm.terminal').Terminal:new {cmd='mvn compile;read', hidden =false}:toggle()<CR>",
+      "Maven Compile",
+    }
+  elseif client.name == "rust_analyzer" then
+    mappings["H"] = {
+      "<cmd>lua require('lvim.core.terminal')._exec_toggle({cmd='cargo clippy;read',count=2,direction='float'})<CR>",
+      "Clippy",
+    }
+    if lvim.builtin.rust_programming.active then
+      mappings["lA"] = { "<Cmd>RustHoverActions<CR>", "Hover Actions" }
+      mappings["lm"] = { "<Cmd>RustExpandMacro<CR>", "Expand Macro" }
+      mappings["lH"] = { "<Cmd>RustToggleInlayHints<CR>", "Toggle Inlay Hints" }
+      mappings["le"] = { "<Cmd>RustRunnables<CR>", "Runnables" }
+      mappings["lc"] = { "<Cmd>RustOpenCargo<CR>", "Open Cargo" }
+      mappings["lo"] = { "<Cmd>RustOpenExternalDocs<CR>", "Open External Docs" }
+    end
+  elseif client.name == "taplo" then
+    if lvim.builtin.rust_programming.active then
+      mappings["lt"] = { "<Cmd>lua require('crates').toggle()<CR>", "Toggle Crate" }
+      mappings["lu"] = { "<Cmd>lua require('crates').update_crate()<CR>", "Update Crate" }
+      mappings["lU"] = { "<Cmd>lua require('crates').upgrade_crate()<CR>", "Upgrade Crate" }
+      mappings["lg"] = { "<Cmd>lua require('crates').update_all_crates()<CR>", "Update All" }
+      mappings["lG"] = { "<Cmd>lua require('crates').upgrade_all_crates()<CR>", "Upgrade All" }
+      mappings["lH"] = { "<Cmd>lua require('crates').open_homepage()<CR>", "Open HomePage" }
+      mappings["lD"] = { "<Cmd>lua require('crates').open_documentation()<CR>", "Open Documentation" }
+      mappings["lR"] = { "<Cmd>lua require('crates').open_repository()<CR>", "Open Repository" }
+      mappings["lv"] = { "<Cmd>lua require('crates').show_versions_popup()<CR>", "Show Versions" }
+      mappings["lF"] = { "<Cmd>lua require('crates').show_features_popup()<CR>", "Show Features" }
+      mappings["lD"] = { "<Cmd>lua require('crates').show_dependencies_popup()<CR>", "Show Dependencies" }
+    end
+  elseif client.name == "tsserver" then
+    mappings["lA"] = { "<Cmd>TSLspImportAll<CR>", "Import All" }
+    mappings["lR"] = { "<Cmd>TSLspRenameFile<CR>", "Rename File" }
+    mappings["lO"] = { "<Cmd>TSLspOrganize<CR>", "Organize Imports" }
+  elseif client.name == "pyright" then
+    if lvim.builtin.python_programming.active then
+      mappings["df"] = { "<cmd>lua require('dap-python').test_class()<cr>", "Test Class" }
+      mappings["dm"] = { "<cmd>lua require('dap-python').test_method()<cr>", "Test Method" }
+      mappings["dS"] = { "<cmd>lua require('dap-python').debug_selection()<cr>", "Debug Selection" }
+      mappings["P"] = {
+        name = "Python",
+        i = { "<cmd>lua require('swenv.api').pick_venv()<cr>", "Pick Env" },
+        d = { "<cmd>lua require('swenv.api').get_current_venv()<cr>", "Show Env" },
+      }
+    end
+  elseif client.name == "jsonls" then
+    if lvim.builtin.web_programming.active then
+      mappings["ls"] = { "<cmd>lua require('package-info').show()<cr>", "Show pkg info" }
+      mappings["lc"] = { "<cmd>lua require('package-info').hide()<cr>", "Hide pkg info" }
+      mappings["lu"] = { "<cmd>lua require('package-info').update()<cr>", "Update dependency" }
+      mappings["ld"] = { "<cmd>lua require('package-info').delete()<cr>", "Delete dependency" }
+      mappings["li"] = { "<cmd>lua require('package-info').install()<cr>", "Install dependency" }
+      mappings["lC"] = { "<cmd>lua require('package-info').change_version()<cr>", "Change Version" }
+    end
+  end
+  which_key.register(mappings, opts)
+end
+
+M.setup_cmdline = function()
+  local found, cmp = pcall(require, "cmp")
+  if found then
+    cmp.setup.cmdline(":", {
+      mapping = cmp.mapping.preset.cmdline {},
+      sources = {
+        { name = "cmdline" },
+        { name = "path" },
+      },
+    })
   end
 end
 
