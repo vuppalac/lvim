@@ -12,7 +12,9 @@ M.config = function()
 
   -- Bufferline
   -- =========================================
-  require("user.bufferline").config()
+  if lvim.builtin.bufferline.active then
+    require("user.bufferline").config()
+  end
 
   -- CMP
   -- =========================================
@@ -64,6 +66,33 @@ M.config = function()
       setup = { filetype = function(...) end, cmdline = function(...) end },
       config = { sources = function(...) end },
     }
+  end
+  if lvim.builtin.fancy_wild_menu.active then
+    local cmdline_opts = {
+      mapping = cmp.mapping.preset.cmdline {},
+      sources = {
+        { name = "cmdline" },
+        { name = "path" },
+      },
+    }
+    if lvim.builtin.noice.active then
+      cmdline_opts.window = {
+        completion = {
+          border = {
+            { "╭", "CmpBorder" },
+            { "─", "CmpBorder" },
+            { "╮", "CmpBorder" },
+            { "│", "CmpBorder" },
+            { "╯", "CmpBorder" },
+            { "─", "CmpBorder" },
+            { "╰", "CmpBorder" },
+            { "│", "CmpBorder" },
+          },
+          winhighlight = "Search:None",
+        },
+      }
+    end
+    cmp.setup.cmdline(":", cmdline_opts)
   end
   cmp.setup.filetype("toml", {
     sources = cmp.config.sources({
@@ -187,7 +216,7 @@ M.config = function()
     { " ", "FloatBorder" },
     { " ", "FloatBorder" },
   }
-  if os.getenv "KITTY_WINDOW_ID" then
+  if vim.env.KITTY_WINDOW_ID then
     lvim.lsp.float.border = {
       { "🭽", "FloatBorder" },
       { "▔", "FloatBorder" },
@@ -340,14 +369,28 @@ M.config = function()
       lookahead = true,
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
+        ["aA"] = "@attribute.outer",
+        ["iA"] = "@attribute.inner",
+        ["ab"] = "@block.outer",
+        ["ib"] = "@block.inner",
+        ["ac"] = "@call.outer",
+        ["ic"] = "@call.inner",
+        ["at"] = "@class.outer",
+        ["it"] = "@class.inner",
+        ["a/"] = "@comment.outer",
+        ["i/"] = "@comment.inner",
+        ["ai"] = "@conditional.outer",
+        ["ii"] = "@conditional.inner",
+        ["aF"] = "@frame.outer",
+        ["iF"] = "@frame.inner",
         ["af"] = "@function.outer",
         ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
         ["al"] = "@loop.outer",
         ["il"] = "@loop.inner",
         ["aa"] = "@parameter.outer",
         ["ia"] = "@parameter.inner",
+        ["is"] = "@scopename.inner",
+        ["as"] = "@statement.outer",
         ["av"] = "@variable.outer",
         ["iv"] = "@variable.inner",
       },
@@ -473,7 +516,6 @@ M.config = function()
       ["<c-j>"] = actions.move_selection_next,
       ["<c-k>"] = actions.move_selection_previous,
       ["<c-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-      ["<C-d>"] = require("telescope.actions").delete_buffer,
     },
     n = {
       ["<esc>"] = actions.close,
@@ -766,6 +808,13 @@ M.lsp_on_attach_callback = function(client, _)
       mappings["lm"] = { "<Cmd>RustExpandMacro<CR>", "Expand Macro" }
       mappings["lH"] = { "<Cmd>RustToggleInlayHints<CR>", "Toggle Inlay Hints" }
       mappings["le"] = { "<Cmd>RustRunnables<CR>", "Runnables" }
+      mappings["lD"] = { "<cmd>RustDebuggables<Cr>", "Debuggables" }
+      mappings["lP"] = { "<cmd>RustParentModule<Cr>", "Parent Module" }
+      mappings["lv"] = { "<cmd>RustViewCrateGraph<Cr>", "View Crate Graph" }
+      mappings["lR"] = {
+        "<cmd>lua require('rust-tools/workspace_refresh')._reload_workspace_from_cargo_toml()<Cr>",
+        "Reload Workspace",
+      }
       mappings["lc"] = { "<Cmd>RustOpenCargo<CR>", "Open Cargo" }
       mappings["lo"] = { "<Cmd>RustOpenExternalDocs<CR>", "Open External Docs" }
     end
@@ -787,6 +836,11 @@ M.lsp_on_attach_callback = function(client, _)
     mappings["lA"] = { "<Cmd>TSLspImportAll<CR>", "Import All" }
     mappings["lR"] = { "<Cmd>TSLspRenameFile<CR>", "Rename File" }
     mappings["lO"] = { "<Cmd>TSLspOrganize<CR>", "Organize Imports" }
+    mappings["li"] = { "<cmd>TypescriptAddMissingImports<Cr>", "AddMissingImports" }
+    mappings["lo"] = { "<cmd>TypescriptOrganizeImports<cr>", "OrganizeImports" }
+    mappings["lu"] = { "<cmd>TypescriptRemoveUnused<Cr>", "RemoveUnused" }
+    mappings["lF"] = { "<cmd>TypescriptFixAll<Cr>", "FixAll" }
+    mappings["lg"] = { "<cmd>TypescriptGoToSourceDefinition<Cr>", "GoToSourceDefinition" }
   elseif client.name == "pyright" then
     if lvim.builtin.python_programming.active then
       mappings["df"] = { "<cmd>lua require('dap-python').test_class()<cr>", "Test Class" }
@@ -809,19 +863,6 @@ M.lsp_on_attach_callback = function(client, _)
     end
   end
   which_key.register(mappings, opts)
-end
-
-M.setup_cmdline = function()
-  local found, cmp = pcall(require, "cmp")
-  if found then
-    cmp.setup.cmdline(":", {
-      mapping = cmp.mapping.preset.cmdline {},
-      sources = {
-        { name = "cmdline" },
-        { name = "path" },
-      },
-    })
-  end
 end
 
 return M

@@ -1,11 +1,12 @@
 local M = {}
 
 M.config = function()
-  -- WARN: these only work on neovim head
-  vim.opt.mousescroll = { "ver:1", "hor:6" }
-  vim.o.mousefocus = true
-  vim.o.mousemoveevent = true
-  ---
+  if vim.fn.has "nvim-0.9" == 1 then
+    vim.opt.mousescroll = { "ver:1", "hor:6" }
+    vim.o.mousefocus = true
+    vim.o.mousemoveevent = true
+    vim.o.splitkeep = "screen"
+  end
 
   lvim.builtin.lsp_lines = true
   vim.diagnostic.config { virtual_lines = false } -- i only want to use it explicitly ( by calling the toggle function)
@@ -22,7 +23,7 @@ M.config = function()
   lvim.lsp.document_highlight = false
   lvim.builtin.task_runner = "async_tasks"
   lvim.builtin.dap.active = true
-  vim.g.instant_username = user
+  vim.g.instant_username = vim.env.USER
   lvim.builtin.global_statusline = true
   lvim.builtin.dressing.active = true
   lvim.builtin.fancy_wild_menu.active = true

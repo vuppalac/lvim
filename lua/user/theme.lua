@@ -34,6 +34,7 @@ M.rose_pine = function()
       Boolean = { fg = "love" },
       Cursor = { fg = "#232136", bg = "#e0def4" },
       NormalFloat = { bg = "#191724" },
+      MsgArea = { fg = "#e0def4" },
       VertSplit = { fg = "#21202e", bg = "#21202e" },
       SignColumn = { fg = "#e0def4", bg = "NONE" },
       SignColumnSB = { fg = "#e0def4", bg = "NONE" },
@@ -140,13 +141,14 @@ M.kanagawa = function()
     colors = { sumiInk1b = "#1b1b23" },
     overrides = {
       diffRemoved = { fg = "#E46876" },
-      NvimTreeFolderIcon = { fg = "#7e9cd8" }
+      NvimTreeFolderIcon = { fg = "#7e9cd8" },
     },
   }
 end
 
 M.colors = {
   tokyonight_colors = {
+    cmp_border = "#181924",
     none = "NONE",
     bg_dark = "#1f2335",
     bg_alt = "#1a1b26",
@@ -185,6 +187,7 @@ M.colors = {
   },
 
   rose_pine_colors = {
+    cmp_border = "#191724",
     none = "NONE",
     bg = "#2a273f",
     fg = "#e0def4",
@@ -222,6 +225,7 @@ M.colors = {
   },
 
   catppuccin_colors = {
+    cmp_border = "#151521",
     rosewater = "#F5E0DC",
     flamingo = "#F2CDCD",
     violet = "#DDB6F2",
@@ -255,6 +259,7 @@ M.colors = {
   },
 
   kanagawa_colors = {
+    cmp_border = "#16161D",
     bg = "#21212A",
     bg_alt = "#1F1F28",
     bg_br = "#363646",
@@ -335,6 +340,9 @@ M.telescope_theme = function()
   if lvim.builtin.time_based_themes then
     local _time = os.date "*t"
     local current_colors = M.current_colors()
+    set_fg_bg("CmpBorder", current_colors.cmp_border, current_colors.cmp_border)
+    set_fg_bg("NoiceCmdlinePopupBorder", current_colors.cmp_border, current_colors.cmp_border)
+    set_fg_bg("NoiceCmdlinePopupSearchBorder", current_colors.cmp_border, current_colors.cmp_border)
     set_fg_bg("diffAdded", current_colors.git.add, "NONE")
     set_fg_bg("diffRemoved", current_colors.git.delete, "NONE")
     set_fg_bg("diffChanged", current_colors.git.change, "NONE")
