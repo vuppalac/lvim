@@ -714,6 +714,10 @@ M.config = function()
         require("user.nvterm").config()
       end,
     },
+    {
+      "mg979/vim-visual-multi",
+      branch = "master"
+    }
   }
 end
 

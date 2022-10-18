@@ -207,11 +207,18 @@ M.config = function()
   -- Additional keybindings
   -- =========================================
   -- lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+  local status_ok_comment, cmt = pcall(require, "Comment.api")
   lvim.keys.normal_mode["<C-p>"] = ":Telescope find_files<CR>"
   lvim.keys.normal_mode["<C-f>"] = ":Telescope grep_string<CR>"
   lvim.keys.normal_mode["<M-f>"] = ":Telescope live_grep<CR>"
-  lvim.keys.normal_mode["<C-_>"] = "<cmd>lua require('Comment.api').toggle_current_linewise()<CR>"
-  lvim.keys.visual_mode["<C-_>"] = "<ESC><CMD>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>"
+  if status_ok_comment and cmt["toggle"] ~= nil then
+    lvim.keys.normal_mode["<C-_>"] = "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>"
+    -- lvim.keys.visual_mode["<C-_>"] = "<ESC><CMD>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>"
+    lvim.keys.visual_mode["<C-_>"] = "<Plug>(comment_toggle_linewise_visual)"
+  else
+    lvim.keys.normal_mode["<C-_>"] = "<Plug>(comment_toggle_linewise_current)"
+    lvim.keys.visual_mode["<C-_>"] = "<Plug>(comment_toggle_linewise_visual)"
+  end
   lvim.keys.normal_mode["<C-d>"] = ":Dox<CR>"
   lvim.keys.normal_mode["<Tab>"] = ":BufferLineCycleNext<CR>"
   lvim.keys.normal_mode["<S-Tab>"] = ":BufferLineCyclePrev<CR>"
@@ -267,7 +274,6 @@ M.config = function()
   -- WhichKey keybindings
   -- =========================================
   M.set_task_runner_keymaps()
-  local status_ok_comment, cmt = pcall(require, "Comment.api")
   if status_ok_comment and cmt["toggle"] ~= nil then
     lvim.builtin.which_key.mappings["/"] = {
       "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>",
