@@ -80,11 +80,11 @@ M.config = function()
       cmd = "Trouble",
     },
     {
-      "ggandor/lightspeed.nvim",
+      "ggandor/leap.nvim",
       config = function()
-        require("user.lightspeed").config()
+        require("user.leap").config()
       end,
-      disable = lvim.builtin.motion_provider ~= "lightspeed",
+      disable = lvim.builtin.motion_provider ~= "leap",
     },
     {
       "phaazon/hop.nvim",
@@ -568,7 +568,7 @@ M.config = function()
       config = function()
         require("user.winb").config()
       end,
-      event = { "InsertEnter", "CursorMoved" },
+      event = { "InsertEnter", "CursorHoldI" },
       disable = lvim.builtin.winbar_provider ~= "treesitter",
     },
     {
@@ -578,7 +578,7 @@ M.config = function()
         require("user.gps").config()
       end,
       requires = "nvim-treesitter/nvim-treesitter",
-      event = { "InsertEnter", "CursorMoved" },
+      event = { "InsertEnter", "CursorHoldI" },
       disable = lvim.builtin.winbar_provider ~= "treesitter",
     },
     {
