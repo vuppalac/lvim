@@ -75,7 +75,7 @@ M.config = function()
         return vim_item
       end
       vim_item.kind =
-      string.format("%s %s", kind.cmp_kind[vim_item.kind] or " ", cmp_sources[entry.source.name] or vim_item.kind)
+        string.format("%s %s", kind.cmp_kind[vim_item.kind] or " ", cmp_sources[entry.source.name] or vim_item.kind)
 
       return vim_item
     end
@@ -327,9 +327,8 @@ M.config = function()
 
   -- Theme
   -- =========================================
-  lvim.builtin.theme.options.style = "storm"
-  lvim.builtin.theme.options.styles.comments = {}
-  lvim.builtin.theme.options.dim_inactive = true
+  require("user.theme").tokyonight()
+  lvim.builtin.theme.name = "tokyonight"
 
   -- Toggleterm
   -- =========================================
