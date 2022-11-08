@@ -455,12 +455,12 @@ M.config = function()
     s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
   }
 
-  lvim.builtin.which_key.mappings["t"] = {
-    name = " Terminal",
-    f = { "<CMD>ToggleTerm direction=float<CR>", "   Toggle floating term" },
-    h = { "<CMD>lua require('nvterm.terminal').toggle('horizontal')<CR>", "   Toggle horizontal term" },
-    v = { "<CMD>lua require('nvterm.terminal').toggle('vertical')<CR>", "   Toggle vertical term" },
-  }
+  -- lvim.builtin.which_key.mappings["t"] = {
+  --   name = " Terminal",
+  --   f = { "<CMD>ToggleTerm direction=float<CR>", "   Toggle floating term" },
+  --   h = { "<CMD>lua require('nvterm.terminal').toggle('horizontal')<CR>", "   Toggle horizontal term" },
+  --   v = { "<CMD>lua require('nvterm.terminal').toggle('vertical')<CR>", "   Toggle vertical term" },
+  -- }
 
   -- My wezterm is weird
   -- =========================================

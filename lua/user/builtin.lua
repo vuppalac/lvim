@@ -609,7 +609,7 @@ M.config = function()
     w = { "<cmd> set wrap!<CR>", "Wrap Text"},
   }
 
-  lvim.builtin.which_key.mappings['m'] = {
+  lvim.builtin.which_key.mappings['M'] = {
     name = "+Misc",
     t = { "<cmd> %s/\\s\\+$//e<CR>", "Trim Trailing Whitespace"},
   }
