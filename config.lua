@@ -68,7 +68,7 @@ if lvim.builtin.lsp_lines then
   lvim.lsp.diagnostics.virtual_text = false
 end
 lvim.builtin.legendary = { active = false } -- enable/disable legendary plugin ( ctrl-p command )
-lvim.builtin.tree_provider = "nvimtree" -- can be "neo-tree" or "nvimtree" or ""
+lvim.builtin.tree_provider = "neo-tree" -- can be "neo-tree" or "nvimtree" or ""
 lvim.builtin.lir.active = false
 lvim.builtin.breadcrumbs.active = false
 lvim.builtin.illuminate.active = false
