@@ -82,6 +82,13 @@ lvim.builtin.cmp.cmdline.enable = false
 lvim.builtin.borderless_cmp = false
 lvim.builtin.colored_args = true -- if true then sets up hlargs.nvim
 
+if vim.fn.has "nvim-0.9" == 1 then
+  vim.opt.mousescroll = { "ver:1", "hor:6" }
+  vim.o.mousefocus = true
+  vim.o.mousemoveevent = true
+  vim.o.splitkeep = "screen"
+end
+
 -- Custom User Config
 -- =========================================
 local user = vim.env.USER
