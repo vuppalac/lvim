@@ -735,32 +735,32 @@ M.config = function()
       "p00f/nvim-ts-rainbow",
       event = "BufWinEnter",
     },
-    {
-      "tpope/vim-fugitive",
-      cmd = {
-        "G",
-        "Git",
-        "Gdiffsplit",
-        "Gread",
-        "Gwrite",
-        "Ggrep",
-        "GMove",
-        "GDelete",
-        "GBrowse",
-        "GRemove",
-        "GRename",
-        "Glgrep",
-        "Gedit",
-        "Gvdiff",
-      },
-      ft = {"fugitive"}
-    },
-    {
-      "NvChad/nvterm",
-      config = function ()
-        require("user.nvterm").config()
-      end,
-    },
+    -- {
+    --   "tpope/vim-fugitive",
+    --   cmd = {
+    --     "G",
+    --     "Git",
+    --     "Gdiffsplit",
+    --     "Gread",
+    --     "Gwrite",
+    --     "Ggrep",
+    --     "GMove",
+    --     "GDelete",
+    --     "GBrowse",
+    --     "GRemove",
+    --     "GRename",
+    --     "Glgrep",
+    --     "Gedit",
+    --     "Gvdiff",
+    --   },
+    --   ft = {"fugitive"}
+    -- },
+    -- {
+    --   "NvChad/nvterm",
+    --   config = function ()
+    --     require("user.nvterm").config()
+    --   end,
+    -- },
     {
       "mg979/vim-visual-multi",
       branch = "master"
