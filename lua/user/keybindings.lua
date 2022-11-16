@@ -403,6 +403,12 @@ M.config = function()
     f = { "<cmd>lua require('spectre').open_file_search()<cr>", "Current Buffer" },
     p = { "<cmd>lua require('spectre').open()<cr>", "Project" },
     w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Replace Word" },
+    s = {
+      function()
+        require("ssr").open()
+      end,
+      "Structural replace",
+    },
   }
   lvim.builtin.which_key.mappings.s.name = " Search"
   lvim.builtin.which_key.mappings["ss"] = {
@@ -453,6 +459,12 @@ M.config = function()
   lvim.builtin.which_key.vmappings["g"] = {
     name = " Git",
     s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
+  }
+  lvim.builtin.which_key.vmappings["r"] = {
+    function()
+      require("ssr").open()
+    end,
+    "Structural replace",
   }
 
   -- lvim.builtin.which_key.mappings["t"] = {
