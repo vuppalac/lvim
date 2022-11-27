@@ -91,9 +91,9 @@ end
 -- =========================================
 if lvim.builtin.winbar_provider == "navic" then
   vim.opt.showtabline = 1
-  lvim.keys.normal_mode["<tab>"] =
-    "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false, initial_mode='normal'})<cr>"
-  lvim.builtin.bufferline.active = false
+  -- lvim.keys.normal_mode["<tab>"] =
+  --   "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false, initial_mode='normal'})<cr>"
+  lvim.builtin.bufferline.active = true
   lvim.builtin.breadcrumbs.active = true
 end
 if lvim.builtin.breadcrumbs.active and lvim.builtin.noice.active then
