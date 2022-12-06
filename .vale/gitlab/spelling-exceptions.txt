@@ -42,6 +42,7 @@ ChaosKube
 ChatOps
 Citrix
 Citus
+ClickJacking
 Cloudwatch
 Cobertura
 Codepen
@@ -62,6 +63,7 @@ Datadog
 Debian
 Decompressor
 Denormalization
+Deserialization
 Deserializer
 DevOps
 Disqus
@@ -78,6 +80,7 @@ ETag
 Ecto
 Elasticsearch
 Excon
+Exfiltrate
 Facebook
 Falco
 Fastzip
@@ -129,6 +132,7 @@ Immer
 Ingress
 Inode
 Istio
+JSONP
 Jaeger
 JavaScript
 Javafuzz
@@ -187,6 +191,7 @@ Nanoc
 Neogen
 Neoscroll
 Neovim
+Netcat
 Netlify
 Nginx
 Nokogiri
@@ -292,6 +297,7 @@ Webservice
 Wireshark
 Wordpress
 Worldline
+XInclude
 Xcode
 Xeon
 YouTrack
@@ -423,6 +429,8 @@ deprovisions
 dequarantine
 dequarantined
 dequarantining
+deserialization
+deserialize
 dirsearch
 disambiguates
 discoverability
@@ -438,6 +446,7 @@ enqueued
 enqueues
 enum
 enums
+exfiltration
 expirable
 failover
 failovers
@@ -716,6 +725,7 @@ sparkline
 sparklines
 spectre
 spidering
+sqlmap
 starrer
 starrers
 storable
@@ -934,4 +944,3 @@ wireframes
 wireframing
 worktree
 worktrees
-z
