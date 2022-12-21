@@ -340,6 +340,7 @@ M.config = function()
   lvim.builtin.terminal.on_config_done = function()
     M.create_terminal(2, "<c-\\>", 20, "float")
     M.create_terminal(3, "<A-0>", vim.o.columns * 0.4, "vertical")
+    M.create_terminal(4, "<A-1>", vim.o.columns * 0.4, "horizontal")
   end
 
   -- Treesitter
