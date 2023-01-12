@@ -21,7 +21,7 @@ M.config = function()
   local plugins = ""
   local datetime = os.date(kind.icons.calendar .. "%d-%m-%Y ".. kind.icons.clock .. "%H:%M:%S")
   if vim.fn.has "linux" == 1 or vim.fn.has "mac" == 1 then
-    local handle = io.popen 'fd -d 2 . $HOME"/.local/share/nvim/site/pack/packer" | grep pack | wc -l | tr -d "\n" '
+    local handle = io.popen 'fd -d 2 . $HOME"/.local/share/lunarvim/site/pack/lazy" | grep pack | wc -l | tr -d "\n" '
     plugins = handle:read "*a"
     handle:close()
 

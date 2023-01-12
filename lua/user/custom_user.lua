@@ -10,7 +10,7 @@ M.config = function()
 
   lvim.builtin.lsp_lines = true
   vim.diagnostic.config { virtual_lines = false } -- i only want to use it explicitly ( by calling the toggle function)
-  lvim.builtin.tmux_lualine = true
+  lvim.builtin.tmux_lualine = false -- WARN: doesn't work with neovim nightly
   if lvim.builtin.tmux_lualine then
     vim.opt.cmdheight = 0
     vim.opt.laststatus = 0
@@ -36,7 +36,7 @@ M.config = function()
   }
   lvim.builtin.smooth_scroll = "cinnamon"
   lvim.builtin.tree_provider = "neo-tree"
-  lvim.builtin.noice.active = true
+  -- lvim.builtin.noice.active = true # WARN: https://github.com/folke/noice.nvim/issues/298
   lvim.builtin.go_programming.active = true
   lvim.builtin.python_programming.active = true
   lvim.builtin.web_programming.active = true
@@ -45,6 +45,7 @@ M.config = function()
   lvim.builtin.borderless_cmp = true
   lvim.builtin.colored_args = true
   lvim.builtin.inlay_hints.active = true
+  lvim.reload_config_on_save = false -- NOTE: i don't like this
   -- require("lvim.lsp.manager").setup("prosemd_lsp", {})
 end
 
