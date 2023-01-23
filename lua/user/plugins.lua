@@ -24,7 +24,7 @@ M.config = function()
         require("user.theme").rose_pine()
         lvim.colorscheme = "rose-pine"
       end,
-      enabled = function()
+      cond = function()
         local _time = os.date("*t", os.time() + lvim.builtin.time_offset * 60 * 60)
         return (_time.hour >= 1 and _time.hour < 9) and lvim.builtin.time_based_themes
       end,
@@ -32,12 +32,11 @@ M.config = function()
     {
       "catppuccin/nvim",
       name = "catppuccin",
-      build = ":CatppuccinCompile",
       config = function()
         require("user.theme").catppuccin()
         lvim.colorscheme = "catppuccin-mocha"
       end,
-      enabled = function()
+      cond = function()
         local _time = os.date("*t", os.time() + lvim.builtin.time_offset * 60 * 60)
         return (_time.hour >= 17 and _time.hour < 21) and lvim.builtin.time_based_themes
       end,
@@ -48,7 +47,7 @@ M.config = function()
         require("user.theme").kanagawa()
         lvim.colorscheme = "kanagawa"
       end,
-      enabled = function()
+      cond = function()
         local _time = os.date("*t", os.time() + lvim.builtin.time_offset * 60 * 60)
         return ((_time.hour >= 21 and _time.hour < 24) or (_time.hour >= 0 and _time.hour < 1))
           and lvim.builtin.time_based_themes
@@ -66,7 +65,6 @@ M.config = function()
       config = function()
         require("remember").setup {}
       end,
-      event = "BufWinEnter",
       enabled = lvim.builtin.lastplace.active,
     },
     {
@@ -101,7 +99,7 @@ M.config = function()
     {
       "phaazon/hop.nvim",
       event = "VeryLazy",
-      commands = { "HopChar1CurrentLineAC", "HopChar1CurrentLineBC", "HopChar2MW", "HopWordMW" },
+      cmd = { "HopChar1CurrentLineAC", "HopChar1CurrentLineBC", "HopChar2MW", "HopWordMW" },
       config = function()
         require("user.hop").config()
       end,
@@ -140,7 +138,7 @@ M.config = function()
     },
     {
       "kevinhwang91/nvim-bqf",
-      lazy = true,
+      event = "BufReadPost",
       config = function()
         require("user.bqf").config()
       end,
@@ -272,7 +270,11 @@ M.config = function()
     },
     {
       "lervag/vimtex",
+      init = function()
+        vim.g.vimtex_view_enabled = true
+      end,
       ft = "tex",
+      lazy = false,
     },
     {
       "nvim-neotest/neotest",
@@ -282,6 +284,7 @@ M.config = function()
       dependencies = {
         { "nvim-neotest/neotest-plenary" },
       },
+      event = { "BufReadPost", "BufNew" },
       enabled = (lvim.builtin.test_runner.active and lvim.builtin.test_runner.runner == "neotest"),
     },
     { "nvim-neotest/neotest-go", event = { "BufEnter *.go" } },
@@ -455,6 +458,9 @@ M.config = function()
     },
     {
       "kevinhwang91/nvim-hlslens",
+      config = function()
+        require("user.hlslens").config()
+      end,
       event = "BufReadPost",
       enabled = lvim.builtin.hlslens.active,
     },
@@ -577,7 +583,7 @@ M.config = function()
       "ThePrimeagen/refactoring.nvim",
       lazy = true,
       ft = { "typescript", "javascript", "lua", "c", "cpp", "go", "python", "java", "php" },
-      event = "BufRead",
+      event = "BufReadPost",
       config = function()
         require("refactoring").setup {}
       end,
@@ -634,7 +640,7 @@ M.config = function()
     { "MunifTanjim/nui.nvim" },
     {
       "folke/noice.nvim",
-      event = "VimEnter",
+      event = "VeryLazy",
       config = function()
         require("user.noice").config()
       end,
@@ -757,6 +763,21 @@ M.config = function()
         require("lsp-inlayhints").setup()
       end,
       enabled = lvim.builtin.inlay_hints.active,
+    },
+    {
+      "raimon49/requirements.txt.vim",
+      event = "VeryLazy",
+      enabled = lvim.builtin.python_programming.active,
+    },
+    {
+      "phaazon/mind.nvim",
+      branch = "v2.2",
+      dependencies = { "nvim-lua/plenary.nvim" },
+      config = function()
+        require("user.mind").config()
+      end,
+      event = "VeryLazy",
+      enabled = lvim.builtin.mind.active,
     },
     -- end of abz config
     {
