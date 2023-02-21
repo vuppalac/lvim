@@ -371,9 +371,7 @@ M.config = function()
       "rust",
       "toml",
       "vim",
-      "yaml",
-      "git_commit",
-      "git_rebase"
+      "yaml"
   }
   lvim.builtin.treesitter.highlight.disable = { "org" }
   lvim.builtin.treesitter.highlight.aditional_vim_regex_highlighting = { "org" }
