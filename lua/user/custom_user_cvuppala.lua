@@ -28,7 +28,7 @@ M.config = function()
     vim.opt.laststatus = 0
     vim.g.tpipeline_cursormoved = 1
   end
-  lvim.builtin.custom_web_devicons = true
+  lvim.builtin.custom_web_devicons = false
   lvim.use_icons = true -- only set to false if you know what are you doing
   lvim.builtin.sell_your_soul_to_devil = { active = false, prada = false }
   lvim.lsp.document_highlight = false
@@ -57,6 +57,8 @@ M.config = function()
   lvim.builtin.borderless_cmp = true
   lvim.builtin.colored_args = true
   lvim.builtin.inlay_hints.active = true
+  lvim.reload_config_on_save = false -- NOTE: i don't like this
+  lvim.builtin.mind.active = true
   -- require("lvim.lsp.manager").setup("prosemd_lsp", {})
 end
 
