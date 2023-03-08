@@ -27,6 +27,8 @@ M.config = function()
     vim.opt.cmdheight = 0
     vim.opt.laststatus = 0
     vim.g.tpipeline_cursormoved = 1
+    -- HACK: lualine hijacks the statusline, so we need to set it back to what we want
+    vim.cmd [[ autocmd WinEnter,BufEnter,VimResized * setlocal laststatus=0 ]]
   end
   lvim.builtin.custom_web_devicons = false
   lvim.use_icons = true -- only set to false if you know what are you doing
