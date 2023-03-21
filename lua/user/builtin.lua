@@ -373,7 +373,8 @@ M.config = function()
       "yaml"
   }
   lvim.builtin.treesitter.highlight.disable = { "org" }
-  lvim.builtin.treesitter.highlight.aditional_vim_regex_highlighting = { "org" }
+  lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "org" }
+  vim.opt.spell = true
   lvim.builtin.treesitter.ignore_install = { "haskell", "norg" }
   lvim.builtin.treesitter.incremental_selection = {
     enable = true,
