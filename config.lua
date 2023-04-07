@@ -87,7 +87,7 @@ if user and user == "abz" then
   lvim.reload_config_on_save = true
   require("user.custom_user").config()
 end
-if user and user == "cvuppala" then
+if user and user == "cvuppala" or user == "chandrashekar" then
   lvim.reload_config_on_save = true
   require("user.custom_user_cvuppala").config()
 end
