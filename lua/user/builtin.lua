@@ -352,25 +352,14 @@ M.config = function()
   -- Treesitter
   -- =========================================
   lvim.builtin.treesitter.context_commentstring.enable = true
-  lvim.builtin.treesitter.ensure_installed = {
-      "bash",
-      "c",
-      "cmake",
-      "comment",
-      "cpp",
-      "dockerfile",
-      "help",
-      "json",
-      "jsonc",
-      "lua",
-      "make",
-      "markdown",
-      "python",
-      "regex",
-      "rust",
-      "toml",
-      "vim",
-      "yaml"
+  local languages = vim.tbl_flatten {
+    { "bash", "c", "c_sharp", "cmake", "comment", "cpp", "css", "d", "dart" },
+    { "dockerfile", "elixir", "elm", "erlang", "fennel", "fish", "go", "gomod" },
+    { "gomod", "graphql", "hcl", "vimdoc", "html", "java", "javascript", "jsdoc" },
+    { "json", "jsonc", "julia", "kotlin", "latex", "ledger", "lua", "make" },
+    { "markdown", "nix", "ocaml", "perl", "php", "python", "query", "r" },
+    { "regex", "rego", "ruby", "rust", "scala", "scss", "solidity", "swift" },
+    { "teal", "toml", "tsx", "typescript", "vim", "vue", "yaml", "zig" },
   }
   lvim.builtin.treesitter.highlight.disable = { "org" }
   lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "org" }
