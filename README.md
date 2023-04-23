@@ -169,7 +169,7 @@ brew install node
 </details>
 
 ```shell
-# install LunarVim
+bash <(curl -s "https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh")
 mv ~/.config/lvim ~/.config/lvim_backup
 git clone https://github.com/abzcoding/lvim.git ~/.config/lvim
 lvim +LvimUpdate +LvimCacheReset +q
@@ -439,7 +439,6 @@ _Symbols Outline_
 - [instant.nvim](https://github.com/jbyuki/instant.nvim)
 - [SnipRun](https://github.com/michaelb/sniprun)
 - [Vista](https://github.com/liuchengxu/vista.vim)
-- [editorconfig-vim](https://github.com/editorconfig/editorconfig-vim)
 - [dressing.nvim](https://github.com/stevearc/dressing.nvim)
 - [incline.nvim](https://github.com/b0o/incline.nvim)
 - [winbar.nvim](https://github.com/fgheng/winbar.nvim)
