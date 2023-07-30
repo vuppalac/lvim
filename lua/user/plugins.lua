@@ -197,14 +197,11 @@ M.config = function()
       event = "BufReadPre",
     },
     {
-      "folke/persistence.nvim",
+      "olimorris/persisted.nvim",
       event = "BufReadPre",
       lazy = true,
       config = function()
-        require("persistence").setup {
-          dir = vim.fn.expand(get_cache_dir() .. "/sessions/"), -- directory where session files are saved
-          options = { "buffers", "curdir", "tabpages", "winsize" }, -- sessionoptions used for saving
-        }
+        require("user.persist").config()
       end,
       enabled = lvim.builtin.persistence.active,
     },
@@ -517,6 +514,7 @@ M.config = function()
     },
     {
       "j-hui/fidget.nvim",
+      branch = "legacy",
       config = function()
         require("user.fidget_spinner").config()
       end,
@@ -754,13 +752,6 @@ M.config = function()
       end,
       ft = { "c", "cpp", "objc", "objcpp", "h", "hpp" },
       enabled = lvim.builtin.cpp_programming.active,
-    },
-    {
-      "lvimuser/lsp-inlayhints.nvim",
-      config = function()
-        require("lsp-inlayhints").setup()
-      end,
-      enabled = lvim.builtin.inlay_hints.active,
     },
     {
       "raimon49/requirements.txt.vim",

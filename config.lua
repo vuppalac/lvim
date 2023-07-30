@@ -7,7 +7,6 @@ lvim.transparent_window = false -- enable/disable transparency
 lvim.debug = false
 vim.lsp.set_log_level "error"
 lvim.log.level = "warn"
--- vim.o.conceallevel = 2 -- uncomment if you want to see concealed text
 require("user.neovim").config()
 lvim.lsp.code_lens_refresh = true
 lvim.lsp.installer.setup.automatic_installation = false
@@ -44,7 +43,7 @@ lvim.builtin.winbar_provider = "filename" -- can be "filename" or "treesitter" o
 lvim.builtin.metals = {
   active = false, -- enable/disable nvim-metals for scala development
   fallbackScalaVersion = "3.2.0-RC3",
-  serverVersion = "0.11.8",
+  serverVersion = "0.11.12",
 }
 lvim.builtin.collaborative_editing = { active = false } -- enable/disable collaborative editing
 lvim.builtin.file_browser = { active = false } -- enable/disable telescope file browser
@@ -71,7 +70,6 @@ lvim.builtin.cmp.cmdline.enable = false
 lvim.builtin.borderless_cmp = false
 lvim.builtin.colored_args = false -- if true then sets up hlargs.nvim
 lvim.builtin.bigfile.active = true
-lvim.builtin.inlay_hints = { active = false } -- enable/disable inlay hints
 -- WARN: mind plugin is deprecated ( use with caution )
 lvim.builtin.mind = { active = false, root_path = "~/.mind" } -- enable/disable mind.nvim
 
