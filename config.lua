@@ -43,7 +43,8 @@ lvim.builtin.winbar_provider = "filename" -- can be "filename" or "treesitter" o
 lvim.builtin.metals = {
   active = false, -- enable/disable nvim-metals for scala development
   fallbackScalaVersion = "3.2.0-RC3",
-  serverVersion = "0.11.12",
+  serverVersion = "1.0.1",
+  bloopVersion = "1.5.11",
 }
 lvim.builtin.collaborative_editing = { active = false } -- enable/disable collaborative editing
 lvim.builtin.file_browser = { active = false } -- enable/disable telescope file browser
@@ -59,7 +60,6 @@ lvim.builtin.tree_provider = "nvimtree" -- can be "neo-tree" or "nvimtree" or ""
 lvim.builtin.lir.active = false
 lvim.builtin.breadcrumbs.active = false
 lvim.builtin.illuminate.active = false
-lvim.builtin.indentlines.active = true
 lvim.builtin.noice = { active = false } -- enables noice.nvim and inc-rename.nvim
 lvim.builtin.go_programming = { active = false } -- gopher.nvim + nvim-dap-go
 lvim.builtin.python_programming = { active = false } -- swenv.nvim + nvim-dap-python + requirements.txt.vim
@@ -70,6 +70,7 @@ lvim.builtin.cmp.cmdline.enable = false
 lvim.builtin.borderless_cmp = false
 lvim.builtin.colored_args = false -- if true then sets up hlargs.nvim
 lvim.builtin.bigfile.active = true
+lvim.builtin.indentlines.mine = false
 -- WARN: mind plugin is deprecated ( use with caution )
 lvim.builtin.mind = { active = false, root_path = "~/.mind" } -- enable/disable mind.nvim
 

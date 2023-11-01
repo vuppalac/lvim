@@ -822,6 +822,12 @@ M.config = function()
       event = "VeryLazy",
       enabled = lvim.builtin.sell_your_soul_to_devil.openai,
     },
+    {
+      "lukas-reineke/indent-blankline.nvim",
+      name = "new-indent",
+      main = "ibl",
+      enabled = lvim.builtin.indentlines.mine,
+    },
     -- end of abz config
     {
       'vim-scripts/DoxygenToolkit.vim',

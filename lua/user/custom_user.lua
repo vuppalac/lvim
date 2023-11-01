@@ -41,7 +41,7 @@ M.config = function()
   }
   lvim.builtin.smooth_scroll = "cinnamon"
   lvim.builtin.tree_provider = "neo-tree"
-  lvim.builtin.noice.active = true
+  lvim.builtin.noice.active = false
   lvim.builtin.go_programming.active = true
   lvim.builtin.python_programming.active = true
   lvim.builtin.web_programming.active = true
@@ -50,10 +50,12 @@ M.config = function()
   lvim.builtin.borderless_cmp = true
   lvim.builtin.colored_args = true
   lvim.reload_config_on_save = false -- NOTE: i don't like this
-  lvim.builtin.mind.active = true
+  lvim.builtin.mind.active = false
   lvim.builtin.motion_provider = "flash"
-  lvim.builtin.harpoon.active = false
+  lvim.builtin.harpoon.active = true
   lvim.builtin.sell_your_soul_to_devil.openai = true -- NOTE: requires valid OPENAI_API_KEY environment variable
+  lvim.builtin.indentlines.active = false
+  lvim.builtin.indentlines.mine = true -- NOTE: using v3 till fixed upstream in lunarvim
   -- require("lvim.lsp.manager").setup("prosemd_lsp", {})
 end
 
